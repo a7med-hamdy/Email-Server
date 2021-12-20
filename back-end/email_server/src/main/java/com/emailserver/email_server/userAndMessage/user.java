@@ -2,11 +2,11 @@ package com.emailserver.email_server.userAndMessage;
 
 import java.util.ArrayList;
 
-public class user{
+public class user implements contact{
     private int Id;
     private String userName;
     private String password;
-   /* private ArrayList<Contact> Contacts;*/
+    private ArrayList<contact> Contacts;
     private ArrayList<message> messages;
    
 ////////////////////set attribute of user ///////////////////////
@@ -17,6 +17,9 @@ public class user{
     }
     
     //////////setters and getters of user///////////////////
+    public int getID() {
+        return this.Id;
+    }
     public String getUserName() {
         return userName;
     }
@@ -54,6 +57,13 @@ public class user{
                 }
             }
         }
+    }
+
+    public void setcontact(contact contact){
+        this.Contacts.add(contact);
+    }
+    public ArrayList<contact> getContact(){
+        return Contacts;
     }
 
 
