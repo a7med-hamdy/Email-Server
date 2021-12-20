@@ -15,6 +15,22 @@ public interface sessionInterface {
     void setUserPassword(String userPassword);
 
     
-    //void setRequestHandler();
+   public void addUserMessage(String message);
 
+public void deleteUserMessage(String message);
+
+
+public void editUserMessage(int msgID ,String message);
+
+
+public void getUserMessage(int msgID ,String message);
+
+public void getUserContacts(int id);
+
+
+public void getaddUserContacts(int id);
+
+public void deleteUserContact();
+
+public void editUserContact();
 }
