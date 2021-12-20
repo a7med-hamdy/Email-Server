@@ -36,6 +36,20 @@ public class session implements sessionInterface{
    }
 
    public void getUserMessage(int msgID ,String message){
-        
+
+   }
+
+   public void getUserContacts(int id){
+
+   }
+
+   public void getaddUserContacts(int id){
+
+   }
+   public void deleteUserContact(){
+
+   }
+   public void editUserContact(){
+       
    }
 }
