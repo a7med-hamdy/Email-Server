@@ -6,6 +6,7 @@ public class user implements contact{
     private int Id;
     private String userName;
     private String password;
+    
     private ArrayList<contact> Contacts;
     private ArrayList<message> messages;
    
