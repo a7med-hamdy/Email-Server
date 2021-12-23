@@ -14,6 +14,9 @@ import { MainComponent } from './main/main.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ViewComponent } from './view/view.component';
 import { Sidenav1Component } from './sidenav1/sidenav1.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';;
+
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table'
 @NgModule({
@@ -27,6 +30,9 @@ import { MatTableModule } from '@angular/material/table'
     Sidenav1Component,
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
     MatSidenavModule,
     MatSliderModule,
     BrowserModule,
