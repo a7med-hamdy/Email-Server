@@ -1,13 +1,13 @@
 <mat-sidenav-container>
 
   <mat-sidenav mode="side"  disableClose  opened position="start" class="side">
-    <button  (click)="profile1()" [disabled]="profile" class="button">profile</button>
-    <button (click)="make1()" [disabled]="make" class="button">Make message</button>
-    <button (click)="active(1)" [disabled]="viewI" class="button">Inbox</button>
-    <button (click)="active(2)" [disabled]="viewS" class="button">Sent</button>
-    <button (click)="active(3)" [disabled]="viewD" class="button">Draft</button>
-    <button (click)="active(4)" [disabled]="viewT" class="button">Deleted</button>
-    <button (click)="search1()" [disabled]="search" class="button">search</button>
+    <button  [disabled]="profile" class="button" routerLink="/main/Profile" routerLinkActive="active">profile</button>
+    <button  [disabled]="make" class="button" routerLink="/main/Create" routerLinkActive="active">Make message</button>
+    <button  [disabled]="viewI" class="button"routerLink="/main/Inbox" routerLinkActive="active">Inbox</button>
+    <button  [disabled]="viewS" class="button"routerLink="/main/Sent" routerLinkActive="active">Sent</button>
+    <button  [disabled]="viewD" class="button"routerLink="/main/Drafted" routerLinkActive="active">Draft</button>
+    <button  [disabled]="viewT" class="button"routerLink="/main/Deleted" routerLinkActive="active">Deleted</button>
+    <button  [disabled]="search" class="button"routerLink="/main/Search" routerLinkActive="active">search</button>
     <button class="logout">logout</button>
    </mat-sidenav>
 
