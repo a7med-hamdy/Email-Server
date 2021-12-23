@@ -1,0 +1,21 @@
+mat-sidenav-container {
+  height: 100%;
+}
+button{
+  width: 200px;
+  height: 125px;
+  margin:0;
+  border: 0;
+  background-color:#ffbf00f6;
+}
+button:hover{
+  background-color:#3a243b ;
+  color:  white;
+}
+mat-sidenav{
+  background-color:#ffbf00;
+  width: 200px;
+}
+mat-sidenav-content{
+  background-color: amber;
+}
