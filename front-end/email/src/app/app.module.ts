@@ -10,6 +10,7 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
+import { MainComponent } from './main/main.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
     AppComponent,
     LoginComponent,
     SignupComponent,
+    MainComponent,
   ],
   imports: [
     MatSidenavModule,
