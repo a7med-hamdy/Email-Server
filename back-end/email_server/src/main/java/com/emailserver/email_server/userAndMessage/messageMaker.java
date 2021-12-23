@@ -35,8 +35,6 @@ public class messageMaker {
         this.bodymess = new messageBody(this.body);
     }
   
-
-
     public message getNewMessage(){
         makeHeader();
         makebody();
