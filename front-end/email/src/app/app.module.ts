@@ -14,6 +14,8 @@ import { MainComponent } from './main/main.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ViewComponent } from './view/view.component';
 import { Sidenav1Component } from './sidenav1/sidenav1.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';;
 
 
 @NgModule({
@@ -27,6 +29,9 @@ import { Sidenav1Component } from './sidenav1/sidenav1.component';
     Sidenav1Component,
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
     MatSidenavModule,
     MatSliderModule,
     BrowserModule,
