@@ -1,6 +1,4 @@
 <mat-sidenav-container>
-  <mat-sidenav mode="side"  disableClose  opened>><app-sidenav1></app-sidenav1> </mat-sidenav>
-  <!--<mat-sidenav-content ><app-view></app-view></mat-sidenav-content>-->
 
   <mat-sidenav mode="side"  disableClose  opened position="start" class="side">
     <app-sidenav></app-sidenav>
@@ -9,7 +7,9 @@
   <mat-sidenav-content >
     <mat-sidenav-container>
       <mat-sidenav mode="side"  disableClose  opened position="start" class="side1"><app-sidenav1></app-sidenav1> </mat-sidenav>
-        <mat-sidenav-content></mat-sidenav-content>
+       <!----> <mat-sidenav-content><app-view></app-view></mat-sidenav-content>
     </mat-sidenav-container>
+
+
   </mat-sidenav-content>
 </mat-sidenav-container>
