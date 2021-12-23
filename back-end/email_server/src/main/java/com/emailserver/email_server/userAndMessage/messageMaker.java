@@ -2,7 +2,7 @@ package com.emailserver.email_server.userAndMessage;
 
 import java.util.ArrayList;
 
-public class messageBuldier {
+public class messageMaker {
     private int id;	
     private String body;
     private int from;
@@ -15,7 +15,7 @@ public class messageBuldier {
     messageBody bodymess;
     
   
-    messageBuldier(int id,String body, int from, ArrayList<Integer> to,String subject,String time,int priority,messageType type){
+    messageMaker(int id,String body, int from, ArrayList<Integer> to,String subject,String time,int priority,messageType type){
      this.id=id;	
      this.body=body;
      this.from=from;
@@ -38,6 +38,8 @@ public class messageBuldier {
 
 
     public message getNewMessage(){
+        makeHeader();
+        makebody();
         return new message(id, this.bodymess, this.header, this.time, this.priority, this.type);
     }
 

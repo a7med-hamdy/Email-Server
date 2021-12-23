@@ -38,6 +38,14 @@ public class user implements contact{
         return this.messages;
     }
 
+    public void setcontact(contact contact){
+        this.Contacts.add(contact);
+    }
+    public ArrayList<contact> getContact(){
+        return Contacts;
+    }
+
+//////////message operatoins of user///////////////////
     public void addmessage(message messa) {
         this.messages.add(messa);
     }
@@ -60,13 +68,6 @@ public class user implements contact{
         }
     }
 
-    public void setcontact(contact contact){
-        this.Contacts.add(contact);
-    }
-    public ArrayList<contact> getContact(){
-        return Contacts;
-    }
-
-
+   
  
 }

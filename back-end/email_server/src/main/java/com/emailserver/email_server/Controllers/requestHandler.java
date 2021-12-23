@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.emailserver.email_server.userAndMessage.contact;
 import com.emailserver.email_server.userAndMessage.message;
-import com.emailserver.email_server.userAndMessage.messageBuldier;
+import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 
 import org.springframework.http.ResponseEntity;
@@ -100,7 +100,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
 
     //get mails (Type: Inbox | Trash | Draft | sent)
     @GetMapping("/getEmails")
-    public ArrayList<messageBuldier> getEmails(@RequestParam("type") String type){
+    public ArrayList<messageMaker> getEmails(@RequestParam("type") String type){
         System.out.println(type);
         try {
             return /*server.getMails(type)*/null;
@@ -110,7 +110,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
     }
     //sort
     @GetMapping("/sort")
-    public ArrayList<messageBuldier> getSorted( @RequestParam("folder") String folder, 
+    public ArrayList<messageMaker> getSorted( @RequestParam("folder") String folder, 
                                                 @RequestParam("type") String type){
         try {
             System.out.println("Folder = " + folder
