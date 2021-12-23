@@ -30,36 +30,36 @@ export class MainComponent implements OnInit {
     let id=this.route.snapshot.paramMap.get('id');
     console.log(id);
   }
-  activet(a:number){
+  /*activet(a:number){
     console.log(a)
-
     this.router.navigate(['/main',a]);
-  }
-  active(a:string){
+  }*/
+
+  active(a:number){
     console.log(a)
     this.view=true
     this.profile=false;
     this.search=false;
     this.make=false;
-    if(a=='1'){
+    if(a==1){
       this.viewI=true;
       this.viewS=false;
       this.viewD=false;
       this.viewT=false;
     }
-    else if(a=='2'){
+    else if(a==2){
       this.viewS=true;
       this.viewI=false;
       this.viewD=false;
       this.viewT=false;
     }
-    else if(a=='3'){
+    else if(a==3){
       this.viewD=true;
       this.viewI=false;
       this.viewS=false;
       this.viewT=false;
     }
-    else if(a=='4'){
+    else if(a==4){
       this.viewT=true;
       this.viewI=false;
       this.viewS=false;
