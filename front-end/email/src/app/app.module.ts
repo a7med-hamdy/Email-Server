@@ -17,6 +17,7 @@ import { Sidenav1Component } from './sidenav1/sidenav1.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';;
 
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';;
     AppRoutingModule,
     AppRoutingModule,
     NoopAnimationsModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
