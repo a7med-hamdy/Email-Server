@@ -14,7 +14,7 @@ import { MainComponent } from './main/main.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ViewComponent } from './view/view.component';
 import { Sidenav1Component } from './sidenav1/sidenav1.component';
-
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -38,6 +38,7 @@ import { Sidenav1Component } from './sidenav1/sidenav1.component';
     AppRoutingModule,
     AppRoutingModule,
     NoopAnimationsModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
