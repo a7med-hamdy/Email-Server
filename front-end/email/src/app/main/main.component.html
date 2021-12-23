@@ -1,15 +1,45 @@
 <mat-sidenav-container>
 
-  <!--<mat-sidenav-content ><app-view></app-view></mat-sidenav-content>-->
-
   <mat-sidenav mode="side"  disableClose  opened position="start" class="side">
-    <app-sidenav></app-sidenav>
+    <button (click)="profile1()" [disabled]="profile" class="button">profile</button>
+    <button (click)="make1()" [disabled]="make" class="button">Make message</button>
+    <button (click)="active(1)" [disabled]="viewI" class="button">Inbox</button>
+    <button (click)="active(2)" [disabled]="viewS" class="button">Sent</button>
+    <button (click)="active(3)" [disabled]="viewD" class="button">Draft</button>
+    <button (click)="active(4)" [disabled]="viewT" class="button">Deleted</button>
+    <button (click)="search1()" [disabled]="search" class="button">search</button>
     <button class="logout">logout</button>
    </mat-sidenav>
-  <mat-sidenav-content >
-    <mat-sidenav-container>
-      <mat-sidenav mode="side"  disableClose  opened position="start" class="side1"><app-sidenav1></app-sidenav1> </mat-sidenav>
-        <mat-sidenav-content></mat-sidenav-content>
-    </mat-sidenav-container>
-  </mat-sidenav-content>
+
+
+   <mat-sidenav-content>
+    <app-view *ngIf="view"></app-view>
+    <app-profile *ngIf="profile"></app-profile>
+    <app-maker *ngIf="make"></app-maker>
+    <app-search *ngIf="search"></app-search>
+   </mat-sidenav-content>
+
+
+
+
+  <mat-sidenav mode="side"  disableClose  opened position="end" class="side1">
+   <div class="filter">
+
+   <select name="FILTEES" [(ngModel)]="filter">
+    <option >SUBJECT</option>
+    <option >SENDER</option>
+  </select>
+    <button class="filler">filter</button>
+  </div>
+    <div>
+    <button>Date</button>
+    <button>pirority</button>
+    <button>Sender</button>
+    <button>recevicer</button>
+    <button>Subject</button>
+    <button>Body</button>
+    <button>Attachments</button>
+  </div>
+</mat-sidenav>
+
 </mat-sidenav-container>

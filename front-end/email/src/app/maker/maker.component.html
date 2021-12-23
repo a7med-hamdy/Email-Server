@@ -1,0 +1,10 @@
+<div><label class="to"  [(ngModel)]="to"> to  </label> <input type="text" ></div>
+<div><label class="subj"  [(ngModel)]="subject"> Subject </label> <input type="text" ></div>
+<input type="textarea" class="area"  [(ngModel)]="message">
+<div class="bot">
+<button> Sent </button>
+<button> Draft</button>
+<button> Distract</button>
+<input type="file" multiple (change)="Upload($event)">
+</div>
+

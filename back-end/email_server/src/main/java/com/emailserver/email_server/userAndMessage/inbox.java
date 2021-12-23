@@ -4,7 +4,6 @@ public class inbox implements messageType{
 
     @Override
     public String getmessageType() {
-        
         return "inbox";
     }
     

@@ -1,0 +1,16 @@
+.area{
+  width: 100%;
+  height: 75%;
+}
+button{
+  height: 40px;
+  width: 90px;
+  background-color: blue;
+}
+.bot{
+  margin-top: 5px;
+  margin-left: 10px;
+}
+button:hover{
+  background-color: rgb(96, 196, 76);
+}

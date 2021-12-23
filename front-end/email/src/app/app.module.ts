@@ -11,23 +11,29 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import { MainComponent } from './main/main.component';
-import { SidenavComponent } from './sidenav/sidenav.component';
+
 import { ViewComponent } from './view/view.component';
-import { Sidenav1Component } from './sidenav1/sidenav1.component';
+
 import {MatAutocompleteModule} from '@angular/material/autocomplete'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';;
 
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table'
+import { MatTableModule } from '@angular/material/table';
+import { SearchComponent } from './search/search.component';
+import { ProfileComponent } from './profile/profile.component';
+import { MakerComponent } from './maker/maker.component'
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SignupComponent,
     MainComponent,
-    SidenavComponent,
+
     ViewComponent,
-    Sidenav1Component,
+    SearchComponent,
+    ProfileComponent,
+    MakerComponent,
+
   ],
   imports: [
     FormsModule,
