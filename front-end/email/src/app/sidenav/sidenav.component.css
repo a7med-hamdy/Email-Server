@@ -1,0 +1,12 @@
+button{
+  width: 200px;
+  height: 125px;
+  margin:0;
+  border: 0;
+  box-sizing: border-box;
+  background-color:#ffbf00f6;
+}
+button:hover{
+  background-color:#3a243b ;
+  color:  white;
+}

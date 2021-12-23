@@ -11,6 +11,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import { MainComponent } from './main/main.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { ViewComponent } from './view/view.component';
+import { Sidenav1Component } from './sidenav1/sidenav1.component';
 
 
 @NgModule({
@@ -19,6 +22,9 @@ import { MainComponent } from './main/main.component';
     LoginComponent,
     SignupComponent,
     MainComponent,
+    SidenavComponent,
+    ViewComponent,
+    Sidenav1Component,
   ],
   imports: [
     MatSidenavModule,
