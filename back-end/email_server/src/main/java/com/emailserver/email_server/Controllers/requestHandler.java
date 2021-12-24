@@ -72,7 +72,7 @@ Emails (create | delete) Requests
                                 @RequestParam(name = "receivers") String receivers, 
                                 @Nullable @RequestParam(name="myFile") MultipartFile[] multipartFiles */){
         System.out.println( "Subject = " + Msg.getHeader().getSubject() + 
-                            "\nBoody = " + Msg.getBody().getBody());
+                            "\nBoody = " + Msg.getBody());
         try {
             return /* create message */true;
         }catch (Exception ex){
