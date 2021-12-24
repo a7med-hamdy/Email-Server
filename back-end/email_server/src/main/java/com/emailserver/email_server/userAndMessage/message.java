@@ -20,11 +20,11 @@ public class message {
         this.type=type;
     }
 
-    public int getSender()
+    protected int getSender()
     {
         return this.header.getSender();
     }
-    public ArrayList<Integer> getReceivers()
+    protected ArrayList<Integer> getReceivers()
     {
         return this.header.getReciever();
     }

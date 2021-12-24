@@ -4,6 +4,7 @@ package com.emailserver.email_server;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.emailserver.email_server.userAndMessage.Server;
 import com.emailserver.email_server.userAndMessage.inbox;
 import com.emailserver.email_server.userAndMessage.message;
 import com.emailserver.email_server.userAndMessage.messageMaker;
@@ -31,12 +32,12 @@ public class EmailServerApplication {
 		messageMaker maker = new messageMaker();
 		message n = maker.getNewMessage(10, "hello", 342544, to, "subject", "time", 1, t);
 		s.sendMessage(n);
-		s.createFolder(555, "tobe");
-		s.moveMessage(555, 10, "inbox","tobe");
-		s.createFolder(234, "mails");
-		s.moveMessage(234, 10, "inbox","mails");
-		s.renameFolder(234, "newName", "mails");
-		s.deleteFolder(555, "tobe");
+		// s.createFolder(555, "tobe");
+		// s.moveMessage(555, 10, "inbox","tobe");
+		// s.createFolder(234, "mails");
+		// s.moveMessage(234, 10, "inbox","mails");
+		// s.renameFolder(234, "newName", "mails");
+		// System.out.println(s.getMessage(234, 10));
 	}
 
 }
