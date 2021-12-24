@@ -1,5 +1,7 @@
 package com.emailserver.email_server.userAndMessage;
 
+import java.util.ArrayList;
+
 public class message {
     private int  ID;      
     private messageBody body;      
@@ -18,22 +20,30 @@ public class message {
         this.type=type;
     }
 
-    public int getID() {
-        return ID;
+    public int getSender()
+    {
+        return this.header.getSender();
     }
-    public messageBody getBody() {
-        return body;
+    public ArrayList<Integer> getReceivers()
+    {
+        return this.header.getReciever();
+    }
+    public int getID() {
+        return this.ID;
+    }
+    public String getBody() {
+        return this.body.getBody();
     }
     public messageHeader getHeader() {
-        return header;
+        return this.header;
     }
 
     public String getTime() {
-        return time;
+        return this.time;
     }
 
     public int isPriority() {
-        return priority;
+        return this.priority;
     }
 
     public void setPriority(int priority) {
@@ -42,9 +52,6 @@ public class message {
 
     public void setType(messageType type) {
         this.type = type;
-    }
-    public String getType() {
-        return this.type.getmessageType();
     }
 
 }

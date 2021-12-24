@@ -6,7 +6,7 @@ public class user implements contact{
     private int Id;
     private String userName;
     private String password;
-    
+    private String email;
     private ArrayList<contact> Contacts;
     private ArrayList<message> messages;
    
@@ -14,10 +14,19 @@ public class user implements contact{
     public user(int Id,String userName, String password, String email) {
         this.Id=Id;
         this.userName = userName;
-        this.password = password; 
+        this.password = password;
+        this.email = email;
     }
     
     //////////setters and getters of user///////////////////
+    public String getEmail()
+    {
+        return this.email;
+    }
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
     public int getID() {
         return this.Id;
     }
