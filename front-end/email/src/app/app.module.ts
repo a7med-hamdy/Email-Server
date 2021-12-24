@@ -23,6 +23,8 @@ import { SearchComponent } from './search/search.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MakerComponent } from './maker/maker.component'
 import { HttpClientModule } from '@angular/common/http';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +55,9 @@ import { HttpClientModule } from '@angular/common/http';
     NoopAnimationsModule,
     MatPaginatorModule,
     MatTableModule,
+    MatCardModule,
     HttpClientModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

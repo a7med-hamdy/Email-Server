@@ -1,1 +1,43 @@
-<p>signup works!</p>
+<mat-card>
+    <mat-card-title>Signup</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="signupForm" (ngSubmit)="signUp()">
+        <div>
+          <mat-form-field>
+            <input formControlName="userName" type="text" matInput placeholder="Username">
+          </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field>
+              <input formControlName="email" type="email" matInput placeholder="Email">
+            </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <input formControlName="password" type="password" matInput placeholder="Password">
+          </mat-form-field>
+        </div>
+  
+        <p *ngIf="error" class="error">
+        {{ error }}
+        </p>
+  
+        <div class="button">
+          <button type="submit" mat-button>Signup</button>
+        </div>
+      </form>
+      <a style="color: black;" routerLink="/login">Already regestered ? Press to login!!</a>
+    </mat-card-content>
+</mat-card>
+
+<!-- <div>
+    <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Clearable input</mat-label>
+        <input matInput type="text" >
+        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+</div> -->

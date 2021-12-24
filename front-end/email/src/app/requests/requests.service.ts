@@ -109,7 +109,7 @@ export class RequestsService {
 
 
 /*---------------------------------------------------------------
-  Get Emails
+  Get Emails (Inbox | Trash | Draft | Sent)
   ---------------------------------------------------------------*/
 
   // get mails
@@ -123,12 +123,24 @@ export class RequestsService {
     } */)
   }
   // get sorted mails
-  getSortedMails(){
-
+  getSortedMails(f: string, t: string){
+    return this.http.get<any>(`${this.url}/sort`, {params: {folder: f, type: t}})
+    .subscribe(response => {
+      console.log("Emails gotten successfully!!")
+      console.log(response)
+    },/* err => {
+      alert("something went WRONG!!")
+    } */)
   }
   // get sorted priority mails
-  getEmailsByPriority(){
-
+  getEmailsByPriority(isInbox: boolean){
+    return this.http.get<any>(`${this.url}/sortPriority`, {params: {inboxOrSent: isInbox}})
+    .subscribe(response => {
+      console.log("Emails gotten successfully!!")
+      console.log(response)
+    },/* err => {
+      alert("something went WRONG!!")
+    } */)
   }
   // get filtered mails
   getFilteredEmails(){
