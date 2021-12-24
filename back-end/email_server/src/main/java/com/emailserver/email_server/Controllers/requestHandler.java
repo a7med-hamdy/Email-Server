@@ -10,6 +10,9 @@ import java.util.Arrays;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.emailserver.LoginAndSessionManagement.LoggingManager;
+import com.emailserver.LoginAndSessionManagement.sessionInterface;
+import com.emailserver.LoginAndSessionManagement.sessionManager;
 import com.emailserver.email_server.userAndMessage.contact;
 import com.emailserver.email_server.userAndMessage.message;
 import com.emailserver.email_server.userAndMessage.messageMaker;
@@ -32,7 +35,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class requestHandler {
     
     //needed attributes
-
+    public sessionManager sManager = sessionManager.getInstanceOf();
+    public LoggingManager lManager;
 
 /*---------------------------------------------------------------
 Logging & Signing up Requests
@@ -41,27 +45,27 @@ Logging & Signing up Requests
     //signup - post
     @PostMapping("/signUp")
     @ResponseBody
-    public boolean signUp(@RequestBody user user){
+    public int signUp(@RequestBody user user){
         System.out.println("Sign up");
         try {
-            return /* server.signUp(user) */true;
+            return lManager.REGISTER(user.getUserName(), user.getEmail(), user.getPassword());
         }catch (Exception e){
             System.out.println("Error in signUp request!!");
-            return false;
+            return 0;
         }
     }
 
     //login - get
     @GetMapping("/login-{userName}-{password}")
-    public boolean login(@PathVariable String userName, @PathVariable String password){
+    public int login(@PathVariable String userName, @PathVariable String password){
         System.out.println( "Log In\n" + 
                             "Username = " + userName + "\n" + 
                             "Password = " + password);
         try {
-            return /* server.logIn(username, password) */true;
+            return lManager.LOGIN(userName, password);
         }catch (Exception e){
             System.out.println("Error in logIn request!!");
-            return false;
+            return 0;
         }
     }
 
@@ -70,13 +74,14 @@ Emails (create | delete) Requests
 -----------------------------------------------------------------*/
 
     //create email (Type: sent | draft) - post
-    @PostMapping("/makeMesssage")
+    @PostMapping("/makeMesssage/{id}")
     public boolean createEmail( @RequestBody message Msg, 
                                 // @RequestParam("from") String from,
                                 // @RequestParam("subject") String subject,
                                 // @RequestParam("body") String body,
                                 @RequestParam("time") String time,
-                                @RequestParam("type") String type
+                                @RequestParam("type") String type,
+                                @PathVariable("id") String userId
                                 // @RequestParam("priority") boolean priority
                                 /* ,
                                 @RequestParam(name = "receivers") String receivers, 
@@ -84,7 +89,9 @@ Emails (create | delete) Requests
         System.out.println( "Subject = " + Msg.getHeader().getSubject() + 
                             "\nBoody = " + Msg.getBody());
         try {
-            return /* create message */true;
+            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+            s.addMessage(Msg);
+            return true;
         }catch (Exception ex){
             ex.printStackTrace();
             return false;
@@ -92,19 +99,20 @@ Emails (create | delete) Requests
     }
 
     //delete email(s) (moveToTrash | restoreFromTrash) - delete
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @ResponseBody
     public void delete_or_restore(  @RequestBody int[] IDs, 
                                     @RequestParam("type") String type, 
-                                    @RequestParam("toTrash") boolean toTrash){
+                                    @RequestParam("toTrash") boolean toTrash,
+                                    @PathVariable("id") String userId){
         System.out.println("IDs are "+ Arrays.toString(IDs));
-
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
         try {
             for (int i : IDs) {
                 if (toTrash)
-                    /* server.sendToTrash(type, i) */;
+                    s.moveMessage(i,type,"trash");
                 else
-                    /* server.restoreFromTrash(i) */;
+                    s.moveMessage(i,"trash", type);
                 i = i + 1;
             }
         }catch (Exception ignoredException){}
@@ -115,7 +123,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
 -----------------------------------------------------------------*/
 
     //get mails (Type: Inbox | Trash | Draft | sent)
-    @GetMapping("/getEmails")
+    @GetMapping("/getEmails/{id}")
     public ArrayList<messageMaker> getEmails(@RequestParam("type") String type){
         System.out.println(type);
         try {
@@ -125,7 +133,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         }
     }
     //sort
-    @GetMapping("/sort")
+    @GetMapping("/sort/{id}")
     public ArrayList<messageMaker> getSorted( @RequestParam("folder") String folder, 
                                                 @RequestParam("type") String type){
         try {
@@ -140,7 +148,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         }
     }
     //sortPriority
-    @GetMapping("/sortPriority")
+    @GetMapping("/sortPriority/{id}")
     public ArrayList<message> sortPriority(@RequestParam("inboxOrSent") String inbox){
         /* ArrayList<message> list = new ArrayList<>();
         ArrayList<? extends message> primary = server.myFilter(Constants.TRUE ,Constants.PRIORITY , inbox);
@@ -155,7 +163,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         return null;
     }
     //filter
-    @GetMapping("/filter")
+    @GetMapping("/filter/{id}")
     public ArrayList<? extends message> filterBy(@RequestParam(name = "filterName")String filterName,
                                                  @RequestParam(name = "subOrRec") String subOrRec,
                                                  @RequestParam(name = "inboxOrSent") String inOrSent){
@@ -172,7 +180,7 @@ Download Attachment Request
 -----------------------------------------------------------------*/
 
     //download Attachment
-    @GetMapping("/download")
+    @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadFile(HttpServletRequest request, 
                                                             @RequestParam(name="id")String id, 
                                                             @RequestParam(name="type") String type,
@@ -184,7 +192,7 @@ Download Attachment Request
 Contacts (get | add | delete | edit | filter) Requests
 -----------------------------------------------------------------*/
     //contacts - get
-    @GetMapping("/getContacts")
+    @GetMapping("/getContacts/{id}")
     @ResponseBody
     public ArrayList<contact> getContacts(){
         try {
@@ -198,7 +206,7 @@ Contacts (get | add | delete | edit | filter) Requests
    
 
     //add contact
-    @PostMapping("/addContact")
+    @PostMapping("/addContact/{id}")
     public boolean addContact(  @RequestParam("email") String email, 
                                 @RequestParam("name") String contactName)  {
        /*  String[]  contactsList = email.split(",");
@@ -215,7 +223,7 @@ Contacts (get | add | delete | edit | filter) Requests
     }
 
     //delete contact
-    @DeleteMapping("/deleteContacts")
+    @DeleteMapping("/deleteContacts/{id}")
     @ResponseBody
     public void deleteContacts(@RequestBody ArrayList<String> names){
         try {
@@ -227,7 +235,7 @@ Contacts (get | add | delete | edit | filter) Requests
     }
 
     //edit contact
-    @PutMapping("/editContacts")
+    @PutMapping("/editContacts/{id}")
     public boolean editContacts(@RequestParam("email") String emails, 
                                 @RequestParam("newName") String newName, 
                                 @RequestParam("oldName") String oldName){
@@ -243,7 +251,7 @@ Contacts (get | add | delete | edit | filter) Requests
     }
 
     //filter contact
-    @GetMapping("/filterContacts")
+    @GetMapping("/filterContacts/{id}")
     public ArrayList<contact> filterContacts( @RequestParam("typeOfSort") String type, 
                                                         @RequestParam("name") String name){
         return /* server.searchingContact(type, name) */null;

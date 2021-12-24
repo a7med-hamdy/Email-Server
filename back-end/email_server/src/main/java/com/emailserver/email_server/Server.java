@@ -19,6 +19,7 @@ import java.util.Scanner;
 public class Server {
     private String path = "src\\Data";
     private PriorityQueue<message> queue = new PriorityQueue<>();
+    private ArrayList<String> folders = new ArrayList<>(Arrays.asList("inbox","trash","sent","draft"));
     private JSONArray arr = new JSONArray();
     private static Server instance;  
     private Gson gson;
@@ -49,22 +50,13 @@ public class Server {
         this.writeData();
         File f = new File(this.path+id);
         f.mkdir();
-        f = new File(this.path+id+"\\inbox");
-        f.mkdir();
-        f = new File(this.path+id+"\\inbox"+"\\index.json");
-        f.createNewFile();
-        f = new File(this.path+id+"\\sent");
-        f.mkdir();
-        f = new File(this.path+id+"\\sent"+"\\index.json");
-        f.createNewFile();
-        f = new File(this.path+id+"\\trash");
-        f.mkdir();
-        f = new File(this.path+id+"\\trash"+"\\index.json");
-        f.createNewFile();
-        f = new File(this.path+id+"\\draft");
-        f.mkdir();
-        f = new File(this.path+id+"\\draft"+"\\index.json");
-        f.createNewFile();
+        for(String folder : this.folders)
+        {
+            f = new File(this.path+id+"\\"+folder);
+            f.mkdir();
+            f = new File(this.path+id+"\\"+folder+"\\index.json");
+            f.createNewFile();
+        }
     }
 
     public ArrayList<user> getUsers() throws IOException
@@ -99,6 +91,11 @@ public class Server {
         }
     }
 
+    // public JSONObject getMessage(String userID, String messageID)
+    // {
+
+    // }
+
     public void moveMessage(int userID, int messageID, String src, String dst)
     {
         String source = this.path+userID+"\\"+src+"\\";
@@ -127,6 +124,7 @@ public class Server {
         } catch (IOException e) {
             System.out.println("Folder creation failure");
         }
+        this.folders.add(name);
     }
     public void renameFolder(int userID, String newName, String oldName)
     {
@@ -135,6 +133,8 @@ public class Server {
         {
             f.renameTo(new File(this.path+userID+"\\"+newName));
         }
+        this.folders.remove(oldName);
+        this.folders.add(newName);
     }
 
     public void deleteFolder(int userID, String name)
@@ -148,6 +148,7 @@ public class Server {
                 System.out.println("Error deleting folder");
             }
         }
+        this.folders.remove(name);
     }
 
     private void removeFromIndex(String path, int id)
@@ -198,6 +199,8 @@ public class Server {
         }
         return new JSONObject();
     }
+
+
 
     private String readData(String path)
     {

@@ -3,13 +3,14 @@ package com.emailserver.LoginAndSessionManagement;
 import java.io.IOException;
 import java.text.ParseException;
 
+import com.emailserver.email_server.Server;
 import com.emailserver.email_server.Controllers.Proxy;
-import com.emailserver.email_server.userAndMessage.contact;
+import com.emailserver.email_server.userAndMessage.user;
 
 public class LoggingManager {
     public sessionManager sessionManage = sessionManager.getInstanceOf();
     //
-    //public server
+    private Server server;
     public LoggingManager(){}
 
     /**
@@ -21,7 +22,7 @@ public class LoggingManager {
     private int validateUser(String username, String password){
         Proxy securityProxy = new Proxy(username, password);
         try {
-            contact c = securityProxy.logIn();
+            user c = securityProxy.logIn();
             return c.getID();
         } catch (IOException | ParseException e) {
             return 0;
@@ -33,15 +34,18 @@ public class LoggingManager {
      * register users
      * @param username
      * @param password
+     * @throws IOException
      */
-    public void REGISTER(String username, String password){
+    public int REGISTER(String username, String email,String password) throws IOException{
         int userId = this.validateUser(username,password);
         if(userId == 0){
-            /**server.createUser(username,password) */
+            server.SignUp((int)Math.random(),username,password, email);
             this.sessionManage.createSession(userId, username, password);
-            //return contact;
+            return userId;
         }
-
+        else{
+            throw new IOException();
+        }
     }
 
     /**
@@ -50,15 +54,18 @@ public class LoggingManager {
      * @param password
      * @return
      */
-    public boolean LOGIN(String username, String password){
+    public int LOGIN(String username, String password)throws IOException{
         int userId = this.validateUser(username, password);
         if (userId != 0){
             if (this.sessionManage.getSessionByUserID(userId) == null){
                 this.sessionManage.createSession(userId, username, password);
-                return true;
+                return userId;
             }
         }
-        return false;
+        else{
+            throw new IOException();
+        }
+        return 0;
     }
 
  
