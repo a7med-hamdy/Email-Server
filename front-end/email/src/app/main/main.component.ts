@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-main',
@@ -19,7 +21,8 @@ export class MainComponent implements OnInit {
   viewT:Boolean=false;
   filter?:string;
   routnig?:string;
-  id?:string;
+  idk?:string;
+
 
   constructor(private route:ActivatedRoute,
               private router:Router) {
@@ -27,15 +30,12 @@ export class MainComponent implements OnInit {
               }
 
   ngOnInit(): void {
-    let id=this.route.snapshot.paramMap.get('id');
-    console.log(id);
+    console.log(this.router.url);
   }
-  /*activet(a:number){
-    console.log(a)
-    this.router.navigate(['/main',a]);
-  }*/
+
 
   active(a:number){
+    console.log(this.router.url);
     console.log(a)
     this.view=true
     this.profile=false;
