@@ -10,6 +10,7 @@ import com.emailserver.email_server.userAndMessage.contact;
 import com.emailserver.email_server.userAndMessage.message;
 import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
+import com.emailserver.email_server.userAndMessage.user;
 
 import org.springframework.http.ResponseEntity;
 // import org.springframework.lang.Nullable;
@@ -30,11 +31,12 @@ Logging & Signing up Requests
     //signup - post
     @PostMapping("/signUp")
     @ResponseBody
-    public boolean signUp(/*@RequestBody user user*/){
+    public boolean signUp(@RequestBody user user){
         System.out.println("Sign up");
         try {
             return /* server.signUp(user) */true;
         }catch (Exception e){
+            System.out.println("Error in signUp request!!");
             return false;
         }
     }
@@ -42,10 +44,13 @@ Logging & Signing up Requests
     //login - get
     @GetMapping("/login-{userName}-{password}")
     public boolean login(@PathVariable String userName, @PathVariable String password){
-        System.out.println("Username = " + userName + "\nPassword = " + password);
+        System.out.println( "Log In\n" + 
+                            "Username = " + userName + "\n" + 
+                            "Password = " + password);
         try {
-            return /* server.LOGIN(username, password) */true;
+            return /* server.logIn(username, password) */true;
         }catch (Exception e){
+            System.out.println("Error in logIn request!!");
             return false;
         }
     }
@@ -55,18 +60,19 @@ Emails (create | delete) Requests
 -----------------------------------------------------------------*/
 
     //create email (Type: sent | draft) - post
-    @PostMapping("/createMesssage")
-    public boolean createEmail( @RequestParam("body") String body,
-                                @RequestParam("sender") String sender,
-                                @RequestBody(required = false) ArrayList<String> receivers,
-                                @RequestParam("subject") String subject,
+    @PostMapping("/makeMesssage")
+    public boolean createEmail( @RequestBody message Msg, 
+                                // @RequestParam("from") String from,
+                                // @RequestParam("subject") String subject,
+                                // @RequestParam("body") String body,
                                 @RequestParam("time") String time,
-                                @RequestParam("type") String type,
-                                @RequestParam("priority") boolean priority/* ,
+                                @RequestParam("type") String type
+                                // @RequestParam("priority") boolean priority
+                                /* ,
                                 @RequestParam(name = "receivers") String receivers, 
                                 @Nullable @RequestParam(name="myFile") MultipartFile[] multipartFiles */){
-        System.out.println( "Subject = " + subject + 
-                            "\nBoody = " + body);
+        System.out.println( "Subject = " + Msg.getHeader().getSubject() + 
+                            "\nBoody = " + Msg.getBody().getBody());
         try {
             return /* create message */true;
         }catch (Exception ex){
@@ -75,7 +81,7 @@ Emails (create | delete) Requests
         }
     }
 
-    //delete email (moveToTrash | restoreFromTrash) - delete
+    //delete email(s) (moveToTrash | restoreFromTrash) - delete
     @DeleteMapping("/delete")
     @ResponseBody
     public void delete_or_restore(  @RequestBody int[] IDs, 

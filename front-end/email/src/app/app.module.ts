@@ -22,6 +22,7 @@ import { MatTableModule } from '@angular/material/table';
 import { SearchComponent } from './search/search.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MakerComponent } from './maker/maker.component'
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +52,8 @@ import { MakerComponent } from './maker/maker.component'
     AppRoutingModule,
     NoopAnimationsModule,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
