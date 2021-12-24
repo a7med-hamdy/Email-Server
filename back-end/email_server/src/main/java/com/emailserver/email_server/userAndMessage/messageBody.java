@@ -7,7 +7,6 @@ public class messageBody {
 	
 
 	public messageBody(String body) {
-	
 		this.body = body;
 	}
 
@@ -17,7 +16,7 @@ public class messageBody {
 	}
 
 	public String getBody() {
-		return body;
+		return this.body;
 	}
     
 }

@@ -7,17 +7,15 @@ public class message {
     private messageBody body;      
     private messageHeader header;
     private String time;
-    private messageType type;
     private int priority;
 
 
-    public message(int ID, messageBody body, messageHeader header, String time, int priority ,messageType type) {
+    public message(int ID, messageBody body, messageHeader header, String time, int priority) {
         this.ID = ID;
         this.body = body;
         this.header = header;
         this.time = time;
         this.priority = priority;
-        this.type=type;
     }
 
     protected int getSender()
@@ -31,8 +29,11 @@ public class message {
     public int getID() {
         return this.ID;
     }
-    public String getBody() {
+    protected String getbody() {
         return this.body.getBody();
+    }
+    public messageBody getBody(){
+        return this.body;
     }
     public messageHeader getHeader() {
         return this.header;
@@ -49,9 +50,4 @@ public class message {
     public void setPriority(int priority) {
         this.priority = priority;
     }
-
-    public void setType(messageType type) {
-        this.type = type;
-    }
-
 }

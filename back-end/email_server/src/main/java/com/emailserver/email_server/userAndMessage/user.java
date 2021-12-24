@@ -59,23 +59,23 @@ public class user implements contact{
         this.messages.add(messa);
     }
     
-    public void changeMessage(int id,String x) {
-        for(message i : messages ){
-            if(i.getID()==id){
-                if(x.equalsIgnoreCase("sent")){
-                    i.setType(new sent());
-                }else if(x.equalsIgnoreCase("trash")){
-                    i.setType(new trash());
-                }
-                else if(x.equalsIgnoreCase("draft")){
-                    i.setType(new draft());
-                }
-                else{
-                    i.setType(new inbox());
-                }
-            }
-        }
-    }
+    // public void changeMessage(int id,String x) {
+    //     for(message i : messages ){
+    //         if(i.getID()==id){
+    //             if(x.equalsIgnoreCase("sent")){
+    //                 i.setType(new sent());
+    //             }else if(x.equalsIgnoreCase("trash")){
+    //                 i.setType(new trash());
+    //             }
+    //             else if(x.equalsIgnoreCase("draft")){
+    //                 i.setType(new draft());
+    //             }
+    //             else{
+    //                 i.setType(new inbox());
+    //             }
+    //         }
+    //     }
+    // }
 
    
  
