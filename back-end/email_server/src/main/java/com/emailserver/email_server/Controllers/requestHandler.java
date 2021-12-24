@@ -1,5 +1,9 @@
 package com.emailserver.email_server.Controllers;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,10 +16,16 @@ import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.emailserver.email_server.userAndMessage.user;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 // import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartFile;
+
+
+
+
 
 @CrossOrigin
 @RestController
@@ -72,7 +82,7 @@ Emails (create | delete) Requests
                                 @RequestParam(name = "receivers") String receivers, 
                                 @Nullable @RequestParam(name="myFile") MultipartFile[] multipartFiles */){
         System.out.println( "Subject = " + Msg.getHeader().getSubject() + 
-                            "\nBoody = " + Msg.getBody().getBody());
+                            "\nBoody = " + Msg.getBody());
         try {
             return /* create message */true;
         }catch (Exception ex){
@@ -238,5 +248,23 @@ Contacts (get | add | delete | edit | filter) Requests
                                                         @RequestParam("name") String name){
         return /* server.searchingContact(type, name) */null;
     }
+
+    private final Path root = Paths.get("uploads");
+
+    ////atachment 
+    @PostMapping("/upload")
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+    String message = "";
+    try {
+     /* Files.createDirectory(root);*/
+      Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING );
+      
+      message = "Uploaded the file successfully: " + file.getOriginalFilename();
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+    } catch (Exception e) {
+      message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+    }
+  }
 
 }
