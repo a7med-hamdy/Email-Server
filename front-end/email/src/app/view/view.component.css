@@ -1,0 +1,10 @@
+table{
+  background-color:#191a1a;
+  transition-duration: 0.4s;
+  border-color: whitesmoke;
+  height: 62px;
+}
+mat-paginator{
+  background-color:#191a1a;
+
+}

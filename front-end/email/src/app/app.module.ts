@@ -13,10 +13,10 @@ import {MatIconModule} from '@angular/material/icon';
 import { MainComponent } from './main/main.component';
 
 import { ViewComponent } from './view/view.component';
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatAutocompleteModule} from '@angular/material/autocomplete'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';;
-
+import { MatSelectModule } from '@angular/material/select';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { SearchComponent } from './search/search.component';
@@ -58,6 +58,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatCardModule,
     HttpClientModule,
     MatButtonModule,
+    MatSelectModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

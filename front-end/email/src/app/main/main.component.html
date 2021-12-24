@@ -1,14 +1,14 @@
 <mat-sidenav-container>
 
   <mat-sidenav mode="side"  disableClose  opened position="start" class="side">
-    <button  [disabled]="profile" class="button" routerLink="/main/Profile" routerLinkActive="active">profile</button>
+    <button  [disabled]="profile" class="button" routerLink="/main/Profile" routerLinkActive="active">Profile</button>
     <button  [disabled]="make" class="button" routerLink="/main/Create" routerLinkActive="active">Make message</button>
     <button  [disabled]="viewI" class="button"routerLink="/main/Inbox" routerLinkActive="active">Inbox</button>
     <button  [disabled]="viewS" class="button"routerLink="/main/Sent" routerLinkActive="active">Sent</button>
     <button  [disabled]="viewD" class="button"routerLink="/main/Drafted" routerLinkActive="active">Draft</button>
     <button  [disabled]="viewT" class="button"routerLink="/main/Deleted" routerLinkActive="active">Deleted</button>
-    <button  [disabled]="search" class="button"routerLink="/main/Search" routerLinkActive="active">search</button>
-    <button class="logout">logout</button>
+    <button  [disabled]="search" class="button"routerLink="/main/Search" routerLinkActive="active">Search</button>
+    <button class="logout">LogOut</button>
    </mat-sidenav>
 
 
@@ -24,18 +24,19 @@
 
   <mat-sidenav mode="side"  disableClose  opened position="end" class="side1">
    <div class="filter">
-
-   <select name="FILTEES" [(ngModel)]="filter">
-    <option >SUBJECT</option>
-    <option >SENDER</option>
-  </select>
+    <mat-select name="FILTEES" [(value)]="selected" [(ngModel)]="filter">
+      <mat-option value="None">None</mat-option>
+      <mat-option value="Subject" >Subject</mat-option>
+      <mat-option value="Sender" >Sender</mat-option>
+    </mat-select>
     <button class="filler">filter</button>
   </div>
+
     <div>
     <button>Date</button>
-    <button>pirority</button>
+    <button>Pirority</button>
     <button>Sender</button>
-    <button>recevicer</button>
+    <button>Receiver</button>
     <button>Subject</button>
     <button>Body</button>
     <button>Attachments</button>
