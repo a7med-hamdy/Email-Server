@@ -1,36 +1,43 @@
 package com.emailserver.LoginAndSessionManagement;
 
+import java.io.IOException;
+
+import com.emailserver.email_server.userAndMessage.message;
+
 public interface sessionInterface {
+
+    /**Getters and setters */
+    public int getUserId();
+    public void setUserId(int id);
+
+    public int getSessionID();
+    public void setSessionID(int id);
+
+    public String getUserName();
+    public void setUserName(String userName);
+
+    public String getUserPassword();
+    public void setUserPassword(String userPassword);
     
-    int getUserId();
-    void setUserId(int id);
-
-    int getSessionID();
-    void setSessionID(int id);
-
-    String getUserName();
-    void setUserName(String userName);
-
-    String getUserPassword();
-    void setUserPassword(String userPassword);
-
+    public String getUserEmail();
+    public void setUserEmail(String userEmail);
     
-   public void addUserMessage(String message);
 
-public void deleteUserMessage(String message);
+    /**CRUD Operations on messages */
+    public void addMessage(message message) throws IOException;
 
+    public void moveMessage(int msgID,String source, String folder)throws IOException;
 
-public void editUserMessage(int msgID ,String message);
+    public void editMessage(int msgID ,String folder,String message);
 
+    public void getMessages(String folder);
 
-public void getUserMessage(int msgID ,String message);
+    /**CRUD Operations on Contacts */
+    public void getContacts(String folder);
 
-public void getUserContacts(int id);
+    public void addContact(String email, String name);
 
+    public void deleteContact(String name);
 
-public void addUserContacts(int id);
-
-public void deleteUserContact(int id);
-
-public void editUserContact(int id);
+    public void editContact(String email, String newName, String oldname);
 }
