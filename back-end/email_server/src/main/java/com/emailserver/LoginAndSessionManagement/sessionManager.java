@@ -20,12 +20,13 @@ public class sessionManager {
         return instance;
     }
 
-    public void createSession(int userID, String userName, String password){
+    public void createSession(int userID, String userName, String password,String userEmail){
         sessionInterface session = new session();
         session.setSessionID((int) Math.random());
         session.setUserId((int)userID);
         session.setUserName(userName);
         session.setUserPassword(password);
+        session.setUserEmail(userEmail);
         this.sessions.add(session);    
     }
 

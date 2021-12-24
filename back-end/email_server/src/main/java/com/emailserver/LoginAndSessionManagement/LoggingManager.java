@@ -19,13 +19,13 @@ public class LoggingManager {
      * @param password
      * @return
      */
-    private int validateUser(String username, String password){
+    private user validateUser(String username, String password){
         Proxy securityProxy = new Proxy(username, password);
         try {
             user c = securityProxy.logIn();
-            return c.getID();
+            return c;
         } catch (IOException | ParseException e) {
-            return 0;
+            return null;
         }
         /**fetch userbyid from server */
     }
@@ -37,14 +37,19 @@ public class LoggingManager {
      * @throws IOException
      */
     public int REGISTER(String username, String email,String password) throws IOException{
-        int userId = this.validateUser(username,password);
-        if(userId == 0){
-            server.SignUp((int)Math.random(),username,password, email);
-            this.sessionManage.createSession(userId, username, password);
-            return userId;
-        }
-        else{
-            throw new IOException();
+        Proxy securityProxy = new Proxy(username, password,email);
+        try {
+            if(securityProxy.signUp()){
+                int newID  =(int)Math.random();
+                server.SignUp(newID,username,password, email);
+                this.sessionManage.createSession(newID, username, password,email);
+                return newID;
+            }
+            else{
+                throw new IOException();
+            }
+        } catch (ParseException e) {
+            return 0;
         }
     }
 
@@ -55,11 +60,11 @@ public class LoggingManager {
      * @return
      */
     public int LOGIN(String username, String password)throws IOException{
-        int userId = this.validateUser(username, password);
-        if (userId != 0){
-            if (this.sessionManage.getSessionByUserID(userId) == null){
-                this.sessionManage.createSession(userId, username, password);
-                return userId;
+        user user = this.validateUser(username, password);
+        if (user != null){
+            if (this.sessionManage.getSessionByUserID(user.getID()) == null){
+                this.sessionManage.createSession(user.getID(), username, password,user.getEmail());
+                return user.getID();
             }
         }
         else{
