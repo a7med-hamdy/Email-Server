@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import com.emailserver.email_server.Server;
+import com.emailserver.email_server.userAndMessage.Server;
 import com.emailserver.email_server.userAndMessage.contact;
 import com.emailserver.email_server.userAndMessage.user;
 

@@ -2,7 +2,7 @@ package com.emailserver.LoginAndSessionManagement;
 
 import java.io.IOException;
 
-import com.emailserver.email_server.Server;
+import com.emailserver.email_server.userAndMessage.Server;
 import com.emailserver.email_server.userAndMessage.message;
 
 public class session implements sessionInterface{

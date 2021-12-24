@@ -1,10 +1,10 @@
-package com.emailserver.email_server;
-import com.emailserver.email_server.userAndMessage.message;
-import com.emailserver.email_server.userAndMessage.user;
+package com.emailserver.email_server.userAndMessage;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,11 +15,9 @@ import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-//don't forget to create the Data directory because it might not be there on other devices
 public class Server {
     private String path = "src\\Data";
     private PriorityQueue<message> queue = new PriorityQueue<>();
-    private ArrayList<String> folders = new ArrayList<>(Arrays.asList("inbox","trash","sent","draft"));
     private JSONArray arr = new JSONArray();
     private static Server instance;  
     private Gson gson;
@@ -50,7 +48,8 @@ public class Server {
         this.writeData();
         File f = new File(this.path+id);
         f.mkdir();
-        for(String folder : this.folders)
+        ArrayList<String> folders = new ArrayList<>(Arrays.asList("inbox","trash","sent","draft"));
+        for(String folder : folders)
         {
             f = new File(this.path+id+"\\"+folder);
             f.mkdir();
@@ -69,12 +68,19 @@ public class Server {
         return new ArrayList<user>(Arrays.asList(users));
     }
 
+    public String requestFolder(int userID, String folder)
+    {
+        
+    }
+
     public void sendMessage(message m) 
     {
         String json = gson.toJson(m);
+        
+        System.out.println(new JSONArray(new ArrayList<>(Arrays.asList(m))));
+        
         String path = this.path+m.getSender()+"\\sent\\";
-        JSONObject js = new JSONObject(m);
-        this.addToIndex(path,js);
+        this.addToIndex(path,json);
         path += + m.getID();
         File f = new File(path);
         f.mkdir();
@@ -83,7 +89,7 @@ public class Server {
         for(int r : receivers)
         {
             path = this.path+r+"\\inbox\\";
-            this.addToIndex(path,js);
+            this.addToIndex(path,json);
             path += m.getID();
             File f2 = new File(path);
             f2.mkdir();
@@ -91,15 +97,25 @@ public class Server {
         }
     }
 
-    // public JSONObject getMessage(String userID, String messageID)
-    // {
-
-    // }
+    public String getMessage(int userID, int messageID)
+    {
+        File[] folders = new File(this.path+userID).listFiles((FileFilter)FileFilterUtils.directoryFileFilter());
+        for(File folder : folders)
+        {
+            String content = this.findMessage(folder+"\\", messageID, true);
+            if(!content.equalsIgnoreCase("-1"))
+            {
+                System.out.println(folder);
+                return content;
+            }
+        }
+        return "not Found";
+    }
 
     public void moveMessage(int userID, int messageID, String src, String dst)
     {
         String source = this.path+userID+"\\"+src+"\\";
-        JSONObject json = this.findMessage(source, messageID, true);
+        String json = this.findMessage(source, messageID, true);
         this.removeFromIndex(source, messageID);
         source += "\\"+messageID;
         File sourceFile = new File(source);
@@ -114,47 +130,12 @@ public class Server {
         }
     }
 
-    public void createFolder(int userID, String name)
-    {
-        File f = new File(this.path+userID+"\\"+name);
-        f.mkdir();
-        f = new File(this.path+userID+"\\"+name+"\\index.json");
-        try {
-            f.createNewFile();
-        } catch (IOException e) {
-            System.out.println("Folder creation failure");
-        }
-        this.folders.add(name);
-    }
-    public void renameFolder(int userID, String newName, String oldName)
-    {
-        File f = new File(this.path+userID+"\\"+oldName);
-        if(f.isDirectory())
-        {
-            f.renameTo(new File(this.path+userID+"\\"+newName));
-        }
-        this.folders.remove(oldName);
-        this.folders.add(newName);
-    }
-
-    public void deleteFolder(int userID, String name)
-    {
-        File f = new File(this.path+userID+"\\"+name);
-        if(f.isDirectory())
-        {
-            try {
-                FileUtils.deleteDirectory(f);
-            } catch (IOException e) {
-                System.out.println("Error deleting folder");
-            }
-        }
-        this.folders.remove(name);
-    }
+    
 
     private void removeFromIndex(String path, int id)
     {
-        JSONObject temp = this.findMessage(path, id, false);
-        int index = (int)temp.opt("index");
+        int index = Integer.parseInt(this.findMessage(path, id, false));
+         
         String content = this.readData(path+"index.json");
         JSONArray messages;
         if(content.isEmpty())
@@ -169,7 +150,7 @@ public class Server {
         this.writeData(path+"index.json", messages.toString());
     }
 
-    private void addToIndex(String path, JSONObject m)
+    private void addToIndex(String path, String m)
     {
         String content = this.readData(path+"index.json");
         JSONArray messages;
@@ -181,26 +162,31 @@ public class Server {
         {
             messages = new JSONArray(content);
         }
-        messages.put(m);
+        JSONObject temp = new JSONObject(m);
+        JSONObject obj = new JSONObject().putOpt("ID", temp.optString("ID")).putOpt("subject", temp.getJSONObject("header").optString("subject"));
+        messages.put(obj);
         this.writeData(path+"index.json", messages.toString());
     }
 
-    private JSONObject findMessage(String path, int id, boolean flag)
+    private String findMessage(String path, int id, boolean flag)
     {
         String content = this.readData(path+"index.json");
+        if(content.equals(""))
+        {
+            return "-1";
+        }
         JSONArray messages = new JSONArray(content);
         for(int i = 0; i < messages.length();i++)
         {
             JSONObject temp = messages.getJSONObject(i);
             if(temp.optString("ID").equals(Integer.toString(id)))
             {
-                return flag ? temp : new JSONObject().put("index", i);
+                content = readData(path+"\\"+id+"\\"+id+".json");
+                return flag ? content : Integer.toString(i);
             }
         }
-        return new JSONObject();
+        return "-1";
     }
-
-
 
     private String readData(String path)
     {
@@ -237,6 +223,39 @@ public class Server {
             myWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void createFolder(int userID, String name)
+    {
+        File f = new File(this.path+userID+"\\"+name);
+        f.mkdir();
+        f = new File(this.path+userID+"\\"+name+"\\index.json");
+        try {
+            f.createNewFile();
+        } catch (IOException e) {
+            System.out.println("Folder creation failure");
+        }
+    }
+    public void renameFolder(int userID, String newName, String oldName)
+    {
+        File f = new File(this.path+userID+"\\"+oldName);
+        if(f.isDirectory())
+        {
+            f.renameTo(new File(this.path+userID+"\\"+newName));
+        }
+    }
+
+    public void deleteFolder(int userID, String name)
+    {
+        File f = new File(this.path+userID+"\\"+name);
+        if(f.isDirectory())
+        {
+            try {
+                FileUtils.deleteDirectory(f);
+            } catch (IOException e) {
+                System.out.println("Error deleting folder");
+            }
         }
     }
 }
