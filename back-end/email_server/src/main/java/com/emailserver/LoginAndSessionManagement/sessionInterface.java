@@ -28,9 +28,9 @@ public void getUserMessage(int msgID ,String message);
 public void getUserContacts(int id);
 
 
-public void getaddUserContacts(int id);
+public void addUserContacts(int id);
 
-public void deleteUserContact();
+public void deleteUserContact(int id);
 
-public void editUserContact();
+public void editUserContact(int id);
 }
