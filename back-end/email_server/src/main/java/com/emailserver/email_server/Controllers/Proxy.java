@@ -5,15 +5,16 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import com.emailserver.email_server.Server;
 import com.emailserver.email_server.userAndMessage.contact;
-// import com.emailserver.email_server.userAndMessage.user;
+import com.emailserver.email_server.userAndMessage.user;
 
 public class Proxy {
     // private String Email;
     // private int ID;
     private String userName;
 	private String password;
-	// private user userClass;
+	private Server server;
 	
 	//constructor of proxy class
 	public Proxy(String userName,String password) {
@@ -24,15 +25,14 @@ public class Proxy {
 	
 	
 	// check if the user exists
-	public contact logIn() throws FileNotFoundException, IOException, ParseException{
-		ArrayList<contact> ExistUsers = new ArrayList<contact>(){};
-		//get the users in 'ExistUsers' here <----------------
-        for(contact  user : ExistUsers){
-           if(userName.equals((String) user.getUserName()) && password.equals( ""/* (String) user.getPassword() */ )){
-                   return user;
+	public user logIn() throws FileNotFoundException, IOException, ParseException{
+		ArrayList<user> ExistUsers = new ArrayList<user>(){};
+		ExistUsers = server.getUsers();
+        for(user  user : ExistUsers){
+           if(userName.equals(user.getUserName()) && password.equals( user.getPassword() )){
+                return user;
             }
         }
         return null;
-    
     }
 }
