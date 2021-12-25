@@ -34,7 +34,6 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     LoginComponent,
     SignupComponent,
     MainComponent,
-
     ViewComponent,
     SearchComponent,
     ProfileComponent,

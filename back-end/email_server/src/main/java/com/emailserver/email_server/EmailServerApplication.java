@@ -34,7 +34,8 @@ public class EmailServerApplication {
 		message n = maker.getNewMessage(10, "hello", 5,342544, to, "subject", "9000", 1, new File []{new File("image.jpf")});
 		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", "10", 4, new File []{new File("book.pdf")});
 		s.sendMessage(n);
-		s.sendMessage(x);
+		//s.sendMessage(x);
+		s.sendMessage(x, "draft");
 		// System.out.println(s.requestFolder(342544, "sent","time").toString());
 		s.createFolder(555, "tobe");
 		s.moveMessage(555, 10, "inbox","tobe");
