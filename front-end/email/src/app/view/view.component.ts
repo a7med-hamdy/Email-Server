@@ -10,7 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class ViewComponent implements OnInit {
   array = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
   displayedColumns: string[] = [ ' ','Id'];
-  dataSource!: MatTableDataSource<number>;
+  dataSource: MatTableDataSource<number> = new MatTableDataSource(this.array);
   selection = new SelectionModel<number>(true, []);
   @ViewChild('paginator') paginator!: MatPaginator;
   ngAfterViewInit() {

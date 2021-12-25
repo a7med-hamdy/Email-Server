@@ -1,3 +1,4 @@
+import { query } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -9,7 +10,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-
+  userID:any;
   selected?: string;
   search:Boolean=false;
   profile:Boolean=false;
@@ -26,10 +27,18 @@ export class MainComponent implements OnInit {
 
   constructor(public route:ActivatedRoute,
               public router:Router) {
-              }
-  ngOnInit(): void {
-    this.routerEventListener();
+                //router.navigate(['main']);
 
+              }
+  public extractId(){
+    this.route.queryParams.subscribe(params =>{
+      this.userID = params['ID'];
+      console.log(this.userID);
+     })
+  }
+  ngOnInit(): void {
+    this.extractId();
+    this.routerEventListener();
     //this.router.urlHandlingStrategy.extract(this.router.url)= "reload";
   }
   routerEventListener(){
@@ -47,25 +56,25 @@ export class MainComponent implements OnInit {
     this.profile=false;
     this.search=false;
     this.make=false;
-    if(a=='/main/Inbox'){
+    if(a.includes('Inbox')){
       this.viewI=true;
       this.viewS=false;
       this.viewD=false;
       this.viewT=false;
     }
-    else if(a=='/main/Sent'){
+    else if(a.includes('Sent')){
       this.viewS=true;
       this.viewI=false;
       this.viewD=false;
       this.viewT=false;
     }
-    else if(a=='/main/Drafted'){
+    else if(a.includes('Drafted')){
       this.viewD=true;
       this.viewI=false;
       this.viewS=false;
       this.viewT=false;
     }
-    else if(a=='/main/Deleted'){
+    else if(a.includes('Deleted')){
       this.viewT=true;
       this.viewI=false;
       this.viewS=false;
@@ -75,7 +84,7 @@ export class MainComponent implements OnInit {
 
   }
   profile1(a:string){
-    if(a == "/main/Profile"){
+    if(a.includes('Profile')){
     this.profile=true;
     this.search=false;
     this.make=false;
@@ -87,7 +96,7 @@ export class MainComponent implements OnInit {
     }
   }
   make1(a:String){
-    if(a == "/main/Create"){
+    if(a.includes('Create')){
     this.profile=false;
     this.search=false;
     this.make=true;
@@ -99,7 +108,7 @@ export class MainComponent implements OnInit {
     }
   }
   search1(a:String){
-    if(a == "/main/Search"){
+    if(a.includes('Search')){
     this.profile=false;
     this.search=true;
     this.make=false;

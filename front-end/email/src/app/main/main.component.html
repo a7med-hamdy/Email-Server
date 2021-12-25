@@ -1,15 +1,16 @@
 <mat-sidenav-container>
 
   <mat-sidenav mode="side"  disableClose  opened position="start" class="side">
-    <button  [disabled]="profile" class="button" routerLink="/main/Profile" routerLinkActive="active">Profile</button>
-    <button  [disabled]="make" class="button" routerLink="/main/Create" routerLinkActive="active">Make message</button>
-    <button  [disabled]="viewI" class="button"routerLink="/main/Inbox" routerLinkActive="active">Inbox</button>
-    <button  [disabled]="viewS" class="button"routerLink="/main/Sent" routerLinkActive="active">Sent</button>
-    <button  [disabled]="viewD" class="button"routerLink="/main/Drafted" routerLinkActive="active">Draft</button>
-    <button  [disabled]="viewT" class="button"routerLink="/main/Deleted" routerLinkActive="active">Deleted</button>
-    <button  [disabled]="search" class="button"routerLink="/main/Search" routerLinkActive="active">Search</button>
+    <button  [disabled]="profile" class="button" [routerLink]= "['/main','Profile']"queryParamsHandling="preserve" routerLinkActive="active">Profile</button>
+    <button  [disabled]="make" class="button" [routerLink]= "['/main','Create']"queryParamsHandling="preserve" routerLinkActive="active">Make message</button>
+    <button  [disabled]="viewI" class="button"[routerLink]="['/main','Inbox']" queryParamsHandling="preserve" routerLinkActive="active">Inbox</button>
+    <button  [disabled]="viewS" class="button"[routerLink]="['/main','Sent']"queryParamsHandling="preserve" routerLinkActive="active">Sent</button>
+    <button  [disabled]="viewD" class="button"[routerLink]="['/main','Drafted']"queryParamsHandling="preserve" routerLinkActive="active">Draft</button>
+    <button  [disabled]="viewT" class="button"[routerLink]="['/main','Deleted']" queryParamsHandling="preserve" routerLinkActive="active">Deleted</button>
+    <button  [disabled]="search" class="button"[routerLink]="['/main','Search']"queryParamsHandling="preserve"  routerLinkActive="active">Search</button>
     <button class="logout">LogOut</button>
    </mat-sidenav>
+   <router-outlet></router-outlet>
 
 
    <mat-sidenav-content>

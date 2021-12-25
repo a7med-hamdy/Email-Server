@@ -1,3 +1,4 @@
+import { query } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit {
       console.log("Log in!!", "userID = ", ID)
       if(ID != 0){
         this.loginForm.reset();
-        this.router.navigate([`main/${ID}`]) //navigate to user's home page
+        this.router.navigate([`main`, 'Inbox'], {queryParams: {ID : ID}}); //navigate to user's home page
       }
       else{
         this.error = "Username or password is incorrect";
