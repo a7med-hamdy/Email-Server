@@ -1,14 +1,14 @@
 package com.emailserver.email_server.userAndMessage;
 
-public class userContact{
-    // private contact contact;
+public class userContact implements contact{
+   
     private String name;
     private int id;
     private String email;
     private String userName;
 
     public userContact(contact contact,String name){
-        // this.contact=contact;
+     
         this.name=name;
         this.id=contact.getID();
         this.email=contact.getEmail();
@@ -22,15 +22,17 @@ public class userContact{
     public String getName(){
         return this.name;
     }
-
-    public String getUsername(){
-         return  this.userName;
-     }
      public int getID(){
          return  this.id;
      }
      public String getEmail(){
          return this.email;
      }
+
+    @Override
+    public String getUserName() {
+        return  this.userName;
+     
+    }
     
 }
