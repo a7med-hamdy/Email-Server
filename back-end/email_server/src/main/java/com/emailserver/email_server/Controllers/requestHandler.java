@@ -19,6 +19,7 @@ import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.emailserver.email_server.userAndMessage.user;
 
+import org.json.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.lang.Nullable;
@@ -125,10 +126,11 @@ Get Emails (unsorted | sorted | priority | filter) Requests
 
     //get mails (Type: Inbox | Trash | Draft | sent)
     @GetMapping("/getEmails/{id}")
-    public ArrayList<messageMaker> getEmails(@RequestParam("type") String type){
+    public JSONArray getEmails(@RequestParam("type") String type, @PathVariable("id") String userId){
         System.out.println(type);
         try {
-            return /*server.getMails(type)*/null;
+            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+            return s.getMessages(type, "time");
         }catch (Exception e){
             return null;
         }

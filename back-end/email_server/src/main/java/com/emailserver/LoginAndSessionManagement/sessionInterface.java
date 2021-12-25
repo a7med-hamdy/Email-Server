@@ -1,8 +1,11 @@
 package com.emailserver.LoginAndSessionManagement;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.emailserver.email_server.userAndMessage.message;
+
+import org.json.JSONArray;
 
 public interface sessionInterface {
 
@@ -28,16 +31,16 @@ public interface sessionInterface {
 
     public void moveMessage(int msgID,String source, String folder)throws IOException;
 
-    public void editMessage(int msgID ,String folder,String message);
+    public void editMessage(int msgID ,String folder,String message)throws IOException;
 
-    public void getMessages(String folder);
+    public JSONArray getMessages(String folder, String criteria)throws IOException;
 
     /**CRUD Operations on Contacts */
-    public void getContacts(String folder);
+    public void getContacts(String folder)throws IOException;
 
-    public void addContact(String email, String name);
+    public void addContact(String email, String name)throws IOException;
 
-    public void deleteContact(String name);
+    public void deleteContact(String name)throws IOException;
 
-    public void editContact(String email, String newName, String oldname);
+    public void editContact(String email, String newName, String oldname)throws IOException;
 }
