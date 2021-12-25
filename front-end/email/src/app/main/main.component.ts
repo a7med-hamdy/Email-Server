@@ -26,8 +26,6 @@ export class MainComponent implements OnInit {
 
   constructor(public route:ActivatedRoute,
               public router:Router) {
-                router.navigate(['main']);
-
               }
   ngOnInit(): void {
     this.routerEventListener();
@@ -35,7 +33,6 @@ export class MainComponent implements OnInit {
     //this.router.urlHandlingStrategy.extract(this.router.url)= "reload";
   }
   routerEventListener(){
-    this.router.navigateByUrl('main/');
     this.router.events.subscribe((event) => {
       this.active(this.router.url)
       this.profile1(this.router.url);

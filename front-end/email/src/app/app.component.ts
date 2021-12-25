@@ -8,4 +8,5 @@ import { SignupComponent } from './signup/signup.component';
 })
 export class AppComponent {
   title = 'email';
+
 }
