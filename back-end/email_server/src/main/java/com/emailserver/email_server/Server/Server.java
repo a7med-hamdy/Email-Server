@@ -2,6 +2,7 @@ package com.emailserver.email_server.Server;
 
 import com.emailserver.email_server.userAndMessage.message;
 import com.emailserver.email_server.userAndMessage.user;
+import com.emailserver.email_server.userAndMessage.userContact;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -13,7 +14,6 @@ import org.json.JSONObject;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
@@ -42,8 +42,8 @@ public class Server {
         return instance;
     }
 
-    public void SignUp(int id, String username, String password, String email) throws IOException{    
-        user new_user = new user(id,username,password,email);
+    public void SignUp(int id, String username, String password, String email, ArrayList<userContact> contacts) throws IOException{    
+        user new_user = new user(id,username,password,email,contacts);
         this.arr.put(new JSONObject(gson.toJson(new_user)));
         this.writeUsers();
         File f = new File(this.path+id);
