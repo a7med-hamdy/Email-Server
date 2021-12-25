@@ -8,4 +8,10 @@
 <input type="file" multiple (change)="selectFiles($event)" />
 <button (click)="uploadFiles()" >Upload</button>
 </div>
+<!--<img  [src]="url" height="80px"><br>-->
+
+<iframe [src]="url" width='100%' height='600px' frameborder='0'></iframe>
+<!--<div *ngIf="selectedFiles">
+<img *ngFor='let url of urls' [src]="url" height="80px"><br>
+</div>-->
 

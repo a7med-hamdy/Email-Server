@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FileUploadService } from 'src/app/services/file-upload.service';
+import { urlx } from './type'
+import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-maker',
@@ -16,26 +19,35 @@ export class MakerComponent implements OnInit {
   selectedfiles?:File
 
   selectedFiles?: FileList;
-  progressInfos: any[] = [];
-  message: string[] = [];
-
-  fileInfos?: Observable<any>;
-
-  constructor(private uploadService: FileUploadService) { }
 
 
+  constructor(private uploadService: FileUploadService,private sanitizer: DomSanitizer) { }
+  url ?: SafeUrl;
+
+  urls:string[] = [];
 
   ngOnInit(): void {
   }
 
+
+
+
   selectFiles(event:any): void {
-    this.message = [];
-    this.progressInfos = [];
     this.selectedFiles = event.target.files;
+    if(this.selectedFiles){
+     for (let i = 0; i < this.selectedFiles.length; i++) {
+        var reader = new FileReader();
+        reader.readAsDataURL(this.selectedFiles[i]);
+        reader.onload = (events:any) => {
+          this.url=events.target.result;
+      }
+     }
+    }
   }
 
+
   uploadFiles(): void {
-    this.message = [];
+
     if (this.selectedFiles) {
       for (let i = 0; i < this.selectedFiles.length; i++) {
         this.upload(i, this.selectedFiles[i]);
@@ -43,8 +55,8 @@ export class MakerComponent implements OnInit {
     }
   }
 
-  upload(idx: number, file: File): void {
 
+  upload(idx: number, file: File): void {
     console.log(file);
     if (file) {
       this.uploadService.upload(file).subscribe({
@@ -55,7 +67,6 @@ export class MakerComponent implements OnInit {
           console.log(err)
         }
       });
-
     }
   }
 
