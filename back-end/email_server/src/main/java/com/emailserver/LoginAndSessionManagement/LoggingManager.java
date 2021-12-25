@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 import com.emailserver.email_server.Controllers.Proxy;
-import com.emailserver.email_server.userAndMessage.Server;
+import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.user;
 
 public class LoggingManager {

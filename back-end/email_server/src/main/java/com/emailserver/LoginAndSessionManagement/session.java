@@ -1,9 +1,12 @@
 package com.emailserver.LoginAndSessionManagement;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import com.emailserver.email_server.userAndMessage.Server;
+import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.message;
+
+import org.json.JSONArray;
 
 public class session implements sessionInterface{
     
@@ -48,24 +51,25 @@ public class session implements sessionInterface{
 
      }
 
-     public void getMessages(String folder){
-
+     public JSONArray getMessages(String folder, String criteria)throws IOException{
+          server = Server.getInstanceOf();
+          return server.requestFolder(this.getUserId(), folder, criteria);
      }
 
 
      /**CRUD Operations on Contacts */
 
-     public void getContacts(String folder){
+     public void getContacts(String folder)throws IOException{
 
      }
 
-     public void addContact(String name, String email){
+     public void addContact(String name, String email)throws IOException{
 
      }
-     public void deleteContact(String name){
+     public void deleteContact(String name)throws IOException{
 
      }
-     public void editContact(String email, String newName, String oldname){
+     public void editContact(String email, String newName, String oldname)throws IOException{
        
      }
 }
