@@ -24,7 +24,7 @@ public class messageHeader {
         return senderId;
     }
 
-    public ArrayList<Integer> getReciever() {
+    public ArrayList<Integer> getReceiver() {
         return recieverIds;
     }
 

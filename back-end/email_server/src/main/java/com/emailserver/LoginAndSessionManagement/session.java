@@ -3,7 +3,7 @@ package com.emailserver.LoginAndSessionManagement;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.emailserver.email_server.userAndMessage.Server;
+import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.message;
 
 import org.json.JSONArray;
