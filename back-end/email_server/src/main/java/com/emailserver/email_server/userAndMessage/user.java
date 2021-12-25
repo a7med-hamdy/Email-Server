@@ -60,6 +60,14 @@ public class user implements contact{
             }
         }
     }
+    public void changeContact(int id,String name){
+        for (userContact element : Contacts){
+            if (element.getID()==id){
+                element.setName(name);
+            }
+        }
+    }
+
 
 //////////message operatoins of user///////////////////
     public void addmessage(message messa) {
