@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     .subscribe(ID => {
       console.log("Log in!!", "userID = ", ID)
       if(ID != 0){
-        this.loginForm.value.reset();
+        this.loginForm.reset();
         this.router.navigate([`main/${ID}`]) //navigate to user's home page
       }
       else{
