@@ -1,6 +1,6 @@
 package com.emailserver.email_server;
 import java.io.File;
-
+import java.util.Date;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EmailServerApplication {
 
 	public static void main(String[] args) throws IOException{
+		
 		SpringApplication.run(EmailServerApplication.class, args);
 		Server s = Server.getInstanceOf();
 		Server s2 = Server.getInstanceOf();
@@ -31,8 +32,11 @@ public class EmailServerApplication {
 		to2.add(887788);
 		to2.add(555);
 		messageMaker maker = new messageMaker();
-		message n = maker.getNewMessage(10, "hello", 5,342544, to, "subject", "9000", 1, new File []{new File("image.jpf")});
-		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", "10", 4, new File []{new File("book.pdf")});
+		////////
+		Date now=new Date();
+		message n = maker.getNewMessage(10, "hello", 5,342544, to, "subject", now, 1, new File []{new File("image.jpf")});
+		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", now, 4, new File []{new File("book.pdf")});
+		//////////
 		s.sendMessage(n);
 		//s.sendMessage(x);
 		s.sendMessage(x, "draft");
