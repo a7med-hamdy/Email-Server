@@ -1,8 +1,9 @@
-package com.emailserver.email_server.userAndMessage;
+package com.emailserver.email_server.Server;
 
+import com.emailserver.email_server.userAndMessage.message;
+import com.emailserver.email_server.userAndMessage.user;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -101,13 +102,13 @@ public class Server {
     public void sendMessage(message m) 
     {
         String json = gson.toJson(m);
-        String path = this.path+m.getSender()+"\\sent\\";
+        String path = this.path+m.getHeader().getSender()+"\\sent\\";
         this.addToIndex(path,json);
         path += + m.getID();
         File f = new File(path);
         f.mkdir();
         ReaderWriter.writeData(path +"\\"+m.getID()+".json", json);
-        ArrayList<Integer> receivers = m.getReceivers();
+        ArrayList<Integer> receivers = m.getHeader().getReceiver();
         for(int r : receivers)
         {
             path = this.path+r+"\\inbox\\";
