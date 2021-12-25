@@ -1,6 +1,4 @@
 package com.emailserver.email_server.userAndMessage;
-
-import java.sql.Array;
 import java.util.ArrayList;
 
 public class user implements contact{

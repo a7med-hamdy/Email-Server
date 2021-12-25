@@ -25,10 +25,10 @@ public class EmailServerApplication {
 		user user = new user(77,"aaser","yaser","@aaser", contacts);
 		contacts.add(new userContact(user, "mohamed"));
 		s.SignUp(234,"aly", "pass", "@gmail",contacts);
-		// s.SignUp(342544,"dqly", "pAAss", "@gmail",contacts);
-		// s.SignUp(99999,"pablo", "cocaine", "@colombia",contacts);
-		// s2.SignUp(887788,"messi", "score", "@barcelona",contacts);
-		// s2.SignUp(555,"tony Soprano", "big head", "@mafia",contacts);
+		s.SignUp(342544,"dqly", "pAAss", "@gmail",contacts);
+		s.SignUp(99999,"pablo", "cocaine", "@colombia",contacts);
+		s2.SignUp(887788,"messi", "score", "@barcelona",contacts);
+		s2.SignUp(555,"tony Soprano", "big head", "@mafia",contacts);
 		
 		ArrayList<Integer> to = new ArrayList<>();
 		to.add(234);
