@@ -53,6 +53,7 @@ public class session implements sessionInterface{
 
      public JSONArray getMessages(String folder, String criteria)throws IOException{
           server = Server.getInstanceOf();
+          //System.out.println(server.requestFolder(this.getUserId(), folder, criteria));
           return server.requestFolder(this.getUserId(), folder, criteria);
      }
 

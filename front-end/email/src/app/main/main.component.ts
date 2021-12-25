@@ -60,12 +60,7 @@ export class MainComponent implements OnInit {
     this.search=false;
     this.make=false;
     if(a.includes('Inbox')){
-      this.req.getEmails('inbox',this.userID).subscribe(response => {
-        console.log(JSON.stringify(response));
-        //this.viewer.requestDataSource(response);
-        console.log("Emails gotten successfully!!")
-        console.log(response)
-      });
+      (this.req.getEmails('inbox',this.userID));
       this.viewI=true;
       this.viewS=false;
       this.viewD=false;

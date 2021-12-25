@@ -112,8 +112,10 @@ export class RequestsService {
   Get Emails (Inbox | Trash | Draft | Sent)
   ---------------------------------------------------------------*/
   // get mails
-  getEmails(t: string, id:string):Observable<any>{
-    return this.http.get<any>(`${this.url}/getEmails/${id}`, {params: {type: t},responseType: 'json'})
+  getEmails(t: string, id:string){
+    return this.http.get<any>(`${this.url}/getEmails/${id}`, {params: {type: t}}).subscribe(response =>{
+      console.log(JSON.stringify(response));
+    })
    /* err => {
       //alert("something went WRONG!!")
     //} */
