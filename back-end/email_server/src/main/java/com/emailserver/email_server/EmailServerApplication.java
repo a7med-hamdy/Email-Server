@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.message;
 import com.emailserver.email_server.userAndMessage.messageMaker;
-
+import com.emailserver.email_server.userAndMessage.user;
+import com.emailserver.email_server.userAndMessage.userContact;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,11 +21,15 @@ public class EmailServerApplication {
 		SpringApplication.run(EmailServerApplication.class, args);
 		Server s = Server.getInstanceOf();
 		Server s2 = Server.getInstanceOf();
-		s.SignUp(234,"aly", "pass", "@gmail");
-		s.SignUp(342544,"dqly", "pAAss", "@gmail");
-		s.SignUp(99999,"pablo", "cocaine", "@colombia");
-		s2.SignUp(887788,"messi", "score", "@barcelona");
-		s2.SignUp(555,"tony Soprano", "big head", "@mafia");
+		ArrayList<userContact> contacts = new ArrayList<>();
+		user user = new user(77,"aaser","yaser","@aaser", contacts);
+		contacts.add(new userContact(user, "mohamed"));
+		s.SignUp(234,"aly", "pass", "@gmail",contacts);
+		s.SignUp(342544,"dqly", "pAAss", "@gmail",contacts);
+		s.SignUp(99999,"pablo", "cocaine", "@colombia",contacts);
+		s2.SignUp(887788,"messi", "score", "@barcelona",contacts);
+		s2.SignUp(555,"tony Soprano", "big head", "@mafia",contacts);
+		
 		ArrayList<Integer> to = new ArrayList<>();
 		to.add(234);
 		to.add(555);
