@@ -1,10 +1,11 @@
 package com.emailserver.LoginAndSessionManagement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class sessionManager {
     
-    List<sessionInterface> sessions;
+    List<sessionInterface> sessions = new ArrayList<sessionInterface>();
     //serverDatabase server;
     //sessionManager(serverDatabase serve){
       //  this.server = serve;
@@ -39,12 +40,19 @@ public class sessionManager {
         return 0;
     }
     public Object getSessionByUserID(int userID){
-        for(sessionInterface s: this.sessions){
-            if(s.getUserId() == userID){
-                return s;
+        
+        if(!this.sessions.isEmpty()){
+            try{
+            for(sessionInterface s: this.sessions){
+                if(s.getUserId() == userID){
+                    return s;
+                }
             }
         }
-        return null;
+        catch(Exception e){e.printStackTrace();}
+        }
+            
+            return null;
     }
 
     List<sessionInterface> getSessions(){

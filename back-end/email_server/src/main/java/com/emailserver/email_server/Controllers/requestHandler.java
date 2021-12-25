@@ -66,6 +66,7 @@ Logging & Signing up Requests
         try {
             return lManager.LOGIN(userName, password);
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println("Error in logIn request!!");
             return 0;
         }

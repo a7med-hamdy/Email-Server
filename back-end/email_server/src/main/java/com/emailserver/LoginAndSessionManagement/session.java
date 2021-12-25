@@ -59,8 +59,8 @@ public class session implements sessionInterface{
 
      /**CRUD Operations on Contacts */
 
-     public void getContacts(String folder)throws IOException{
-
+     public JSONArray getContacts(String folder)throws IOException{
+          return server.requestFolder(this.getUserId(), folder, folder);
      }
 
      public void addContact(String name, String email)throws IOException{
