@@ -33,12 +33,10 @@ export class MainComponent implements OnInit {
     this.routerEventListener();
 
     //this.router.urlHandlingStrategy.extract(this.router.url)= "reload";
-    console.log(this.router.url);
   }
   routerEventListener(){
     this.router.navigateByUrl('main/');
     this.router.events.subscribe((event) => {
-      console.log(event)
       this.active(this.router.url)
       this.profile1(this.router.url);
       this.search1(this.router.url);
@@ -48,9 +46,6 @@ export class MainComponent implements OnInit {
 
 
   active(a:string){
-    console.log(this.router.url);
-
-    console.log(a)
     this.view=true
     this.profile=false;
     this.search=false;
