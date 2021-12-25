@@ -1,7 +1,8 @@
+import { RequestsService } from './../requests/requests.service';
 import { query } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-
+import { ViewComponent } from '../view/view.component';
 
 
 @Component({
@@ -21,12 +22,13 @@ export class MainComponent implements OnInit {
   viewD:Boolean=false;
   viewT:Boolean=false;
   filter?:string;
-
+  viewer!:ViewComponent;
 
 
 
   constructor(public route:ActivatedRoute,
-              public router:Router) {
+              public router:Router,
+              public req:RequestsService) {
                 //router.navigate(['main']);
 
               }
@@ -52,11 +54,18 @@ export class MainComponent implements OnInit {
 
 
   active(a:string){
+    console.log(this.userID);
     this.view=true
     this.profile=false;
     this.search=false;
     this.make=false;
     if(a.includes('Inbox')){
+      this.req.getEmails('inbox',this.userID).subscribe(response => {
+        console.log(JSON.stringify(response));
+        //this.viewer.requestDataSource(response);
+        console.log("Emails gotten successfully!!")
+        console.log(response)
+      });
       this.viewI=true;
       this.viewS=false;
       this.viewD=false;

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,
-         HttpEvent, 
-         HttpHeaders, 
-         HttpParams, 
-         HttpRequest, 
+         HttpEvent,
+         HttpHeaders,
+         HttpParams,
+         HttpRequest,
          HttpResponse } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { error } from 'console';
+//import { error } from 'console';
 import { Router } from '@angular/router';
 
 
@@ -111,16 +111,12 @@ export class RequestsService {
 /*---------------------------------------------------------------
   Get Emails (Inbox | Trash | Draft | Sent)
   ---------------------------------------------------------------*/
-
   // get mails
-  getEmails(t: string){
-    return this.http.get<any>(`${this.url}/getEmails`, {params: {type: t}})
-    .subscribe(response => {
-      console.log("Emails gotten successfully!!")
-      console.log(response)
-    },/* err => {
-      alert("something went WRONG!!")
-    } */)
+  getEmails(t: string, id:string):Observable<any>{
+    return this.http.get<any>(`${this.url}/getEmails/${id}`, {params: {type: t},responseType: 'json'})
+   /* err => {
+      //alert("something went WRONG!!")
+    //} */
   }
   // get sorted mails
   getSortedMails(f: string, t: string){
@@ -148,7 +144,7 @@ export class RequestsService {
   }
 
 
-/*--------------------------------------------------------------- 
+/*---------------------------------------------------------------
   Download Attachment
   ---------------------------------------------------------------*/
 
@@ -158,7 +154,7 @@ export class RequestsService {
   }
 
 
-/*--------------------------------------------------------------- 
+/*---------------------------------------------------------------
   Contacts requests
   ---------------------------------------------------------------*/
 

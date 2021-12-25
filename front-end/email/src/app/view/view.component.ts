@@ -18,7 +18,9 @@ export class ViewComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
   }
   constructor() { }
-
+  requestDataSource(src:any){
+    this.dataSource = new MatTableDataSource(src);
+  }
   ngOnInit() {
   }
 
