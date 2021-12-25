@@ -23,13 +23,20 @@ public class EmailServerApplication {
 		Server s2 = Server.getInstanceOf();
 		ArrayList<userContact> contacts = new ArrayList<>();
 		user user = new user(77,"aaser","yaser","@aaser", contacts);
+		user user2 = new user(1000,"geralt","rivia","@theWitcher", contacts);
 		contacts.add(new userContact(user, "mohamed"));
 		s.SignUp(234,"aly", "pass", "@gmail",contacts);
 		s.SignUp(342544,"dqly", "pAAss", "@gmail",contacts);
 		s.SignUp(99999,"pablo", "cocaine", "@colombia",contacts);
 		s2.SignUp(887788,"messi", "score", "@barcelona",contacts);
 		s2.SignUp(555,"tony Soprano", "big head", "@mafia",contacts);
-		
+		s.deleteContact(234, 77);
+		s.editContactName(99999, 77, "silvio");
+		s.addContact(342544, new userContact(user2, "Geralt of Rivia"));
+		s.addContact(99999, new userContact(user2, "Geralt of Rivia"));
+		s.addContactEmail(342544, 1000, "@wide shoulders");
+		s.removeContactEmail(342544, 1000, "@theWitcher");
+		s.editContactEmail(99999, 77, "@aaser", "@hamdy");
 		ArrayList<Integer> to = new ArrayList<>();
 		to.add(234);
 		to.add(555);

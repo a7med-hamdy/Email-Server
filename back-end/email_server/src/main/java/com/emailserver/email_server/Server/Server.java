@@ -24,6 +24,7 @@ public class Server {
     private Gson gson;
     private File current_users;
     private folderManager folderManager;
+    private contactManager contactManager;
     private Server() throws IOException{
         File f = new File(this.path);
         f.mkdir();
@@ -32,6 +33,7 @@ public class Server {
         this.current_users = new File(path+"currentUsers.json");
         this.current_users.createNewFile();
         this.folderManager = new folderManager(this.path);
+        this.contactManager = new contactManager(this.path+"currentUsers.json");
     }
 
     public static Server getInstanceOf() throws IOException{
@@ -44,7 +46,7 @@ public class Server {
 
     public void SignUp(int id, String username, String password, String email, ArrayList<userContact> contacts) throws IOException{    
         user new_user = new user(id,username,password,email,contacts);
-        this.arr.put(new JSONObject(gson.toJson(new_user)));
+        this.arr.put(new JSONObject(this.gson.toJson(new_user)));
         this.writeUsers();
         File f = new File(this.path+id);
         f.mkdir();
@@ -58,10 +60,36 @@ public class Server {
         }
     }
 
+    public void deleteContact(int userID, int contactID)
+    {
+        this.contactManager.deleteContact(userID, contactID);
+    }
+
+    public void editContactName(int userID, int contactID, String name)
+    {
+        this.contactManager.editContactName(userID, contactID, name);
+    }
+    public void addContact(int userID, userContact contact)
+    {
+        this.contactManager.addContact(userID, contact);
+    }
+    public void addContactEmail(int userID, int contactID, String newEmail)
+    {
+        this.contactManager.addContactEmail(userID, contactID, newEmail);
+    }
+    public void removeContactEmail(int userID, int contactID, String email)
+    {
+        this.contactManager.removeContactEmail(userID, contactID, email);
+    }
+    public void editContactEmail(int userID, int contactID, String oldEmail, String newEmail)
+    {
+        this.contactManager.editContactEmail(userID, contactID, oldEmail, newEmail);
+    }
+
     public ArrayList<user> getUsers() throws IOException
     {
         String content = new Scanner(this.current_users).useDelimiter("\\Z").next();
-        user[] users = gson.fromJson(content, user[].class);
+        user[] users = this.gson.fromJson(content, user[].class);
         JSONArray temp = new JSONArray(content);
         this.arr.clear();
         this.arr.putAll(temp);
@@ -99,7 +127,7 @@ public class Server {
 
     public void sendMessage(message m, String folder)
     {
-        String json = gson.toJson(m);
+        String json = this.gson.toJson(m);
         String path = this.path+m.getHeader().getSender()+"\\"+folder+"\\";
         this.addToIndex(path,json);
         path += + m.getID();
@@ -110,7 +138,7 @@ public class Server {
 
     public void sendMessage(message m) 
     {
-        String json = gson.toJson(m);
+        String json = this.gson.toJson(m);
         String path = this.path+m.getHeader().getSender()+"\\sent\\";
         this.addToIndex(path,json);
         path += + m.getID();

@@ -48,20 +48,51 @@ public class user implements contact{
     public ArrayList<userContact> getContact(){
         return this.Contacts;
     }
-    // public void deleteContact(int id){
-    //     for (userContact element : Contacts){
-    //         if (element.getID()==id){
-    //             Contacts.remove(element);
-    //             break;
-    //         }
-    //     }
-    // }
-    // public void changeContact(int id,String name){
-    //     for (userContact element : Contacts){
-    //         if (element.getID()==id){
-    //             element.setName(name);
-    //             break;
-    //         }
-    //     }
-    // }
+    public void deleteContact(int id){
+        for (userContact element : Contacts){
+            if (element.getID()==id){
+                Contacts.remove(element);
+                break;
+            }
+        }
+    }
+    public void changeContact(int id,String name){
+        for (userContact element : Contacts){
+            if (element.getID()==id){
+                element.setName(name);
+                break;
+            }
+        }
+    }
+    public void addContact(userContact contact)
+    {
+        this.Contacts.add(contact);
+    }
+    public void addContactEmail(int id, String newEmail)
+    {
+        for (userContact element : Contacts){
+            if (element.getID()==id){
+                element.addEmail(newEmail);
+                break;
+            }
+        }
+    }
+    public void removeContactEmail(int id, String email)
+    {
+        for (userContact element : Contacts){
+            if (element.getID()==id){
+                element.removeEmail(email);
+                break;
+            }
+        }
+    }
+    public void editContactEmail(int id, String oldEmail, String newEmail)
+    {
+        for (userContact element : Contacts){
+            if (element.getID()==id){
+                element.editEmail(oldEmail, newEmail);
+                break;
+            }
+        }
+    }
 }
