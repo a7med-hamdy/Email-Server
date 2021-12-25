@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.emailserver.LoginAndSessionManagement.LoggingManager;
 import com.emailserver.LoginAndSessionManagement.sessionInterface;
 import com.emailserver.LoginAndSessionManagement.sessionManager;
+import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.contact;
 import com.emailserver.email_server.userAndMessage.message;
 import com.emailserver.email_server.userAndMessage.messageMaker;
@@ -128,12 +129,12 @@ Get Emails (unsorted | sorted | priority | filter) Requests
 
     //get mails (Type: Inbox | Trash | Draft | sent)
     @GetMapping("/getEmails/{id}")
-    public JSONArray getEmails(@RequestParam("type") String type, @PathVariable("id") String userId){
+    public String getEmails(@RequestParam("type") String type, @PathVariable("id") String userId){
         System.out.println(type);
         try {
+            
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            System.out.println(s.getMessages(type, "time"));
-            return s.getMessages(type, "time");
+            return s.getMessages(type, "time").toString();
         }catch (Exception e){
             return null;
         }

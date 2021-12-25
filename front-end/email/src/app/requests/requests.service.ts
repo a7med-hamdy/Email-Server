@@ -113,9 +113,7 @@ export class RequestsService {
   ---------------------------------------------------------------*/
   // get mails
   getEmails(t: string, id:string){
-    return this.http.get<any>(`${this.url}/getEmails/${id}`, {params: {type: t}}).subscribe(response =>{
-      console.log(JSON.stringify(response));
-    })
+    return this.http.get<any>(`${this.url}/getEmails/${id}`, {params: {type: t}});
    /* err => {
       //alert("something went WRONG!!")
     //} */
