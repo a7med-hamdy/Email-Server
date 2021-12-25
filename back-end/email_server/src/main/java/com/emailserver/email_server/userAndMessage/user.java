@@ -57,6 +57,7 @@ public class user implements contact{
         for (userContact element : Contacts){
             if (element.getID()==id){
                 Contacts.remove(element);
+                break;
             }
         }
     }
@@ -64,6 +65,7 @@ public class user implements contact{
         for (userContact element : Contacts){
             if (element.getID()==id){
                 element.setName(name);
+                break;
             }
         }
     }
