@@ -2,10 +2,12 @@ package com.emailserver.LoginAndSessionManagement;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import com.emailserver.email_server.Controllers.Proxy;
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.user;
+import com.emailserver.email_server.userAndMessage.userContact;
 
 public class LoggingManager {
     public sessionManager sessionManage = sessionManager.getInstanceOf();
@@ -44,7 +46,7 @@ public class LoggingManager {
                 int newID=(int)Math.floor(Math.random()*(max-min+1)+min);                
                 System.out.println(newID);
                 Server server = Server.getInstanceOf();
-                server.SignUp((int) newID,username,password, email);
+                server.SignUp((int) newID,username,password, email, new ArrayList<userContact>());
                 this.sessionManage.createSession((int) newID, username, password,email);
                 return (int) newID;
             }
