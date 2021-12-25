@@ -1,7 +1,8 @@
 {
   "ID": 10,
   "body": {
-    "body": "hello"
+    "body": "hello",
+    "length": 5
   },
   "header": {
     "senderId": 342544,
@@ -10,6 +11,12 @@
       555
     ],
     "subject": "subject"
+  },
+  "attachments": {
+    "attachements": [
+      "image.jpf"
+    ],
+    "number": 1
   },
   "time": "9000",
   "priority": 1
