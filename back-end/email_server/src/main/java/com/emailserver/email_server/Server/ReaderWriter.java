@@ -1,4 +1,4 @@
-package com.emailserver.email_server.userAndMessage;
+package com.emailserver.email_server.Server;
 
 import java.io.File;
 import java.io.FileNotFoundException;

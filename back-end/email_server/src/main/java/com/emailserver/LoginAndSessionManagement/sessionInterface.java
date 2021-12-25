@@ -36,7 +36,7 @@ public interface sessionInterface {
     public JSONArray getMessages(String folder, String criteria)throws IOException;
 
     /**CRUD Operations on Contacts */
-    public void getContacts(String folder)throws IOException;
+    public JSONArray getContacts(String folder)throws IOException;
 
     public void addContact(String email, String name)throws IOException;
 

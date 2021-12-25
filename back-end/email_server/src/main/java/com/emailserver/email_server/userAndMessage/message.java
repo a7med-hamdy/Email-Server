@@ -1,6 +1,5 @@
 package com.emailserver.email_server.userAndMessage;
 
-import java.util.ArrayList;
 
 public class message {
     private int  ID;      
@@ -18,19 +17,8 @@ public class message {
         this.priority = priority;
     }
 
-    protected int getSender()
-    {
-        return this.header.getSender();
-    }
-    protected ArrayList<Integer> getReceivers()
-    {
-        return this.header.getReciever();
-    }
     public int getID() {
         return this.ID;
-    }
-    protected String getbody() {
-        return this.body.getBody();
     }
     public messageBody getBody(){
         return this.body;

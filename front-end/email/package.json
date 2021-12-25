@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-builders/custom-webpack": "^13.0.0",
     "@angular/animations": "~13.0.0",
     "@angular/cdk": "^13.1.1",
     "@angular/common": "~13.0.0",
@@ -20,7 +21,12 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "doc-viewer-angular": "^1.0.8",
+    "mammoth": "^1.4.19",
+    "ngx-doc-viewer": "^2.0.5",
+    "path": "^0.12.7",
     "rxjs": "~7.4.0",
+    "stream": "0.0.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

@@ -7,7 +7,7 @@ public class user implements contact{
     private String userName;
     private String password;
     private String email;
-    private ArrayList<contact> Contacts;
+    private ArrayList<userContact> Contacts;
     private ArrayList<message> messages;
    
 ////////////////////set attribute of user ///////////////////////
@@ -47,12 +47,27 @@ public class user implements contact{
         return this.messages;
     }
 
-    public void setcontact(contact contact){
+    public void setcontact(userContact contact){
         this.Contacts.add(contact);
     }
-    public ArrayList<contact> getContact(){
+    public ArrayList<userContact> getContact(){
         return Contacts;
     }
+    public void deleteContact(int id){
+        for (userContact element : Contacts){
+            if (element.getID()==id){
+                Contacts.remove(element);
+            }
+        }
+    }
+    public void changeContact(int id,String name){
+        for (userContact element : Contacts){
+            if (element.getID()==id){
+                element.setName(name);
+            }
+        }
+    }
+
 
 //////////message operatoins of user///////////////////
     public void addmessage(message messa) {
