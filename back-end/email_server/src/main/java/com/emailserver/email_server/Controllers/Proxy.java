@@ -14,18 +14,25 @@ public class Proxy {
 	private String password;
 	private String email;
 
-	private Server server;
+	private Server server = Server.getInstanceOf();
 	
 	//constructor of proxy class
-	public Proxy(String userName,String password, String... email) {
+	public Proxy(String userName,String password) throws IOException {
 		this.userName = userName;
 		this.password = password;
-		this.email = email[0];
+	}
+	public Proxy(String userName,String password, String email) throws IOException {
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
 	}
 	
 	/**
 	 * Prevents the new user from using another user's attributes (Username, Password, or Email)
-	 * @return true if the new user has unique attributes, and false otherwisw
+	 * @return true if the new user has unique attributes, and false otherwise
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ParseException
 	 */
 	public boolean signUp() throws FileNotFoundException, IOException, ParseException{
 		ArrayList<user> ExistUsers = new ArrayList<user>(){};
@@ -33,7 +40,7 @@ public class Proxy {
 		// boolean[] sameIn = {false, false, false}; //{username, Email, Password}
 		for(user  user : ExistUsers){
 			if(userName.equals(user.getUserName()) || email.equals( user.getEmail() ) || password.equals( user.getPassword() )){
-				 return false;
+				return false;
 			}
 			/* 
 			if(userName.equals(user.getUserName()))
@@ -51,6 +58,9 @@ public class Proxy {
 	/**
 	 * prevents the new user from logging in before registration
 	 * @return the user if found , and null otherwise
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ParseException
 	 */
 	public user logIn() throws FileNotFoundException, IOException, ParseException{
 		ArrayList<user> ExistUsers = new ArrayList<user>(){};

@@ -36,7 +36,7 @@ public class requestHandler {
     
     //needed attributes
     public sessionManager sManager = sessionManager.getInstanceOf();
-    public LoggingManager lManager;
+    public LoggingManager lManager = new LoggingManager();
 
 /*---------------------------------------------------------------
 Logging & Signing up Requests
@@ -57,6 +57,7 @@ Logging & Signing up Requests
 
     //login - get
     @GetMapping("/login-{userName}-{password}")
+    @ResponseBody
     public int login(@PathVariable String userName, @PathVariable String password){
         System.out.println( "Log In\n" + 
                             "Username = " + userName + "\n" + 
