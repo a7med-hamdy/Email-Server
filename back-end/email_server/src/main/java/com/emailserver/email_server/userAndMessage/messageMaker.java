@@ -1,13 +1,13 @@
 package com.emailserver.email_server.userAndMessage;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Date;
 
 public class messageMaker {
    
 
-    public messageHeader makeHeader(int from,ArrayList<Integer> to,String subject){
+    public messageHeader makeHeader(int from,Queue<Integer> to,String subject){
         return new messageHeader(from, to, subject);
     }
     
@@ -21,7 +21,7 @@ public class messageMaker {
         return new messageAttachmenets(files);
     }
   
-    public message getNewMessage(int id,String body, int length,int from, ArrayList<Integer> to,String subject,Date time,int priority, File[] files){
+    public message getNewMessage(int id,String body, int length,int from, Queue<Integer> to,String subject,Date time,int priority, File[] files){
         return new message(id, makebody(body,length), makeHeader(from, to,subject), time, priority, makeAttachmenets(files));
     }
 
