@@ -18,8 +18,9 @@ public class LoggingManager {
      * @param username
      * @param password
      * @return
+     * @throws IOException
      */
-    private user validateUser(String username, String password){
+    private user validateUser(String username, String password) throws IOException{
         Proxy securityProxy = new Proxy(username, password);
         try {
             user c = securityProxy.logIn();
