@@ -37,7 +37,7 @@ public class Server {
     public static Server getInstanceOf() throws IOException{
         if(instance == null)
         {
-            return new Server();
+            instance = new Server();
         }
         return instance;
     }
