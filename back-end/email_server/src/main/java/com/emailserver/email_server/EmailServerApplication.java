@@ -4,10 +4,9 @@ package com.emailserver.email_server;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.emailserver.email_server.userAndMessage.inbox;
+import com.emailserver.email_server.userAndMessage.Server;
 import com.emailserver.email_server.userAndMessage.message;
 import com.emailserver.email_server.userAndMessage.messageMaker;
-import com.emailserver.email_server.userAndMessage.messageType;
 
 
 import org.springframework.boot.SpringApplication;
@@ -27,16 +26,20 @@ public class EmailServerApplication {
 		ArrayList<Integer> to = new ArrayList<>();
 		to.add(234);
 		to.add(555);
-		messageType t = new inbox();
+		ArrayList<Integer> to2 = new ArrayList<>();
+		to2.add(887788);
+		to2.add(555);
 		messageMaker maker = new messageMaker();
-		message n = maker.getNewMessage(10, "hello", 342544, to, "subject", "time", 1, t);
+		message n = maker.getNewMessage(10, "hello", 342544, to, "subject", "9000", 1);
+		message x = maker.getNewMessage(1010, "another message", 342544, to2, "TWO", "10", 4);
 		s.sendMessage(n);
+		s.sendMessage(x);
+		System.out.println(s.requestFolder(342544, "sent","time").toString());
 		s.createFolder(555, "tobe");
 		s.moveMessage(555, 10, "inbox","tobe");
 		s.createFolder(234, "mails");
 		s.moveMessage(234, 10, "inbox","mails");
 		s.renameFolder(234, "newName", "mails");
-		s.deleteFolder(555, "tobe");
 	}
 
 }

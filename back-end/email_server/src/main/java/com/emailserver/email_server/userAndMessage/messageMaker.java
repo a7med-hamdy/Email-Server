@@ -14,8 +14,8 @@ public class messageMaker {
         return new messageBody(body);
     }
   
-    public message getNewMessage(int id,String body, int from, ArrayList<Integer> to,String subject,String time,int priority,messageType type){
-        return new message(id, makebody(body), makeHeader(from, to,subject), time, priority, type);
+    public message getNewMessage(int id,String body, int from, ArrayList<Integer> to,String subject,String time,int priority){
+        return new message(id, makebody(body), makeHeader(from, to,subject), time, priority);
     }
 
 

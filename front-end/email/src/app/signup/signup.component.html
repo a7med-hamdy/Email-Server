@@ -5,30 +5,49 @@
         <div>
           <mat-form-field>
             <input formControlName="userName" type="text" matInput placeholder="Username">
+            <mat-error *ngIf="signupForm.dirty && signupForm.get('userName')!.value.length==0">
+              Username is required
+            </mat-error>
+            <!-- <mat-error *ngIf="">
+              Username is taken
+            </mat-error> -->
           </mat-form-field>
         </div>
 
         <div>
             <mat-form-field>
               <input formControlName="email" type="email" matInput placeholder="Email">
+              <mat-error *ngIf="signupForm.dirty && signupForm.get('email')!.value.length==0">
+                Email is required
+              </mat-error>
+              <!-- <mat-error *ngIf="">
+                Email belongs to another user
+              </mat-error> -->
             </mat-form-field>
         </div>
 
         <div>
           <mat-form-field>
             <input formControlName="password" type="password" matInput placeholder="Password">
+            <mat-error *ngIf="signupForm.dirty && signupForm.get('password')!.value.length==0">
+              Password is required
+            </mat-error>
+            <!-- <mat-error *ngIf="">
+              Password is not available
+            </mat-error> -->
           </mat-form-field>
         </div>
-  
+      
         <p *ngIf="error" class="error">
         {{ error }}
         </p>
   
         <div class="button">
-          <button type="submit" mat-button>Signup</button>
+          <button type="submit" mat-button mat-raised-button [disabled]="!enableSubmitButton()">Sign up</button>
         </div>
       </form>
-      <a style="color: black;" routerLink="/login">Already regestered ? Press to login!!</a>
+      Already registered?
+      <a style="color:dodgerblue; text-decoration: none;" routerLink="/login">Log in</a>
     </mat-card-content>
 </mat-card>
 
