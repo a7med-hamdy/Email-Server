@@ -1,17 +1,17 @@
 package com.emailserver.email_server.userAndMessage;
 
-import java.util.ArrayList;
+import java.util.Queue;
 
 public class messageHeader {
     
     private int senderId;
-    private ArrayList<Integer> recieverIds ; //fields of messgaes header 
+    private Queue<Integer> recieverIds ; //fields of messgaes header 
     private String subject;
    
    
 
 /////////////set attribut of message header ///////////////
-    public messageHeader(int sender, ArrayList<Integer> reciever, String subject ){
+    public messageHeader(int sender, Queue<Integer> reciever, String subject ){
         this.senderId = sender;
         this.recieverIds = reciever;
         this.subject = subject;
@@ -24,11 +24,11 @@ public class messageHeader {
         return senderId;
     }
 
-    public ArrayList<Integer> getReceiver() {
+    public Queue<Integer> getReceiver() {
         return recieverIds;
     }
 
-    public void setReciever(ArrayList<Integer> reciever) {
+    public void setReciever(Queue<Integer> reciever) {
         this.recieverIds = reciever;
     }
 

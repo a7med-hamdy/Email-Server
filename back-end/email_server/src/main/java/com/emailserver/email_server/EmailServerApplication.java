@@ -1,15 +1,15 @@
 package com.emailserver.email_server;
 import java.io.File;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.message;
 import com.emailserver.email_server.userAndMessage.messageMaker;
 import com.emailserver.email_server.userAndMessage.user;
 import com.emailserver.email_server.userAndMessage.userContact;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -30,17 +30,17 @@ public class EmailServerApplication {
 		s.SignUp(99999,"pablo", "cocaine", "@colombia",contacts);
 		s2.SignUp(887788,"messi", "score", "@barcelona",contacts);
 		s2.SignUp(555,"tony Soprano", "big head", "@mafia",contacts);
-		s.deleteContact(234, 77);
-		s.editContactName(99999, 77, "silvio");
-		s.addContact(342544, new userContact(user2, "Geralt of Rivia"));
-		s.addContact(99999, new userContact(user2, "Geralt of Rivia"));
-		s.addContactEmail(342544, 1000, "@wide shoulders");
-		s.removeContactEmail(342544, 1000, "@theWitcher");
-		s.editContactEmail(99999, 77, "@aaser", "@hamdy");
-		ArrayList<Integer> to = new ArrayList<>();
+		// s.deleteContact(234, 77);
+		// s.editContactName(99999, 77, "silvio");
+		// s.addContact(342544, new userContact(user2, "Geralt of Rivia"));
+		// s.addContact(99999, new userContact(user2, "Geralt of Rivia"));
+		// s.addContactEmail(342544, 1000, "@wide shoulders");
+		// s.removeContactEmail(342544, 1000, "@theWitcher");
+		// s.editContactEmail(99999, 77, "@aaser", "@hamdy");
+		Queue<Integer> to = new LinkedList<>();
 		to.add(234);
 		to.add(555);
-		ArrayList<Integer> to2 = new ArrayList<>();
+		Queue<Integer> to2 = new LinkedList<>();
 		to2.add(887788);
 		to2.add(555);
 		messageMaker maker = new messageMaker();

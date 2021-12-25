@@ -15,6 +15,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Server {
@@ -145,9 +146,10 @@ public class Server {
         File f = new File(path);
         f.mkdir();
         ReaderWriter.writeData(path +"\\"+m.getID()+".json", json);
-        ArrayList<Integer> receivers = m.getHeader().getReceiver();
-        for(int r : receivers)
+        Queue<Integer> receivers = m.getHeader().getReceiver();
+        for(int i = 0; i <= receivers.size();i++)
         {
+            int r = receivers.poll();
             path = this.path+r+"\\inbox\\";
             this.addToIndex(path,json);
             path += m.getID();

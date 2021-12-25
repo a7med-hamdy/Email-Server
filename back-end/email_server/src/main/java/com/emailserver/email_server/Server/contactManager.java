@@ -21,7 +21,6 @@ class contactManager {
         int index = this.findUser(users, userID);
         users[index].addContact(contact);
         String json = gson.toJson(users);
-        System.out.println(json);
         ReaderWriter.writeData(this.path, json);
     }
 
@@ -32,7 +31,6 @@ class contactManager {
         int index = this.findUser(users, userID);
         users[index].changeContact(contactID, name);
         String json = gson.toJson(users);
-        System.out.println(json);
         ReaderWriter.writeData(this.path, json);
     }
     public void deleteContact(int userID, int contactID)
@@ -42,7 +40,6 @@ class contactManager {
         int index = this.findUser(users, userID);
         users[index].deleteContact(contactID);
         String json = gson.toJson(users);
-        System.out.println(json);
         ReaderWriter.writeData(this.path, json);
     }
     public void addContactEmail(int userID, int contactID, String newEmail)
@@ -52,7 +49,6 @@ class contactManager {
         int index = this.findUser(users, userID);
         users[index].addContactEmail(contactID, newEmail);
         String json = gson.toJson(users);
-        System.out.println(json);
         ReaderWriter.writeData(this.path, json);
     }
     public void removeContactEmail(int userID, int contactID, String email)
@@ -62,7 +58,6 @@ class contactManager {
         int index = this.findUser(users, userID);
         users[index].removeContactEmail(contactID, email);
         String json = gson.toJson(users);
-        System.out.println(json);
         ReaderWriter.writeData(this.path, json);
     }
     public void editContactEmail(int userID, int contactID, String oldEmail, String newEmail)
@@ -72,7 +67,6 @@ class contactManager {
         int index = this.findUser(users, userID);
         users[index].editContactEmail(contactID, oldEmail, newEmail);;
         String json = gson.toJson(users);
-        System.out.println(json);
         ReaderWriter.writeData(this.path, json);
     }
 
