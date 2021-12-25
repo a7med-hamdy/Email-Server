@@ -1,7 +1,8 @@
 {
   "ID": 1010,
   "body": {
-    "body": "another message"
+    "body": "another message",
+    "length": 15
   },
   "header": {
     "senderId": 342544,
@@ -10,6 +11,12 @@
       555
     ],
     "subject": "TWO"
+  },
+  "attachments": {
+    "attachements": [
+      "book.pdf"
+    ],
+    "number": 1
   },
   "time": "10",
   "priority": 4
