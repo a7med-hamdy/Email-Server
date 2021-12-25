@@ -1,5 +1,6 @@
 package com.emailserver.email_server.userAndMessage;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class messageMaker {
@@ -10,12 +11,17 @@ public class messageMaker {
     }
     
 
-    public messageBody makebody(String body){
-        return new messageBody(body);
+    public messageBody makebody(String body, int length){
+        return new messageBody(body, length);
+    }
+
+    public messageAttachmenets makeAttachmenets(File[] files)
+    {
+        return new messageAttachmenets(files);
     }
   
-    public message getNewMessage(int id,String body, int from, ArrayList<Integer> to,String subject,String time,int priority){
-        return new message(id, makebody(body), makeHeader(from, to,subject), time, priority);
+    public message getNewMessage(int id,String body, int length,int from, ArrayList<Integer> to,String subject,String time,int priority, File[] files){
+        return new message(id, makebody(body,length), makeHeader(from, to,subject), time, priority, makeAttachmenets(files));
     }
 
 

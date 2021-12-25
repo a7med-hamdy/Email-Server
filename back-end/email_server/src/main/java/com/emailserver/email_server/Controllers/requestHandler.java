@@ -51,6 +51,7 @@ Logging & Signing up Requests
         try {
             return lManager.REGISTER(user.getUserName(), user.getEmail(), user.getPassword());
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println("Error in signUp request!!");
             return 0;
         }

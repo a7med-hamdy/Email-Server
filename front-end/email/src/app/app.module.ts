@@ -34,7 +34,6 @@ import {MatButtonModule} from '@angular/material/button';
     LoginComponent,
     SignupComponent,
     MainComponent,
-
     ViewComponent,
     SearchComponent,
     ProfileComponent,

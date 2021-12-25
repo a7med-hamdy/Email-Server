@@ -37,7 +37,7 @@ public class Server {
     public static Server getInstanceOf() throws IOException{
         if(instance == null)
         {
-            return new Server();
+            instance = new Server();
         }
         return instance;
     }
@@ -97,7 +97,16 @@ public class Server {
     }
 
 
-
+    public void sendMessage(message m, String folder)
+    {
+        String json = gson.toJson(m);
+        String path = this.path+m.getHeader().getSender()+"\\"+folder+"\\";
+        this.addToIndex(path,json);
+        path += + m.getID();
+        File f = new File(path);
+        f.mkdir();
+        ReaderWriter.writeData(path +"\\"+m.getID()+".json", json);
+    }
 
     public void sendMessage(message m) 
     {

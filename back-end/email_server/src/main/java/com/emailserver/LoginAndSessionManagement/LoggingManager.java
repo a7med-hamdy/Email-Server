@@ -10,8 +10,7 @@ import com.emailserver.email_server.userAndMessage.user;
 public class LoggingManager {
     public sessionManager sessionManage = sessionManager.getInstanceOf();
     //
-    private Server server;
-    public LoggingManager(){}
+        public LoggingManager(){}
 
     /**
      * validate the existence of a user
@@ -41,17 +40,19 @@ public class LoggingManager {
         Proxy securityProxy = new Proxy(username, password,email);
         try {
             if(securityProxy.signUp()){
-                int newID  =(int)Math.random();
-                server.SignUp(newID,username,password, email);
-                this.sessionManage.createSession(newID, username, password,email);
-                return newID;
+                int min=1,max=1000000000;
+                int newID=(int)Math.floor(Math.random()*(max-min+1)+min);                
+                System.out.println(newID);
+                Server server = Server.getInstanceOf();
+                server.SignUp((int) newID,username,password, email);
+                this.sessionManage.createSession((int) newID, username, password,email);
+                return (int) newID;
             }
-            else{
-                throw new IOException();
-            }
-        } catch (ParseException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return 0;
         }
+        return 0;
     }
 
     /**
@@ -67,9 +68,6 @@ public class LoggingManager {
                 this.sessionManage.createSession(user.getID(), username, password,user.getEmail());
                 return user.getID();
             }
-        }
-        else{
-            throw new IOException();
         }
         return 0;
     }
