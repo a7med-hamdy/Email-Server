@@ -5,12 +5,18 @@
       <div>
         <mat-form-field>
           <input formControlName="userName" type="text" matInput placeholder="Username">
+          <mat-error *ngIf="loginForm.dirty && loginForm.get('userName')!.value.length==0">
+            Username is required
+          </mat-error>
         </mat-form-field>
       </div>
 
       <div>
         <mat-form-field>
           <input formControlName="password" type="password" matInput placeholder="Password">
+          <mat-error *ngIf="loginForm.dirty && loginForm.get('password')!.value.length==0">
+            Password is required
+          </mat-error>
         </mat-form-field>
       </div>
 
@@ -19,10 +25,11 @@
       </p>
 
       <div class="button">
-        <button type="submit" mat-button>Login</button>
+        <button type="submit" mat-raised-button [disabled]="!enableSubmitButton()">Log in</button>
       </div>
     </form>
-    <a style="color: black;" routerLink="/signup">Not regestered yet? Press to signup!!</a>
+    Not registered yet? 
+    <a style="color:dodgerblue; text-decoration: none;" routerLink="/signup">Sign up</a>
   </mat-card-content>
 </mat-card>
 

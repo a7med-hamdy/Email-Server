@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 
@@ -12,8 +12,11 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   url = "http://localhost:8080";
-  public loginForm !: FormGroup
+  loginForm !: FormGroup
   error!: string;
+  userNameIsEmpty = true;
+  passwordIsEmpty!: boolean;
+
 
   //constructor
   constructor(private http: HttpClient,
@@ -23,8 +26,8 @@ export class LoginComponent implements OnInit {
   // for login component
   ngOnInit(): void{
     this.loginForm = this.formBuilder.group({
-      userName: [''],
-      password: [''],
+      userName: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(5)]],
     });
   }
 
@@ -32,19 +35,22 @@ export class LoginComponent implements OnInit {
   logIn(){
     let _url = `${this.url}/login-${this.loginForm.value.userName}-${this.loginForm.value.password}`;
     return this.http.get<any>(_url)
-    .subscribe(done => {
-      console.log("Logged in successfully!!")
-      if(done){
-        this.loginForm.reset();
-        this.router.navigate(['main']) //navigate to user's home page
+    .subscribe(ID => {
+      console.log("Log in!!", "userID = ", ID)
+      if(ID != 0){
+        this.loginForm.value.reset();
+        this.router.navigate([`main/${ID}`]) //navigate to user's home page
       }
       else{
-        this.error = "Username or password is incorrect!!"
+        this.error = "Username or password is incorrect";
       }
-    },/* err => {
-      alert("something went WRONG!!")
-    } */)
+    },err => {
+      alert("something went WRONG!!" + err)
+    })
   }
 
+  enableSubmitButton(): boolean{
+    return this.loginForm.valid;
+  }
 
 }
