@@ -98,6 +98,10 @@ public class Server {
     public ArrayList<user> getUsers() throws IOException
     {
         String content = new Scanner(this.current_users).useDelimiter("\\Z").next();
+        if(content.equalsIgnoreCase(""))
+        {
+            return new ArrayList<>();
+        }
         user[] users = this.gson.fromJson(content, user[].class);
         JSONArray temp = new JSONArray(content);
         this.arr.clear();
