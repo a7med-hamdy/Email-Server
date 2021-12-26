@@ -156,7 +156,7 @@ export class RequestsService {
 
   // get contacts
   getContacts(){
-
+    return this.http.get<any>(`${this.url}/getContacts/${555}`)
   }
 
   // add contact
