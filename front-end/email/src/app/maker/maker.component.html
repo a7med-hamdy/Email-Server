@@ -36,7 +36,7 @@
         <!-- Priority -->
         <mat-form-field appearance="fill" style="margin-left: 10px;">
             <mat-label>Select a priority</mat-label>
-            <mat-select formControlName="priority">
+            <mat-select [(ngModel)]="selected" formControlName="priority">
               <mat-option value="0">Default</mat-option>
               <mat-option value="1">Priority 1 (low)</mat-option>
               <mat-option value="2">Priority 2</mat-option>
@@ -62,8 +62,11 @@
         
     <div class="bot">
         <button type="submit" mat-raised-button class="submit-btn" [disabled]="!enableSentBtn()" (click)="makeMessageOfType('sent')" > Sent </button>
-        <button mat-raised-button class="submit-btn" (click)="makeMessageOfType('draft')"> Draft</button>
-        <button mat-raised-button class="submit-btn" (click)="makeMessageOfType('delete')"> Distract</button>
+        <button mat-raised-button class="submit-btn" [disabled]="!enableDraftOrDeleteBtn()" (click)="makeMessageOfType('draft')"> Draft</button>
+        <button mat-raised-button class="submit-btn" [disabled]="!enableDraftOrDeleteBtn()" (click)="makeMessageOfType('delete')"> Distract</button>
+        <span *ngIf="done" style="font-size: large;">
+            Done
+        </span>
     </div>
 </form>
 </div>

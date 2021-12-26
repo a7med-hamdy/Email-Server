@@ -26,6 +26,8 @@ export class MakerComponent implements OnInit {
   selectedFiles?: FileList;
 
   url = "http://localhost:8080";
+  selected: string = '0';
+  done: boolean = false;
 
   constructor(private uploadService: FileUploadService,private sanitizer: DomSanitizer,
               private http: HttpClient,
@@ -66,9 +68,11 @@ export class MakerComponent implements OnInit {
     .subscribe(done => {
       if(done){
         console.log("Message composed & saved successfully!!");
+        this.done = true;
       }
       else{
         console.log("Error!! Something went WRONG!!");
+        this.done = false;
       }
     },err => {alert("something went WRONG!!")})
   }
@@ -93,6 +97,11 @@ export class MakerComponent implements OnInit {
   }
   enableSentBtn(): boolean{
     return this.messageForm.valid  && (this.messageForm.value.toEmails[0] as string).length !== 0;
+  }
+  enableDraftOrDeleteBtn(): boolean{
+    return (this.messageForm.value.toEmails[0] as string).length !== 0
+    || (this.messageForm.value.subject as string).length !== 0
+    || (this.messageForm.value.body as string).length !== 0
   }
   /* ****************************************************** */
 
