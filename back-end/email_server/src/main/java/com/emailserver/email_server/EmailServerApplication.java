@@ -68,13 +68,13 @@ public class EmailServerApplication {
 		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", now, 4, new ArrayList<String>());
 		//////////
 		/*s.senew ArrayList<String>();*/
-		s.sendMessage(n3);
-		s.sendMessage(n4);
-		s.sendMessage(n5);
-		s.sendMessage(n6);
+		//s.sendMessage(n3);
+		//s.sendMessage(n4);
+		//s.sendMessage(n5);
+		//s.sendMessage(n6);
 		// s.addAttachment(1111);
-		System.out.println(s.requestFolder(342544, "sent","time",1).toString());
-		s.createFolder(555, "tobe");
+		//System.out.println(s.requestFolder(342544, "sent","time",1).toString());
+		//s.createFolder(555, "tobe");
 		// s.moveMessage(555, 10, "inbox","tobe");
 		// s.createFolder(234, "mails");
 		// s.moveMessage(234, 10, "inbox","mails");
