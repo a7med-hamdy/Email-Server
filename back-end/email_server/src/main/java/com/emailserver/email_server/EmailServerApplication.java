@@ -14,6 +14,7 @@ import com.emailserver.email_server.userAndMessage.userContact;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.multipart.MultipartFile;
 
 @SpringBootApplication
 public class EmailServerApplication {
@@ -64,6 +65,7 @@ public class EmailServerApplication {
 		message n5 = maker.getNewMessage(6666, "hello", 5,342544, to5, "subject", now, 1, new File []{new File("image.jpf")});
 		message n6 = maker.getNewMessage(7777, "hello", 5,342544, to6, "subject", now, 1, new File []{new File("image.jpf")});
 		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", now, 4, new File []{new File("book.pdf")});
+		
 		//////////
 		s.sendMessage(n);
 		s.sendMessage(n1);
@@ -72,10 +74,9 @@ public class EmailServerApplication {
 		s.sendMessage(n4);
 		s.sendMessage(n5);
 		s.sendMessage(n6);
-		//s.sendMessage(x);
-		// s.sendMessage(x, "draft");
-		System.out.println(s.requestFolder(342544, "sent","priority",1).toString());
-		// s.createFolder(555, "tobe");
+		// s.addAttachment(1111);
+		System.out.println(s.requestFolder(342544, "sent","time",1).toString());
+		s.createFolder(555, "tobe");
 		// s.moveMessage(555, 10, "inbox","tobe");
 		// s.createFolder(234, "mails");
 		// s.moveMessage(234, 10, "inbox","mails");

@@ -5,14 +5,17 @@ import com.emailserver.email_server.userAndMessage.user;
 import com.emailserver.email_server.userAndMessage.userContact;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
+
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
@@ -247,7 +250,26 @@ public class Server {
 
     
 
-    
+    public void addAttachment(int messageID)//, MultipartFile file) throws IOException
+    {
+        JSONArray content = new JSONArray(ReaderWriter.readData(this.path+"currentUsers.json"));
+        for(int i = 0; i < content.length();i++)
+        {
+            JSONObject temp = content.getJSONObject(i);
+            String ID = temp.optString("Id");
+            System.out.println(temp);
+            String [] folders = this.getFolders(Integer.parseInt(ID));
+            for (String folder: folders)
+            {
+                if(!this.findMessage(path+ID+"\\"+folder, messageID, false).equalsIgnoreCase("-1"))
+                {
+                    File f = new File(this.path+ID+"\\"+folder+"\\"+messageID+"\\");
+                    System.out.println(f);
+                    //Files.copy(file.getInputStream(), f.toPath().resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING );
+                }
+            }
+        }
+    }
 
 
 
@@ -278,7 +300,7 @@ public class Server {
         myWriter.write(this.arr.toString());
         myWriter.close();
     }
-    public String getFolders(int userID)
+    public String[] getFolders(int userID)
     {
         File f = new File(this.path+userID);
         String[] folders = f.list(new FilenameFilter() {
@@ -289,7 +311,7 @@ public class Server {
             }
             
         });
-        return Arrays.toString(folders);
+        return folders;
     }
     public void createFolder(int userID, String name)
     {
