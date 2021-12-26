@@ -25,7 +25,10 @@ public class messageAttachmenets {
             this.number++;
         }
     }
-
+    public void addAttachment(File [] f)
+    {
+        this.attachements.add(f.toString());
+    }
     public ArrayList<String> getAttachment()
     {
        return this.attachements;

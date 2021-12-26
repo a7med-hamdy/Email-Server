@@ -1,6 +1,4 @@
 package com.emailserver.email_server.userAndMessage;
-
-import java.time.ZonedDateTime;
 import java.util.Date;
 
 
@@ -46,14 +44,5 @@ public class message {
 
     public void setPriority(int priority) {
         this.priority = priority;
-    }
-    public Boolean getDeleted(){
-        ZonedDateTime now = ZonedDateTime.now();
-        ZonedDateTime thirtyDaysAgo = now.plusDays(-30);
-
-    if (this.time.toInstant().isBefore(thirtyDaysAgo.toInstant())) {
-        return true;
-    }
-    return false;
     }
 }
