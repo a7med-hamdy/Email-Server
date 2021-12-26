@@ -4,6 +4,9 @@ import com.emailserver.email_server.userAndMessage.user;
 import com.emailserver.email_server.userAndMessage.userContact;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 class contactManager {
     private String path;
@@ -14,6 +17,19 @@ class contactManager {
         gson = new Gson();
     }
 
+    public String getContacts(int userID)
+    {
+        String content = ReaderWriter.readData(this.path);
+        user[] users = this.gson.fromJson(content, user[].class);
+        int index = this.findUser(users, userID);
+        JSONArray contacts = new JSONArray();
+        for(userContact contact :users[index].getContacts())
+        {
+            JSONObject temp = new JSONObject(contact);
+            contacts.put(temp);
+        }
+        return contacts.toString();   
+    }
     public void addContact(int userID, userContact contact)
     {
         String content = ReaderWriter.readData(this.path);
