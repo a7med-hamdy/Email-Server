@@ -24,7 +24,7 @@ export class MakerComponent implements OnInit {
   msg: number=-1;
 
   selectedFiles?: FileList;
-
+  attachNamse: Array<string>=[];
   url = "http://localhost:8080";
   selected: string = '0';
   done: boolean = false;
@@ -57,7 +57,7 @@ export class MakerComponent implements OnInit {
   // make message (sent or draft) - request
   makeMessage(type: string): void{
     let _url = `${this.url}/makeMessage/${555}`;
-    // let attachs: string[] = this.messageForm.value.attachements;
+    //let attachs: string[] = this.messageForm.value.attachements;
     let params = new HttpParams()
     params = params.append('subject',this.messageForm.value.subject)
     params = params.append('body',this.messageForm.value.body)
@@ -68,6 +68,7 @@ export class MakerComponent implements OnInit {
     .subscribe(done => {
       if(done>-1){
         this.msg=done;
+        console.log(this.msg,done);
         console.log("Message composed & saved successfully!!");
         this.done = true;
       }
@@ -76,10 +77,10 @@ export class MakerComponent implements OnInit {
         console.log("Error!! Something went WRONG!!");
         this.done = false;
       }
-
+      this.uploadFiles(this.msg);
     },err => {alert("something went WRONG!!")})
 
-    this.uploadFiles(this.msg);
+
 
   }
 
@@ -117,6 +118,7 @@ export class MakerComponent implements OnInit {
     if(this.selectedFiles){
      for (let i = 0; i < this.selectedFiles.length; i++) {
         this.fileList.push(this.selectedFiles[i])
+        this.attachNamse.push(this.selectedFiles[i].name);
         if(this.selectedFiles[i].type.includes("pdf") || this.selectedFiles[i].type.includes("text") || this.selectedFiles[i].type.includes("image")
         || this.selectedFiles[i].type.includes("mp4") || this.selectedFiles[i].type.includes("json") || this.selectedFiles[i].type.includes("XML")
         || this.selectedFiles[i].type.includes("mp3")){
@@ -139,7 +141,7 @@ export class MakerComponent implements OnInit {
 
 
   uploadFiles(ids:number): void {
-    console.log()
+
     if (this.fileList && ids>-1) {
       for (let i = 0; i < this.fileList.length; i++) {
         this.upload(i, this.fileList[i],ids);

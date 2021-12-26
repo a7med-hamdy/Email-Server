@@ -58,19 +58,16 @@ public class EmailServerApplication {
 		messageMaker maker = new messageMaker();
 		////////
 		Date now=new Date();
-		message n = maker.getNewMessage(1111, "hello", 5,342544, to, "subject", now, 1, new File []{new File("image.jpf")});
-		message n1 = maker.getNewMessage(2222, "hello", 5,342544, to1, "subject", now, 1, new File []{new File("image.jpf")});
-		message n2 = maker.getNewMessage(3333, "hello", 5,342544, to2, "subject", now, 1, new File []{new File("image.jpf")});
-		message n3 = maker.getNewMessage(4444, "hello", 5,342544, to3, "subject", now, 1, new File []{new File("image.jpf")});
-		message n4 = maker.getNewMessage(5555, "hello", 5,342544, to4, "subject", now, 1, new File []{new File("image.jpf")});
-		message n5 = maker.getNewMessage(6666, "hello", 5,342544, to5, "subject", now, 1, new File []{new File("image.jpf")});
-		message n6 = maker.getNewMessage(7777, "hello", 5,342544, to6, "subject", now, 1, new File []{new File("image.jpf")});
-		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", now, 4, new File []{new File("book.pdf")});
-		
+		message n = maker.getNewMessage(1111, "hello", 5,342544, to, "subject", now, 1, new ArrayList<String>());
+		message n1 = maker.getNewMessage(2222, "hello", 5,342544, to1, "subject", now, 1, new ArrayList<String>());
+		message n2 = maker.getNewMessage(3333, "hello", 5,342544, to2, "subject", now, 1, new ArrayList<String>());
+		message n3 = maker.getNewMessage(4444, "hello", 5,342544, to3, "subject", now, 1, new ArrayList<String>());
+		message n4 = maker.getNewMessage(5555, "hello", 5,342544, to4, "subject", now, 1, new ArrayList<String>());
+		message n5 = maker.getNewMessage(6666, "hello", 5,342544, to5, "subject", now, 1, new ArrayList<String>());
+		message n6 = maker.getNewMessage(7777, "hello", 5,342544, to6, "subject", now, 1, new ArrayList<String>());
+		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", now, 4, new ArrayList<String>());
 		//////////
-		s.sendMessage(n);
-		s.sendMessage(n1);
-		s.sendMessage(n2);
+		/*s.senew ArrayList<String>();*/
 		s.sendMessage(n3);
 		s.sendMessage(n4);
 		s.sendMessage(n5);

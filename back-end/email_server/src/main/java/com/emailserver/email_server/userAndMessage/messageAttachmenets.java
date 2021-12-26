@@ -6,24 +6,24 @@ import java.util.ArrayList;
 public class messageAttachmenets {
     private ArrayList<String> attachements = new ArrayList<>();
     private int number = 0;
-    public messageAttachmenets(File[] arr)
+    public messageAttachmenets(ArrayList<String> arr)
     {
         if(arr!=null){
-        for(File file : arr)
-        {
-            this.attachements.add(file.toString());
-            number++;
+        for(String file : arr)
+            {
+                this.attachements.add(file);
+                this.number++;
         }
         }
     }
 
-    public void setAttachments(File[] arr)
+    public void setAttachments(ArrayList<String> arr)
     {
         this.number = 0;
         this.attachements.clear();
-        for(File file : arr)
+        for(String file : arr)
         {
-            this.attachements.add(file.toString());
+            this.attachements.add(file);
             this.number++;
         }
     }
