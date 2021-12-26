@@ -75,6 +75,7 @@ export class MainComponent implements OnInit {
       || this.router.url.includes('Sent')
       || this.router.url.includes('Drafted')){
         this.active(this.router.url);
+        console.log(this.userID);
         this.updateDataSource();
       }
 
