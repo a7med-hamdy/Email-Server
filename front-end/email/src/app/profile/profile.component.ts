@@ -12,4 +12,26 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  here1:Boolean=false;
+  main:Boolean=true;
+  here2:Boolean=false;
+
+
+  back():void {
+    this.here1=false;
+    this.main=true;
+    this.here2=false;
+  }
+
+  getcontact():void{
+    this.here1=true;
+    this.main=false;
+    this.here2=false;
+  }
+
+  getFolder():void{
+    this.here1=false;
+    this.main=false;
+    this.here2=true;
+  }
 }
