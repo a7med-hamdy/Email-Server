@@ -1,0 +1,24 @@
+{
+  "ID": 7777,
+  "body": {
+    "body": "hello",
+    "length": 5
+  },
+  "header": {
+    "senderId": 342544,
+    "recieverIds": [
+      887788,
+      555
+    ],
+    "subject": "subject"
+  },
+  "attachments": {
+    "attachements": [
+      "image.jpf"
+    ],
+    "number": 1
+  },
+  "time": 1640545021246,
+  "date": "Dec 26, 2021, 8:57:01 PM",
+  "priority": 1
+}

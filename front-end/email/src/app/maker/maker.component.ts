@@ -21,7 +21,7 @@ export class MakerComponent implements OnInit {
   to?:string;
   subject?:string;
   messagex?:string;
-
+  msg: number=-1;
 
   selectedFiles?: FileList;
 
@@ -56,7 +56,7 @@ export class MakerComponent implements OnInit {
 
   // make message (sent or draft) - request
   makeMessage(type: string): void{
-    let _url = `${this.url}/makeMessage/${5}`;
+    let _url = `${this.url}/makeMessage/${555}`;
     // let attachs: string[] = this.messageForm.value.attachements;
     let params = new HttpParams()
     params = params.append('subject',this.messageForm.value.subject)
@@ -66,22 +66,28 @@ export class MakerComponent implements OnInit {
     params = params.append('receivers', "" + this.messageForm.value.toEmails)
     this.http.post<any>(_url,params)
     .subscribe(done => {
-      if(done){
+      if(done>-1){
+        this.msg=done;
         console.log("Message composed & saved successfully!!");
         this.done = true;
       }
       else{
+        this.msg=done;
         console.log("Error!! Something went WRONG!!");
         this.done = false;
       }
+
     },err => {alert("something went WRONG!!")})
+
+    this.uploadFiles(this.msg);
+
   }
 
   makeMessageOfType(type: string){
     console.log(this.messageForm.value)
     this.makeMessage(type)
   }
-  
+
   get toEmails(){
     return this.messageForm.get('toEmails') as FormArray;
   }
@@ -132,20 +138,20 @@ export class MakerComponent implements OnInit {
 
 
 
-  uploadFiles(): void {
-
-    if (this.fileList) {
+  uploadFiles(ids:number): void {
+    console.log()
+    if (this.fileList && ids>-1) {
       for (let i = 0; i < this.fileList.length; i++) {
-        this.upload(i, this.fileList[i]);
+        this.upload(i, this.fileList[i],ids);
       }
     }
   }
 
 
-  upload(idx: number, file: File): void {
-    console.log(file);
+  upload(idx: number, file: File,ids: number): void {
+
     if (file) {
-      this.uploadService.upload(file).subscribe({
+      this.uploadService.upload(file,ids).subscribe({
         next: (event: any) => {
           console.log(event)
         },

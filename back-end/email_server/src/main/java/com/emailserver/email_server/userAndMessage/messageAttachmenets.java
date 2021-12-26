@@ -8,10 +8,12 @@ public class messageAttachmenets {
     private int number = 0;
     public messageAttachmenets(File[] arr)
     {
+        if(arr!=null){
         for(File file : arr)
         {
             this.attachements.add(file.toString());
             number++;
+        }
         }
     }
 
