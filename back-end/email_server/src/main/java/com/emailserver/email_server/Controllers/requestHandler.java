@@ -101,7 +101,7 @@ Emails (create | delete) Requests
                                 @RequestParam("type") String type,
                                 @PathVariable String userId,
                                 @RequestParam("priority") String priority,
-                                @Nullable @RequestParam("attachments") File[] files) throws IOException{
+                                @Nullable @RequestParam("attachments") ArrayList<String> files) throws IOException{
         System.out.println(to+"\n"+ subject +"\n"+ body +"\n"+ type +"\n"+ priority +"\n"+ userId);
     
          try {

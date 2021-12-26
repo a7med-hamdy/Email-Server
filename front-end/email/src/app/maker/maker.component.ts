@@ -24,7 +24,7 @@ export class MakerComponent implements OnInit {
   msg: number=-1;
 
   selectedFiles?: FileList;
-
+  attachNamse: Array<string>=[];
   url = "http://localhost:8080";
   selected: string = '0';
   done: boolean = false;
@@ -57,7 +57,7 @@ export class MakerComponent implements OnInit {
   // make message (sent or draft) - request
   makeMessage(type: string): void{
     let _url = `${this.url}/makeMessage/${555}`;
-    // let attachs: string[] = this.messageForm.value.attachements;
+    //let attachs: string[] = this.messageForm.value.attachements;
     let params = new HttpParams()
     params = params.append('subject',this.messageForm.value.subject)
     params = params.append('body',this.messageForm.value.body)
@@ -117,6 +117,7 @@ export class MakerComponent implements OnInit {
     if(this.selectedFiles){
      for (let i = 0; i < this.selectedFiles.length; i++) {
         this.fileList.push(this.selectedFiles[i])
+        this.attachNamse.push(this.selectedFiles[i].name);
         if(this.selectedFiles[i].type.includes("pdf") || this.selectedFiles[i].type.includes("text") || this.selectedFiles[i].type.includes("image")
         || this.selectedFiles[i].type.includes("mp4") || this.selectedFiles[i].type.includes("json") || this.selectedFiles[i].type.includes("XML")
         || this.selectedFiles[i].type.includes("mp3")){

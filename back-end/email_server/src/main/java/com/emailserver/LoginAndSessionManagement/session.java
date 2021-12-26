@@ -54,14 +54,16 @@ public class session implements sessionInterface{
      public JSONArray getMessages(String folder, String criteria)throws IOException{
           server = Server.getInstanceOf();
           //System.out.println(server.requestFolder(this.getUserId(), folder, criteria));
-          return server.requestFolder(this.getUserId(), folder, criteria);
+          int x=0;
+          return server.requestFolder(this.getUserId(), folder, criteria ,x);
      }
 
 
      /**CRUD Operations on Contacts */
 
      public JSONArray getContacts(String folder)throws IOException{
-          return server.requestFolder(this.getUserId(), folder, folder);
+          int x=0;
+          return server.requestFolder(this.getUserId(), folder, folder,x);
      }
 
      public void addContact(String name, String email)throws IOException{
