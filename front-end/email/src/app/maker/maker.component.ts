@@ -6,6 +6,7 @@ import { urlx } from './type'
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RequestsService } from '../requests/requests.service';
 
 
 
@@ -29,7 +30,8 @@ export class MakerComponent implements OnInit {
   constructor(private uploadService: FileUploadService,private sanitizer: DomSanitizer,
               private http: HttpClient,
               private fb: FormBuilder,
-              private router: Router) { }
+              private router: Router,
+              private rs: RequestsService) { }
 
   fileList: File[] = [];
   urls:SafeUrl[] = [];
@@ -51,22 +53,15 @@ export class MakerComponent implements OnInit {
   });
 
   // make message (sent or draft) - request
-  makeMessage(Type: string){
-    let _url = `${this.url}/makeMessage`;
-    let bdy = this.messageForm.value.body;
-    let subj: string= this.messageForm.value.subject;
-    let pri: number = this.messageForm.value.priority;
-    let receivers_emails: string[] = this.messageForm.value.toEmails;
+  makeMessage(type: string): void{
     // let attachs: string[] = this.messageForm.value.attachements;
-    console.log(receivers_emails, subj)
-    /* let params = new HttpParams()
-    params = params.append('subject',subj)
-    params = params.append('body',bdy)
-    params = params.append('type',Type)
-    params = params.append('priority',pri) */
-    return this.http.post<any>(_url,
-      {params: {/* recs: receivers_emails, */ subject: subj, body: bdy, 
-                type: Type, priority: pri}})
+    let params = new HttpParams()
+    params = params.append('subject',this.messageForm.value.subject)
+    params = params.append('body',this.messageForm.value.body)
+    params = params.append('type',type)
+    params = params.append('priority',this.messageForm.value.priority)
+    params = params.append('tos', "" + this.messageForm.value.toEmails)
+    this.rs.makeMessage(params)
     .subscribe(done => {
       if(done){
         console.log("Message composed & saved successfully!!");
@@ -74,7 +69,7 @@ export class MakerComponent implements OnInit {
       else{
         console.log("Error!! Something went WRONG!!");
       }
-    }/* ,err => {alert("something went WRONG!!")} */)
+    },err => {alert("something went WRONG!!")})
   }
 
   makeMessageOfType(type: string){

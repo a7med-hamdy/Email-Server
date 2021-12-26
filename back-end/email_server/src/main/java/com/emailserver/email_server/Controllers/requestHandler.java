@@ -79,23 +79,25 @@ Emails (create | delete) Requests
 -----------------------------------------------------------------*/
 
     //create email (Type: sent | draft) - post
-    @PostMapping("/makeMesssage/{id}")
-    public boolean createEmail( @RequestBody message Msg, 
-                                // @RequestParam("from") String from,
-                                // @RequestParam("subject") String subject,
-                                // @RequestParam("body") String body,
-                                @RequestParam("time") String time,
+    @PostMapping("/makeMessage/{id}")
+    public boolean createEmail( @RequestParam("tos") String tos,
+                                @RequestParam("subject") String subject,
+                                @RequestParam("body") String body,
                                 @RequestParam("type") String type,
-                                @PathVariable("id") String userId
-                                // @RequestParam("priority") boolean priority
+                                @PathVariable("id") String id,
+                                @RequestParam("priority") String priority
                                 /* ,
                                 @RequestParam(name = "receivers") String receivers, 
                                 @Nullable @RequestParam(name="myFile") MultipartFile[] multipartFiles */){
-        System.out.println( "Subject = " + Msg.getHeader().getSubject() + 
-                            "\nBoody = " + Msg.getBody());
+        System.out.println(tos);
+        System.out.println(subject);
+        System.out.println(body);
+        System.out.println(type);
+        System.out.println(priority);
+        System.out.println(id);
         try {
-            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            s.addMessage(Msg);
+            // sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+            // s.addMessage(Msg);
             return true;
         }catch (Exception ex){
             ex.printStackTrace();
