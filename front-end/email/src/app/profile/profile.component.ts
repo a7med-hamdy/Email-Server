@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table/table-data-source';
 import { RequestsService } from '../requests/requests.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
+  dataSource!: MatTableDataSource<any>;
   selectedcontact?:string
   here1:Boolean=false;
   main:Boolean=true;
@@ -35,9 +36,9 @@ export class ProfileComponent implements OnInit {
       console.log(done);
       this.contact=done;
       console.log(this.contact);
-    },err => {alert("something went WRONG!!")}
+    }
     );
-    console.log(this.contact);
+     console.log(this.contact);
   }
 
   getFolder():void{
