@@ -14,7 +14,34 @@
 
 
    <mat-sidenav-content>
-    <app-view *ngIf="view"></app-view>
+     <div *ngIf="dataSource.data != null">
+    <table *ngIf="view" mat-table [dataSource]="dataSource" >
+      <ng-container matColumnDef="select">
+
+      </ng-container>
+      <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+        <div *ngIf="column == ' '">
+          <th mat-header-cell *matHeaderCellDef>
+            selected
+          </th>
+          <td mat-cell *matCellDef="let row" >
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </div>
+
+        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+        <div *ngIf="column == 'body'"><td mat-cell *matCellDef="let emp">{{emp[column][column]}}</td></div>
+        <td mat-cell *matCellDef="let emp"> {{emp[column]}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+    <mat-paginator #paginator [pageSizeOptions]="[1, 10, 20]"
+    showFirstLastButtons></mat-paginator>
     <app-profile *ngIf="profile"></app-profile>
     <app-maker *ngIf="make"></app-maker>
     <app-search *ngIf="search"></app-search>

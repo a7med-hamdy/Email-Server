@@ -16,7 +16,8 @@
     </div>
 
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-    <td mat-cell *matCellDef="let emp"> {{emp}} </td>
+    <div *ngIf="column == 'body'"><td mat-cell *matCellDef="let emp">{{emp[column][column]}}</td></div>
+    <td mat-cell *matCellDef="let emp"> {{emp[column]}} </td>
 </ng-container>
 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

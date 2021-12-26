@@ -1,6 +1,11 @@
+.maker{
+  padding: 10px;
+  background-color:steelblue;
+}
 .area{
   width: 100%;
   height: 75%;
+  margin: 5px;
 }
 button{
   height: 40px;
@@ -11,6 +16,40 @@ button{
   margin-top: 5px;
   margin-left: 10px;
 }
+.submit-btn{
+  margin-right: 10px;
+}
+
 button:hover{
   background-color: rgb(96, 196, 76);
+}
+
+.add-btn{
+  width: 250px;
+  margin: 5px;
+}
+
+.delete-btn{
+  margin-left: 5px;
+  width: 40px;
+  height: 40px;
+}
+
+.receivers-form-field, .body-form-field, .subject-form-field{
+  margin-left: 32px;
+  width: 250px;
+  
+}
+
+input, textarea{
+  font-size: large;
+}
+
+label{
+  font-weight: bold;
+  font-size: larger;
+}
+
+.body-form-field{
+  width: 30%;
 }

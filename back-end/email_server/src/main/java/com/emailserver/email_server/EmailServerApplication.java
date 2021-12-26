@@ -1,8 +1,11 @@
 package com.emailserver.email_server;
 import java.io.File;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.io.IOException;
 import java.util.ArrayList;
+
 
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.message;
@@ -24,16 +27,16 @@ public class EmailServerApplication {
 		ArrayList<userContact> contacts = new ArrayList<>();
 		user user = new user(77,"aaser","yaser","@aaser", contacts);
 		contacts.add(new userContact(user, "mohamed"));
-		s.SignUp(234,"aly", "pass", "@gmail",contacts);
+		s.SignUp(234,"aly", "pass", "a7a@gmail",contacts);
 		s.SignUp(342544,"dqly", "pAAss", "@gmail",contacts);
 		s.SignUp(99999,"pablo", "cocaine", "@colombia",contacts);
 		s2.SignUp(887788,"messi", "score", "@barcelona",contacts);
 		s2.SignUp(555,"tony Soprano", "big head", "@mafia",contacts);
 		
-		ArrayList<Integer> to = new ArrayList<>();
+		Queue<Integer> to = new LinkedList<>();
 		to.add(234);
 		to.add(555);
-		ArrayList<Integer> to2 = new ArrayList<>();
+		Queue<Integer> to2 = new LinkedList<>();
 		to2.add(887788);
 		to2.add(555);
 		messageMaker maker = new messageMaker();

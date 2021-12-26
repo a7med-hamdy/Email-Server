@@ -1,9 +1,12 @@
 import { Component, OnInit,Inject ,ViewChild } from '@angular/core';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { urlx } from './type'
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RequestsService } from '../requests/requests.service';
 
 
 
@@ -22,17 +25,85 @@ export class MakerComponent implements OnInit {
 
   selectedFiles?: FileList;
 
+  url = "http://localhost:8080";
 
-  constructor(private uploadService: FileUploadService,private sanitizer: DomSanitizer) { }
+  done: boolean = false;
+
+  constructor(private uploadService: FileUploadService,private sanitizer: DomSanitizer,
+              private http: HttpClient,
+              private fb: FormBuilder,
+              private router: Router,
+              private rs: RequestsService) { }
 
   fileList: File[] = [];
   urls:SafeUrl[] = [];
 
   ngOnInit(): void {
   }
+  /******************************************************* */
+  messageForm = this.fb.group({
+    // ID: [''],
+    toEmails: this.fb.array([
+      this.fb.control('', [Validators.email, Validators.minLength(2)])
+    ]),
+    subject: [''],
+    body: [''],
+    priority: [''],
+    attatchments: this.fb.array([
+      this.fb.control('')
+    ]),
+  });
 
+  // make message (sent or draft) - request
+  makeMessage(type: string): void{
+    let _url = `${this.url}/makeMessage/${5}`;
 
+    let params = new HttpParams()
+    params = params.append('subject',this.messageForm.value.subject)
+    params = params.append('body',this.messageForm.value.body)
+    params = params.append('type',type)
+    params = params.append('priority',this.messageForm.value.priority)
+    params = params.append('receivers', "" + this.messageForm.value.toEmails)
+    this.http.post<any>(_url,params)
+    .subscribe(done => {
+      if(done){
+        console.log("Message composed & saved successfully!!");
+        this.done = true;
+      }
+      else{
+        console.log("Error!! Something went WRONG!!");
+        this.done = false;
+      }
+    },err => {alert("something went WRONG!!")})
+  }
 
+  makeMessageOfType(type: string){
+    console.log(this.messageForm.value)
+    this.makeMessage(type)
+  }
+
+  get toEmails(){
+    return this.messageForm.get('toEmails') as FormArray;
+  }
+  addTo(){
+    if(this.toEmails.length !== 5){
+      this.toEmails.push(this.fb.control('', Validators.email));
+    }
+  }
+  deleteTo(i: number){
+    if(this.toEmails.length !== 1){
+      this.toEmails.removeAt(i);
+    }
+  }
+  enableSentBtn(): boolean{
+    return this.messageForm.valid  && (this.messageForm.value.toEmails[0] as string).length !== 0;
+  }
+  enableDraftOrDeleteBtn(): boolean{
+    return (this.messageForm.value.toEmails[0] as string).length !== 0
+    || (this.messageForm.value.subject as string).length !== 0
+    || (this.messageForm.value.body as string).length !== 0
+  }
+  /* ****************************************************** */
 
   selectFiles(event:any): void {
     this.urls = [];

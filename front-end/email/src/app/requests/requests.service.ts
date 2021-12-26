@@ -74,32 +74,22 @@ export class RequestsService {
 /*---------------------------------------------------------------
   Emails Requests
   ---------------------------------------------------------------*/
-  messageForm !: FormGroup;
-  ngOnInit_3(): void{
-    this.messageForm = this.formBuilder.group({
-      to: [''],
-      subject: [''],
-      body: [''],
-      // time: [''],
-      // type: [''],
-      priority: [''],
-    });
-  }
+  
   // make message (sent or draft)
-  makeMessage(Type: string, Time: string){
-    let _url = `${this.url}/makeMessage`;
-    return this.http.post<any>(_url, this.messageForm.value, {params: {time: Time, type: Type}})
-    .subscribe(responnse => {
+  makeMessage(params: HttpParams): Observable<any>{
+    let _url = `${this.url}/makeMessage/${1}`;
+    return this.http.post<any>(_url, params)
+    /* .subscribe(responnse => {
       console.log("Message composed & saved successfully!!")
-    },/* err => {
+    },err => {
       alert("something went WRONG!!")
-    } */)
+    }) */
   }
 
   // delete message(s) (moveToTrash or restoreFromTrash)
   delete_or_retrieve(IDs: number[], Type: string, movetoTrash: boolean){
     let _url = `${this.url}/delete`;
-    this.http.delete(_url, this.messageForm.value)
+    this.http.delete(_url, /* this.messageForm.value */)
     .subscribe(response => {
       console.log("deleted/restores successfuly!!")
     },/* err => {
@@ -113,9 +103,7 @@ export class RequestsService {
   ---------------------------------------------------------------*/
   // get mails
   getEmails(t: string, id:string){
-    return this.http.get<any>(`${this.url}/getEmails/${id}`, {params: {type: t}}).subscribe(response =>{
-      console.log(JSON.stringify(response));
-    })
+    return this.http.get<any>(`${this.url}/getEmails/${id}`, {params: {type: t}});
    /* err => {
       //alert("something went WRONG!!")
     //} */
