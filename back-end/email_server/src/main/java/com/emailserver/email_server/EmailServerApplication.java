@@ -75,8 +75,8 @@ public class EmailServerApplication {
 		s.sendMessage(n5);
 		s.sendMessage(n6);
 		// s.addAttachment(1111);
-		System.out.println(s.requestFolder(342544, "sent","time",1).toString());
-		s.createFolder(555, "tobe");
+		// System.out.println(s.requestFolder(342544, "sent","time",1).toString());
+		// s.createFolder(555, "tobe");
 		// s.moveMessage(555, 10, "inbox","tobe");
 		// s.createFolder(234, "mails");
 		// s.moveMessage(234, 10, "inbox","mails");

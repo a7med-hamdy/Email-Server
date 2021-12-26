@@ -250,22 +250,20 @@ public class Server {
 
     
 
-    public void addAttachment(int messageID)//, MultipartFile file) throws IOException
+    public void addAttachment(int messageID, MultipartFile file) throws IOException
     {
         JSONArray content = new JSONArray(ReaderWriter.readData(this.path+"currentUsers.json"));
         for(int i = 0; i < content.length();i++)
         {
             JSONObject temp = content.getJSONObject(i);
             String ID = temp.optString("Id");
-            System.out.println(temp);
             String [] folders = this.getFolders(Integer.parseInt(ID));
             for (String folder: folders)
             {
-                if(!this.findMessage(path+ID+"\\"+folder, messageID, false).equalsIgnoreCase("-1"))
+                if(!this.findMessage(path+ID+"\\"+folder+"\\", messageID, false).equalsIgnoreCase("-1"))
                 {
                     File f = new File(this.path+ID+"\\"+folder+"\\"+messageID+"\\");
-                    System.out.println(f);
-                    //Files.copy(file.getInputStream(), f.toPath().resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING );
+                    Files.copy(file.getInputStream(), f.toPath().resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING );
                 }
             }
         }
