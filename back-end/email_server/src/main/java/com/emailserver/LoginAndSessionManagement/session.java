@@ -60,8 +60,9 @@ public class session implements sessionInterface{
 
      /**CRUD Operations on Contacts */
 
-     public JSONArray getContacts(String folder, int count)throws IOException{
-          return server.requestFolder(this.getUserId(), folder, folder, count);
+     public String getContacts()throws IOException{
+          server = Server.getInstanceOf();
+          return server.getContacts(this.getUserId());
      }
 
      public void addContact(String name, String email)throws IOException{
