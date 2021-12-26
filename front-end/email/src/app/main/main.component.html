@@ -40,8 +40,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
-    <mat-paginator #paginator [pageSizeOptions]="[1, 10, 20]"
-    showFirstLastButtons></mat-paginator>
+    <button (click)="decreasePage()">⬅️</button>
+    {{page}}
+    <button (click)="increasePage()" >➡️</button>
     <app-profile *ngIf="profile"></app-profile>
     <app-maker *ngIf="make"></app-maker>
     <app-search *ngIf="search"></app-search>

@@ -222,11 +222,10 @@ Contacts (get | add | delete | edit | filter) Requests
     //contacts - get
     @GetMapping("/getContacts/{id}")
     @ResponseBody
-    public ArrayList<contact> getContacts(){
+    public String getContacts(@PathVariable("id") String userID){
         try {
-            /* ArrayList<Contact> list = server.sortContact();
-            System.out.println("List of contacts : " + list); */
-            return /* list */null;
+            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userID));
+            return s.getContacts();
         }catch (Exception e){
             return null;
         }

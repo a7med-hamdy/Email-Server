@@ -52,6 +52,16 @@ export class MainComponent implements OnInit {
     this.updateDataSource();
     this.routerEventListener();
   }
+  increasePage(){
+    this.page ++;
+    this.updateDataSource();
+  }
+  decreasePage(){
+    this.page--;
+    if(this.page <0)
+      this.page = 1;
+    this.updateDataSource();
+  }
   routerEventListener(){
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
@@ -75,7 +85,6 @@ export class MainComponent implements OnInit {
     (this.req.getEmails(this.folder, this.userID,this.page.toString())).subscribe(response =>{
       this.dataSource = new MatTableDataSource<any>(response);
       console.log(response);
-      this.dataSource.paginator = this.paginator;
     });
 }
   active(a:string){
