@@ -1,7 +1,7 @@
 h1{
     text-align: center;
     font-size: 50px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Calibri,Georgia, 'Times New Roman', Times, serif;
     padding-top: 20px;
 }
 header{
@@ -15,16 +15,22 @@ header{
 mat-sidenav-container {
   height: 100%;
 }
+nav{
+  margin-left: 62%;
+}
 button{
-  width: 200px;
-  height: 125px;
-  margin:0;
+  transition-duration: 0.4s;
   border: 0;
-  background-color:#ffbf00f6;
+  padding: 25px;
+  height: 62px;
+  flex-direction: row;
+  background-color:#272727;
+  color:  white;
+  font-weight: bold;
 }
 button:hover{
-  background-color:#3a243b ;
-  color:  white;
+  background-color:#797979;
+  color:  rgb(0, 0, 0);
 }
 mat-sidenav{
   background-color:#ffbf00;

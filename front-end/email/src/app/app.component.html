@@ -1,12 +1,10 @@
 
-<header>
-  <nav>
-    <ul>
-      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-      <li><a routerLink="/signup" routerLinkActive="active">Signup</a></li>
-    </ul>
-  </nav>
+<header *ngIf="!router.url.includes('main')">
   <h1>Email Server App</h1>
+  <nav>
+    <button routerLink="/login" routerLinkActive="active">Login</button>
+    <button routerLink="/signup" routerLinkActive="active">Signup</button>
+  </nav>
 </header>
 
 

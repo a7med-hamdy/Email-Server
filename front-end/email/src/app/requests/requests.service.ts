@@ -74,7 +74,7 @@ export class RequestsService {
 /*---------------------------------------------------------------
   Emails Requests
   ---------------------------------------------------------------*/
-  
+
   // make message (sent or draft)
   makeMessage(params: HttpParams): Observable<any>{
     let _url = `${this.url}/makeMessage/${1}`;
@@ -102,8 +102,8 @@ export class RequestsService {
   Get Emails (Inbox | Trash | Draft | Sent)
   ---------------------------------------------------------------*/
   // get mails
-  getEmails(t: string, id:string){
-    return this.http.get<any>(`${this.url}/getEmails/${id}`, {params: {type: t}});
+  getEmails(t: string, id:string, page:string){
+    return this.http.get<any>(`${this.url}/getEmails/${id}-${page}`, {params: {type: t}});
    /* err => {
       //alert("something went WRONG!!")
     //} */

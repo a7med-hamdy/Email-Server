@@ -27,6 +27,7 @@ export class MainComponent implements OnInit {
   viewT:Boolean=false;
   filter?:string;
   displayedColumns: string[] = [' ',"ID", "subject","body","time", "priority"];
+  page:number = 1;
   dataSource!: MatTableDataSource<any>;
   selection = new SelectionModel<number>(true, []);
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -71,8 +72,9 @@ export class MainComponent implements OnInit {
   }
 
   updateDataSource(){
-    (this.req.getEmails(this.folder, this.userID)).subscribe(response =>{
+    (this.req.getEmails(this.folder, this.userID,this.page.toString())).subscribe(response =>{
       this.dataSource = new MatTableDataSource<any>(response);
+      console.log(response);
       this.dataSource.paginator = this.paginator;
     });
 }

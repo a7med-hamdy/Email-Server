@@ -147,14 +147,16 @@ Get Emails (unsorted | sorted | priority | filter) Requests
 -----------------------------------------------------------------*/
 
     //get mails (Type: Inbox | Trash | Draft | sent)
-    @GetMapping("/getEmails/{id}")
-    public String getEmails(@RequestParam("type") String type, @PathVariable("id") String userId){
+    @GetMapping("/getEmails/{id}-{page}")
+    public String getEmails(@RequestParam("type") String type, 
+                            @PathVariable("id") String userId,
+                            @PathVariable("page") String p){
         System.out.println(type);
         try {
-            
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            return s.getMessages(type, "time").toString();
+            return s.getMessages(type, "priority",Integer.parseInt(p)).toString();
         }catch (Exception e){
+            e.printStackTrace();
             return null;
         }
     }
