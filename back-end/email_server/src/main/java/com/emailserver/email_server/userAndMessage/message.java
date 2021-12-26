@@ -1,5 +1,4 @@
 package com.emailserver.email_server.userAndMessage;
-
 import java.time.ZonedDateTime;
 import java.util.Date;
 

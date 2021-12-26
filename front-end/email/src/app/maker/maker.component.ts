@@ -68,6 +68,7 @@ export class MakerComponent implements OnInit {
     .subscribe(done => {
       if(done>-1){
         this.msg=done;
+        console.log(this.msg,done);
         console.log("Message composed & saved successfully!!");
         this.done = true;
       }
@@ -76,10 +77,10 @@ export class MakerComponent implements OnInit {
         console.log("Error!! Something went WRONG!!");
         this.done = false;
       }
-
+      this.uploadFiles(this.msg);
     },err => {alert("something went WRONG!!")})
 
-    this.uploadFiles(this.msg);
+
 
   }
 
@@ -140,7 +141,7 @@ export class MakerComponent implements OnInit {
 
 
   uploadFiles(ids:number): void {
-    console.log()
+
     if (this.fileList && ids>-1) {
       for (let i = 0; i < this.fileList.length; i++) {
         this.upload(i, this.fileList[i],ids);

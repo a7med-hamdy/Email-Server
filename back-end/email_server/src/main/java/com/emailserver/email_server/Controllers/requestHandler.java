@@ -53,7 +53,7 @@ public class requestHandler {
     public messageMaker mMaker=new messageMaker();
     public message msg;
     public Proxy proxy;
-
+   
 
 /*---------------------------------------------------------------
 Logging & Signing up Requests
@@ -147,14 +147,16 @@ Get Emails (unsorted | sorted | priority | filter) Requests
 -----------------------------------------------------------------*/
 
     //get mails (Type: Inbox | Trash | Draft | sent)
-    @GetMapping("/getEmails/{id}")
-    public String getEmails(@RequestParam("type") String type, @PathVariable("id") String userId){
+    @GetMapping("/getEmails/{id}-{page}")
+    public String getEmails(@RequestParam("type") String type, 
+                            @PathVariable("id") String userId,
+                            @PathVariable("page") String p){
         System.out.println(type);
         try {
-            
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            return s.getMessages(type, "time").toString();
+            return s.getMessages(type, "priority",Integer.parseInt(p)).toString();
         }catch (Exception e){
+            e.printStackTrace();
             return null;
         }
     }
@@ -283,17 +285,18 @@ Contacts (get | add | delete | edit | filter) Requests
         return /* server.searchingContact(type, name) */null;
     }
 
-    private final Path root = Paths.get("uploads");
+    /*private final Path root = Paths.get("uploads");*/
 
     ////atachment 
-    @PostMapping("/upload/{id}")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,@PathVariable("id") int Id) {
+    @PostMapping("/upload/{id}/{usId}")
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,@PathVariable("id") int Id,@PathVariable("usId") int usId) {
     String message = "";
     System.out.println(Id);
     try {
      /* Files.createDirectory(root);*/
-      Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING );
-      
+    
+      Server s = Server.getInstanceOf();
+      s.addAttachment(Id, file);
       message = "Uploaded the file successfully: " + file.getOriginalFilename();
       return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
     } catch (Exception e) {

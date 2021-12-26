@@ -23,11 +23,11 @@ export class ViewComponent implements OnInit {
   }
   constructor(private req:RequestsService) { }
     updateDataSource(id:string){
-      (this.req.getEmails('inbox',id)).subscribe(response =>{
+      /*(this.req.getEmails('inbox',id)).subscribe(response =>{
         this.dataSource = new MatTableDataSource<any>(response);
         console.log(response);
         this.dataSource.paginator = this.paginator;
-      });
+      });*/
   }
   ngOnInit() {
   }
