@@ -89,6 +89,12 @@ Logging & Signing up Requests
         }
     }
 
+    @PostMapping("/{id}/Logout")
+    public void logOut(@PathVariable("id") String userID)
+    {
+        sManager.deleteSession(Integer.parseInt(userID));
+    }
+
 /*---------------------------------------------------------------
 Emails (create | delete) Requests
 -----------------------------------------------------------------*/

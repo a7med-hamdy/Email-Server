@@ -59,7 +59,7 @@ public class sessionManager {
            return this.sessions;
     }
 
-    void deleteSession(int userID){
+    public void deleteSession(int userID){
         sessionInterface s =(sessionInterface) this.getSessionByUserID(userID);
         if(s != null)
             this.sessions.remove(s);
