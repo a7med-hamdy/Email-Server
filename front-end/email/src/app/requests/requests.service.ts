@@ -71,6 +71,12 @@ export class RequestsService {
     } */)
   }
 
+  logOut(id:string){
+    let _url = `${this.url}/${id}/logout}`;
+    this.http.post(_url, {}).subscribe(response =>{
+      console.log("logout");
+    })
+  }
 /*---------------------------------------------------------------
   Emails Requests
   ---------------------------------------------------------------*/
