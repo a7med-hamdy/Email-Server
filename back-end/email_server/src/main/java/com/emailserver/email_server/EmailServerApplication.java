@@ -53,6 +53,7 @@ public class EmailServerApplication {
 		s.createFolder(234, "mails");
 		s.moveMessage(234, 10, "inbox","mails");
 		s.renameFolder(234, "newName", "mails");
+	
 	}
 
 }
