@@ -6,7 +6,6 @@ import java.util.Queue;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.message;
 import com.emailserver.email_server.userAndMessage.messageMaker;

@@ -50,9 +50,9 @@
 
 
 
-  <mat-sidenav mode="side" disableClose opened  position="end" class="side1">
+  <mat-sidenav mode="side"  disableClose  opened position="end" class="side1">
    <div class="filter">
-    <mat-select name="FILTEES" [(value)]="selected">
+    <mat-select name="FILTEES" [(value)]="selected" [(ngModel)]="filter">
       <mat-option value="None">None</mat-option>
       <mat-option value="Subject" >Subject</mat-option>
       <mat-option value="Sender" >Sender</mat-option>

@@ -1,0 +1,20 @@
+{
+  "ID": 555,
+  "body": {
+    "body": "ada",
+    "length": 3
+  },
+  "header": {
+    "senderId": 555,
+    "recieverIds": [
+      234
+    ],
+    "subject": "loooooooleaa"
+  },
+  "attachments": {
+    "attachements": [],
+    "number": 0
+  },
+  "time": "Dec 26, 2021, 7:42:21 PM",
+  "priority": 3
+}

@@ -25,7 +25,7 @@ import { MakerComponent } from './maker/maker.component'
 import { HttpClientModule } from '@angular/common/http';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
-
+//import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 @NgModule({
 

@@ -1,0 +1,20 @@
+{
+  "ID": 18915,
+  "body": {
+    "body": "asdasdsad",
+    "length": 9
+  },
+  "header": {
+    "senderId": 555,
+    "recieverIds": [
+      234
+    ],
+    "subject": "adasd"
+  },
+  "attachments": {
+    "attachements": [],
+    "number": 0
+  },
+  "time": "Dec 26, 2021, 7:55:14 PM",
+  "priority": 4
+}

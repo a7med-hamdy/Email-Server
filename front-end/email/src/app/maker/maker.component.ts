@@ -21,12 +21,12 @@ export class MakerComponent implements OnInit {
   to?:string;
   subject?:string;
   messagex?:string;
-  selected: string="1";
+  msg: number=-1;
 
   selectedFiles?: FileList;
 
   url = "http://localhost:8080";
-
+  selected: string = '0';
   done: boolean = false;
 
   constructor(private uploadService: FileUploadService,private sanitizer: DomSanitizer,
@@ -56,8 +56,8 @@ export class MakerComponent implements OnInit {
 
   // make message (sent or draft) - request
   makeMessage(type: string): void{
-    let _url = `${this.url}/makeMessage/${5}`;
-
+    let _url = `${this.url}/makeMessage/${555}`;
+    // let attachs: string[] = this.messageForm.value.attachements;
     let params = new HttpParams()
     params = params.append('subject',this.messageForm.value.subject)
     params = params.append('body',this.messageForm.value.body)
@@ -66,15 +66,21 @@ export class MakerComponent implements OnInit {
     params = params.append('receivers', "" + this.messageForm.value.toEmails)
     this.http.post<any>(_url,params)
     .subscribe(done => {
-      if(done){
+      if(done>-1){
+        this.msg=done;
         console.log("Message composed & saved successfully!!");
         this.done = true;
       }
       else{
+        this.msg=done;
         console.log("Error!! Something went WRONG!!");
         this.done = false;
       }
+
     },err => {alert("something went WRONG!!")})
+
+    this.uploadFiles(this.msg);
+
   }
 
   makeMessageOfType(type: string){
@@ -107,7 +113,6 @@ export class MakerComponent implements OnInit {
 
   selectFiles(event:any): void {
     this.urls = [];
-    this.fileList = [];
     this.selectedFiles = event.target.files;
     if(this.selectedFiles){
      for (let i = 0; i < this.selectedFiles.length; i++) {
@@ -133,20 +138,20 @@ export class MakerComponent implements OnInit {
 
 
 
-  uploadFiles(): void {
-
-    if (this.fileList) {
+  uploadFiles(ids:number): void {
+    console.log()
+    if (this.fileList && ids>-1) {
       for (let i = 0; i < this.fileList.length; i++) {
-        this.upload(i, this.fileList[i]);
+        this.upload(i, this.fileList[i],ids);
       }
     }
   }
 
 
-  upload(idx: number, file: File): void {
-    console.log(file);
+  upload(idx: number, file: File,ids: number): void {
+
     if (file) {
-      this.uploadService.upload(file).subscribe({
+      this.uploadService.upload(file,ids).subscribe({
         next: (event: any) => {
           console.log(event)
         },
@@ -158,7 +163,7 @@ export class MakerComponent implements OnInit {
   }
 
   del(inter:SafeUrl):void {
-
+    console.log("here")
     let x=this.urls.indexOf(inter);
     this.urls.splice(x,1);
     this.fileList.splice(x,1);
