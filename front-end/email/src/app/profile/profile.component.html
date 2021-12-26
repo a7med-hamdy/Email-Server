@@ -3,32 +3,25 @@
 <button (click)="getFolder()"> folders</button>
 </div>
 
-<!--<div *ngIf="here1">
+<div *ngIf="here1">
 <button (click)="back()"> get back</button>
 <h2>My contats</h2>
  <ul class="contact">
-  <li *ngFor="let contact of contacts"
-    [class.selected]="contact === selectedcontact"
-    (click)="onSelect(contact)">
-    <div>{{contact.name}}</div>
-    <div>{{contact.username}}</div>
-    <div*ngFor="let email of contact.emails">{{email}}</div>
+  <li>
+    <div>contact.name</div>
+    <div>contact.username</div>
+    <!--<div*ngFor="let email of contact.emails">{{email}}</div>-->
   </li>
  </ul>
 
- <div class="edit* ngIf="selectedcontact">
-    <label for="selectedContact">Hero name: </label>
-    <input id="selectedContact" [(ngModel)]="selectedContacted.name" placeholder="name">
 
-    <button> confirm </button>
- </div>
 
   <div ngIf="addContact">
 
     <button> add </button>
  </div>
 
-</div>-->
+</div>
 
 <!--<div *ngIf="here2">
 <button (click)="back()"> get back</button>

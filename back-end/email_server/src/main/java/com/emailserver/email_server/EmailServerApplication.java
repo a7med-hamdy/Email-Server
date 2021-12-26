@@ -22,7 +22,7 @@ public class EmailServerApplication {
 	public static void main(String[] args) throws IOException{
 		
 		SpringApplication.run(EmailServerApplication.class, args);
-		/*
+		
 		Server s = Server.getInstanceOf();
 		Server s2 = Server.getInstanceOf();
 		ArrayList<userContact> contacts = new ArrayList<>();

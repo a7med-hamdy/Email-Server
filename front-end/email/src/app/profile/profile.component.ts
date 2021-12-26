@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table/table-data-source';
+import { RequestsService } from '../requests/requests.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,11 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(private rs: RequestsService) { }
 
+  contact?:any[];
   ngOnInit(): void {
-  }
 
+  }
+  dataSource!: MatTableDataSource<any>;
+  selectedcontact?:string
   here1:Boolean=false;
   main:Boolean=true;
   here2:Boolean=false;
@@ -27,6 +32,13 @@ export class ProfileComponent implements OnInit {
     this.here1=true;
     this.main=false;
     this.here2=false;
+    this.rs.getContacts().subscribe(done => {
+      console.log(done);
+      this.contact=done;
+      console.log(this.contact);
+    }
+    );
+     console.log(this.contact);
   }
 
   getFolder():void{
@@ -34,4 +46,8 @@ export class ProfileComponent implements OnInit {
     this.main=false;
     this.here2=true;
   }
+  onSelect():void{
+
+  }
+
 }
