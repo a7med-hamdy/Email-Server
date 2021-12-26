@@ -22,6 +22,7 @@ public class EmailServerApplication {
 	public static void main(String[] args) throws IOException{
 		
 		SpringApplication.run(EmailServerApplication.class, args);
+		/*
 		Server s = Server.getInstanceOf();
 		Server s2 = Server.getInstanceOf();
 		ArrayList<userContact> contacts = new ArrayList<>();
@@ -75,12 +76,12 @@ public class EmailServerApplication {
 		s.sendMessage(n5);
 		s.sendMessage(n6);
 		// s.addAttachment(1111);
-		// System.out.println(s.requestFolder(342544, "sent","time",1).toString());
-		// s.createFolder(555, "tobe");
+		System.out.println(s.requestFolder(342544, "sent","time",1).toString());
+		s.createFolder(555, "tobe");
 		// s.moveMessage(555, 10, "inbox","tobe");
 		// s.createFolder(234, "mails");
 		// s.moveMessage(234, 10, "inbox","mails");
-		// s.renameFolder(234, "newName", "mails");
+		// s.renameFolder(234, "newName", "mails");*/
 	}
 
 }

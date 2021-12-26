@@ -18,7 +18,7 @@ export class SignupComponent implements OnInit {
   constructor(private http: HttpClient,
     private formBuilder: FormBuilder,
     private router: Router) {}
-    
+
   // for signup component
   ngOnInit(): void{
     this.signupForm = this.formBuilder.group({
@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit {
       console.log("Sign up!!", "userID = ", ID)
       if(ID != 0){
         this.signupForm.reset();
-        this.router.navigate([`/main/${ID}`]) //navigate to user's home page
+        this.router.navigate([`main`, 'Inbox'], {queryParams: {ID : ID}});//navigate to user's home page
       }
       else {
         this.error = "Invalid input(s)"
