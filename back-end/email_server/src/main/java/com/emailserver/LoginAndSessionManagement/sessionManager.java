@@ -5,7 +5,7 @@ import java.util.List;
 
 public class sessionManager {
     
-    List<sessionInterface> sessions = new ArrayList<sessionInterface>();
+    public List<sessionInterface> sessions = new ArrayList<sessionInterface>();
     //serverDatabase server;
     //sessionManager(serverDatabase serve){
       //  this.server = serve;

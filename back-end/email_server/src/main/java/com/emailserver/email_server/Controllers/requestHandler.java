@@ -81,6 +81,8 @@ Logging & Signing up Requests
                             "Username = " + userName + "\n" + 
                             "Password = " + password);
         try {
+            System.out.println(sManager.sessions);
+
             return lManager.LOGIN(userName, password);
         }catch (Exception e){
             e.printStackTrace();
@@ -93,6 +95,7 @@ Logging & Signing up Requests
     public void logOut(@PathVariable("id") String userID)
     {
         sManager.deleteSession(Integer.parseInt(userID));
+        System.out.println(sManager.sessions);
     }
 
 /*---------------------------------------------------------------

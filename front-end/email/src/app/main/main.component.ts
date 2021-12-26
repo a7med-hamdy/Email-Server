@@ -48,6 +48,10 @@ export class MainComponent implements OnInit {
       console.log(this.userID);
      })
   }
+  Logout(){
+    this.req.logOut(this.userID);
+    this.router.navigate(["/login"])
+  }
   ngOnInit(): void {
     this.extractId();
     this.updateDataSource();

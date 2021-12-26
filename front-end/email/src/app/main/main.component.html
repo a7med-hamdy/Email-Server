@@ -8,7 +8,7 @@
     <button  [disabled]="viewD" class="button"[routerLink]="['/main','Drafted']"queryParamsHandling="preserve" routerLinkActive="active">Draft</button>
     <button  [disabled]="viewT" class="button"[routerLink]="['/main','Deleted']" queryParamsHandling="preserve" routerLinkActive="active">Deleted</button>
     <button  [disabled]="search" class="button"[routerLink]="['/main','Search']"queryParamsHandling="preserve"  routerLinkActive="active">Search</button>
-    <button class="logout" [routerLink]="['/login']" routerLinkActive = "active">LogOut</button>
+    <button (click) = "Logout()" class="logout" routerLinkActive = "active">LogOut</button>
    </mat-sidenav>
    <router-outlet></router-outlet>
 
