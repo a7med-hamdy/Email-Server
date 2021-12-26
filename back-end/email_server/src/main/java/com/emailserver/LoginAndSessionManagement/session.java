@@ -51,17 +51,17 @@ public class session implements sessionInterface{
 
      }
 
-     public JSONArray getMessages(String folder, String criteria)throws IOException{
+     public JSONArray getMessages(String folder, String criteria, int count)throws IOException{
           server = Server.getInstanceOf();
           //System.out.println(server.requestFolder(this.getUserId(), folder, criteria));
-          return server.requestFolder(this.getUserId(), folder, criteria);
+          return server.requestFolder(this.getUserId(), folder, criteria, count);
      }
 
 
      /**CRUD Operations on Contacts */
 
-     public JSONArray getContacts(String folder)throws IOException{
-          return server.requestFolder(this.getUserId(), folder, folder);
+     public JSONArray getContacts(String folder, int count)throws IOException{
+          return server.requestFolder(this.getUserId(), folder, folder, count);
      }
 
      public void addContact(String name, String email)throws IOException{

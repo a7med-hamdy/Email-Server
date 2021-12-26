@@ -33,10 +33,10 @@ public interface sessionInterface {
 
     public void editMessage(int msgID ,String folder,String message)throws IOException;
 
-    public JSONArray getMessages(String folder, String criteria)throws IOException;
+    public JSONArray getMessages(String folder, String criteria, int count)throws IOException;
 
     /**CRUD Operations on Contacts */
-    public JSONArray getContacts(String folder)throws IOException;
+    public JSONArray getContacts(String folder, int count)throws IOException;
 
     public void addContact(String email, String name)throws IOException;
 
