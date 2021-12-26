@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-
+<!--Folders SideNav-->
   <mat-sidenav mode="side"  disableClose  opened position="start" class="side">
     <button  [disabled]="profile" class="button" [routerLink]= "['/main','Profile']"queryParamsHandling="preserve" routerLinkActive="active">Profile</button>
     <button  [disabled]="make" class="button" [routerLink]= "['/main','Create']"queryParamsHandling="preserve" routerLinkActive="active">Make message</button>
@@ -8,13 +8,13 @@
     <button  [disabled]="viewD" class="button"[routerLink]="['/main','Drafted']"queryParamsHandling="preserve" routerLinkActive="active">Draft</button>
     <button  [disabled]="viewT" class="button"[routerLink]="['/main','Deleted']" queryParamsHandling="preserve" routerLinkActive="active">Deleted</button>
     <button  [disabled]="search" class="button"[routerLink]="['/main','Search']"queryParamsHandling="preserve"  routerLinkActive="active">Search</button>
-    <button class="logout">LogOut</button>
+    <button (click) = "Logout()" class="logout" routerLinkActive = "active">LogOut</button>
    </mat-sidenav>
    <router-outlet></router-outlet>
 
-
+<!--Folder Tables-->
    <mat-sidenav-content>
-     <div *ngIf="dataSource.data != null">
+     <div *ngIf="dataSource.data != [null]">
     <table *ngIf="view" mat-table [dataSource]="dataSource" >
       <ng-container matColumnDef="select">
 
@@ -25,24 +25,28 @@
             selected
           </th>
           <td mat-cell *matCellDef="let row" >
-            <mat-checkbox (click)="$event.stopPropagation()"
+            <mat-checkbox (click)="addClickedRows(row)"
                           (change)="$event ? selection.toggle(row) : null"
-                          [checked]="selection.isSelected(row)">
+                          >
             </mat-checkbox>
           </td>
         </div>
 
         <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-        <div *ngIf="column == 'body'"><td mat-cell *matCellDef="let emp">{{emp[column][column]}}</td></div>
+        <div *ngIf="column == 'body'"
+              ><td mat-cell *matCellDef="let emp">{{emp[column][column]}}</td></div>
         <td mat-cell *matCellDef="let emp"> {{emp[column]}} </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
+  <div *ngIf="!(router.url.includes('Profile') || router.url.includes('Create'))">
+    <!--Paginator buttons-->
     <button (click)="decreasePage()">⬅️</button>
     {{page}}
     <button (click)="increasePage()" >➡️</button>
+    </div>
     <app-profile *ngIf="profile"></app-profile>
     <app-maker *ngIf="make"></app-maker>
     <app-search *ngIf="search"></app-search>
@@ -50,7 +54,7 @@
 
 
 
-
+<!--Filter Side Nav-->
   <mat-sidenav mode="side"  disableClose  opened position="end" class="side1">
    <div class="filter">
     <mat-select name="FILTEES" [(value)]="selected" [(ngModel)]="filter">

@@ -81,12 +81,21 @@ Logging & Signing up Requests
                             "Username = " + userName + "\n" + 
                             "Password = " + password);
         try {
+            System.out.println(sManager.sessions);
+
             return lManager.LOGIN(userName, password);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("Error in logIn request!!");
             return 0;
         }
+    }
+
+    @PostMapping("/{id}/Logout")
+    public void logOut(@PathVariable("id") String userID)
+    {
+        sManager.deleteSession(Integer.parseInt(userID));
+        System.out.println(sManager.sessions);
     }
 
 /*---------------------------------------------------------------

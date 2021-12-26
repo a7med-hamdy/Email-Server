@@ -5,7 +5,7 @@ import java.util.List;
 
 public class sessionManager {
     
-    List<sessionInterface> sessions = new ArrayList<sessionInterface>();
+    public List<sessionInterface> sessions = new ArrayList<sessionInterface>();
     //serverDatabase server;
     //sessionManager(serverDatabase serve){
       //  this.server = serve;
@@ -59,7 +59,7 @@ public class sessionManager {
            return this.sessions;
     }
 
-    void deleteSession(int userID){
+    public void deleteSession(int userID){
         sessionInterface s =(sessionInterface) this.getSessionByUserID(userID);
         if(s != null)
             this.sessions.remove(s);

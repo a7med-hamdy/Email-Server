@@ -26,7 +26,8 @@ export class MainComponent implements OnInit {
   viewD:Boolean=false;
   viewT:Boolean=false;
   filter?:string;
-  displayedColumns: string[] = [' ',"ID", "subject","body","time", "priority"];
+  clickedRows = new Set<any>();
+  displayedColumns: string[] = [' ',"ID", "subject","body","date", "priority"];
   page:number = 1;
   dataSource!: MatTableDataSource<any>;
   selection = new SelectionModel<number>(true, []);
@@ -46,6 +47,10 @@ export class MainComponent implements OnInit {
       this.userID = params['ID'];
       console.log(this.userID);
      })
+  }
+  Logout(){
+    this.req.logOut(this.userID);
+    this.router.navigate(["/login"])
   }
   ngOnInit(): void {
     this.extractId();
@@ -79,6 +84,10 @@ export class MainComponent implements OnInit {
     }
     });
 
+  }
+  addClickedRows(a:any){
+    this.clickedRows.add(a);
+    console.log(this.clickedRows);
   }
 
   updateDataSource(){
