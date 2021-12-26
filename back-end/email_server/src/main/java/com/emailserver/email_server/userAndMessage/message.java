@@ -9,14 +9,16 @@ public class message {
     private messageBody body;      
     private messageHeader header;
     private messageAttachmenets attachments;
-    private Date time;
+    private long time;
+    private Date date;
     private int priority;
 
     public message(int ID, messageBody body, messageHeader header, Date time, int priority,messageAttachmenets attachmenets) {
         this.ID = ID;
         this.body = body;
         this.header = header;
-        this.time = time;
+        this.time = time.getTime();
+        this.date = time;
         this.priority = priority;
         this.attachments = attachmenets;
     }
@@ -34,11 +36,12 @@ public class message {
         return this.attachments;
     }
 
-    public Date getTime() {
+    public long getTime() {
         return this.time;
     }
     public void setTime(Date date) {
-        this.time=date;
+        this.date = date;
+        this.time = date.getTime();
     }
     public int isPriority() {
         return this.priority;
@@ -51,7 +54,7 @@ public class message {
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime thirtyDaysAgo = now.plusDays(-30);
 
-    if (this.time.toInstant().isBefore(thirtyDaysAgo.toInstant())) {
+    if (this.date.toInstant().isBefore(thirtyDaysAgo.toInstant())) {
         return true;
     }
     return false;

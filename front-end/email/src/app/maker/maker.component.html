@@ -4,14 +4,14 @@
     + Add new receiver
 </button>
 <form [formGroup]="messageForm" class="form-container" >
-    
+
     <!-- To: (Receivers) -->
     <div formArrayName="toEmails">
         <div *ngFor="let email of toEmails.controls; let i=index">
             <div class='receiver-form-row'>
                 <mat-form-field appearance="fill" class="receivers-form-field">
                 <mat-label>Receiver {{i+1}}'s Email</mat-label>
-                <input [formControlName]="i" matInput type="email"  
+                <input [formControlName]="i" matInput type="email"
                     class="receiver-email-input">
                 <mat-error *ngIf="email.invalid">
                     email is invalid
@@ -22,10 +22,10 @@
                     <mat-icon>delete_forever</mat-icon>
                 </button>
             </div>
-            
+
         </div>
     </div>
-    
+
     <div>
         <!-- Subject -->
         <mat-form-field appearance="fill" class="subject-form-field">
@@ -54,12 +54,12 @@
 
     <!-- Attachments -->
     <input type="file" multiple (change)="selectFiles($event)" />
-    <button mat-raised-button (click)="uploadFiles()" >Upload</button>
+    <button mat-raised-button  >Upload</button>
         <div *ngFor=" let url of urls; let j=index">
             <iframe  [src]="url"> </iframe>
             <button mat-raised-button (click)="del(url)" >x</button>
         </div>
-        
+
     <div class="bot">
         <button type="submit" mat-raised-button class="submit-btn" [disabled]="!enableSentBtn()" (click)="makeMessageOfType('sent')" > Sent </button>
         <button mat-raised-button class="submit-btn" [disabled]="!enableDraftOrDeleteBtn()" (click)="makeMessageOfType('draft')"> Draft</button>

@@ -1,14 +1,16 @@
 package com.emailserver.email_server.Controllers;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -27,6 +29,7 @@ import com.emailserver.email_server.userAndMessage.messageHeader;
 import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.emailserver.email_server.userAndMessage.user;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import org.json.JSONArray;
 import org.springframework.http.HttpStatus;
@@ -47,7 +50,7 @@ public class requestHandler {
     //needed attributes
     public sessionManager sManager = sessionManager.getInstanceOf();
     public LoggingManager lManager = new LoggingManager();
-    public messageMaker mMaker;
+    public messageMaker mMaker=new messageMaker();
     public message msg;
     public Proxy proxy;
 
@@ -92,7 +95,7 @@ Emails (create | delete) Requests
 
     //create email (Type: sent | draft) - post
     @PostMapping("/makeMessage/{userId}")
-    public boolean createEmail( @RequestParam("receivers") String to,
+    public int createEmail( @RequestParam("receivers") String to,
                                 @RequestParam("subject") String subject,
                                 @RequestParam("body") String body,
                                 @RequestParam("type") String type,
@@ -102,18 +105,20 @@ Emails (create | delete) Requests
         System.out.println(to+"\n"+ subject +"\n"+ body +"\n"+ type +"\n"+ priority +"\n"+ userId);
     
          try {
-            Date time = new Date(2019, 11, 20);
-            System.out.println(java.time.LocalDateTime.now());
+            Date time = new Date();
+             // making a random number for id
+            int min=1,max=50000;
+            int id=(int)Math.floor(Math.random()*(max-min+1)+min);
             Queue <Integer> To = new LinkedList<>();
             proxy = new Proxy("", "");
             To = proxy.getReceiversIds(to.split(","));
-            message Msg = this.mMaker.getNewMessage(/* msgID */Integer.parseInt(userId), body, body.length(), Integer.parseInt(userId), To, subject, time, Integer.parseInt(priority), files);
+            message Msg = this.mMaker.getNewMessage(id, body, body.length(), Integer.parseInt(userId), To, subject, time, Integer.parseInt(priority), files);
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
             s.addMessage(Msg);
-            return true;
+            return id;
         }catch (Exception ex){
             ex.printStackTrace();
-            return false;
+            return -1;
         }
     }
 
@@ -283,9 +288,10 @@ Contacts (get | add | delete | edit | filter) Requests
     private final Path root = Paths.get("uploads");
 
     ////atachment 
-    @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,@PathVariable("id") int Id) {
     String message = "";
+    System.out.println(Id);
     try {
      /* Files.createDirectory(root);*/
       Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING );
