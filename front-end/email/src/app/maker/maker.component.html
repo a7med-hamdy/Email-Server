@@ -57,8 +57,9 @@
     <button mat-raised-button (click)="uploadFiles()" >Upload</button>
         <div *ngFor=" let url of urls; let j=index">
             <iframe  [src]="url"> </iframe>
-            <button (click)="del(url)" >x</button>
+            <button mat-raised-button (click)="del(url)" >x</button>
         </div>
+        
     <div class="bot">
         <button type="submit" mat-raised-button class="submit-btn" [disabled]="!enableSentBtn()" (click)="makeMessageOfType('sent')" > Sent </button>
         <button mat-raised-button class="submit-btn" (click)="makeMessageOfType('draft')"> Draft</button>

@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.user;
@@ -25,6 +27,21 @@ public class Proxy {
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
+	}
+
+	public Queue<Integer> getReceiversIds(String[] to) throws IOException{
+		Queue<Integer> Ids = new LinkedList<>(); 
+		ArrayList<user> ExistUsers = new ArrayList<user>(){};
+		ExistUsers = server.getUsers();
+        for(user  user : ExistUsers){
+			for(String To: to){
+				if(To.equals(user.getEmail())){
+					Ids.add(user.getID());
+					break;
+				}
+			}
+        }
+        return Ids;
 	}
 	
 	/**
