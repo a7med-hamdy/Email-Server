@@ -5,7 +5,7 @@ import java.util.Queue;
 public class messageHeader {
     
     private int senderId;
-    private Queue<Integer> recieverIds ; //fields of messgaes header 
+    private Queue<Integer> recieverIds; //fields of messgaes header 
     private String subject;
    
    
@@ -15,8 +15,6 @@ public class messageHeader {
         this.senderId = sender;
         this.recieverIds = reciever;
         this.subject = subject;
-       
-       
     }
 
 //setters and getters of message header

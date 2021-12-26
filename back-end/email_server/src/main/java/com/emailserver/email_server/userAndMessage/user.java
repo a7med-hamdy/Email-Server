@@ -45,7 +45,7 @@ public class user implements contact{
     public void setcontact(userContact contact){
         this.Contacts.add(contact);
     }
-    public ArrayList<userContact> getContact(){
+    public ArrayList<userContact> getContacts(){
         return this.Contacts;
     }
     public void deleteContact(int id){

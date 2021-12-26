@@ -5,6 +5,7 @@ import com.emailserver.email_server.userAndMessage.user;
 import com.emailserver.email_server.userAndMessage.userContact;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -61,6 +62,10 @@ public class Server {
         }
     }
 
+    public String getContacts(int userID)
+    {
+       return this.contactManager.getContacts(userID);
+    }
     public void deleteContact(int userID, int contactID)
     {
         this.contactManager.deleteContact(userID, contactID);
@@ -98,7 +103,7 @@ public class Server {
     }
 
     //type "time" for sort by time and "priority" for priority
-    public JSONArray requestFolder(int userID, String folder, String type)
+    public JSONArray requestFolder(int userID, String folder, String type, int count)
     {
         PriorityQueue<JSONObject> queue;
         if(type.equalsIgnoreCase("priority"))
@@ -118,7 +123,16 @@ public class Server {
             JSONObject temp = new JSONObject(content);
             queue.add(temp);
         }
-        for(int i = 0; i <= queue.size();i++)
+        for(int i = 0; i < (count-1)*5;i++)
+        {
+            JSONObject temp = queue.poll();
+        }
+        int n = queue.size();
+        if(n > 5)
+        {
+            n=5;
+        }
+        for(int i = 0; i < n;i++)
         {
             messages.put(queue.poll());
         }
@@ -263,6 +277,19 @@ public class Server {
         FileWriter myWriter = new FileWriter(this.current_users);
         myWriter.write(this.arr.toString());
         myWriter.close();
+    }
+    public String getFolders(int userID)
+    {
+        File f = new File(this.path+userID);
+        String[] folders = f.list(new FilenameFilter() {
+
+            @Override
+            public boolean accept(File dir, String name) {
+                return new File(dir,name).isDirectory();
+            }
+            
+        });
+        return Arrays.toString(folders);
     }
     public void createFolder(int userID, String name)
     {
