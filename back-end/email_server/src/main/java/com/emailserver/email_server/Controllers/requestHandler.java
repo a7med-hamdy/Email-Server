@@ -1,11 +1,16 @@
 package com.emailserver.email_server.Controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +21,9 @@ import com.emailserver.LoginAndSessionManagement.sessionManager;
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.contact;
 import com.emailserver.email_server.userAndMessage.message;
+import com.emailserver.email_server.userAndMessage.messageAttachmenets;
+import com.emailserver.email_server.userAndMessage.messageBody;
+import com.emailserver.email_server.userAndMessage.messageHeader;
 import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.emailserver.email_server.userAndMessage.user;
@@ -23,7 +31,7 @@ import com.emailserver.email_server.userAndMessage.user;
 import org.json.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-// import org.springframework.lang.Nullable;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 // import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +47,10 @@ public class requestHandler {
     //needed attributes
     public sessionManager sManager = sessionManager.getInstanceOf();
     public LoggingManager lManager = new LoggingManager();
+    public messageMaker mMaker;
+    public message msg;
+    public Proxy proxy;
+
 
 /*---------------------------------------------------------------
 Logging & Signing up Requests
@@ -79,21 +91,23 @@ Emails (create | delete) Requests
 -----------------------------------------------------------------*/
 
     //create email (Type: sent | draft) - post
-    @PostMapping("/makeMesssage/{id}")
-    public boolean createEmail( @RequestBody message Msg, 
-                                // @RequestParam("from") String from,
-                                // @RequestParam("subject") String subject,
-                                // @RequestParam("body") String body,
-                                @RequestParam("time") String time,
+    @PostMapping("/makeMessage/{userId}")
+    public boolean createEmail( @RequestParam("receivers") String to,
+                                @RequestParam("subject") String subject,
+                                @RequestParam("body") String body,
                                 @RequestParam("type") String type,
-                                @PathVariable("id") String userId
-                                // @RequestParam("priority") boolean priority
-                                /* ,
-                                @RequestParam(name = "receivers") String receivers, 
-                                @Nullable @RequestParam(name="myFile") MultipartFile[] multipartFiles */){
-        System.out.println( "Subject = " + Msg.getHeader().getSubject() + 
-                            "\nBoody = " + Msg.getBody());
-        try {
+                                @PathVariable String userId,
+                                @RequestParam("priority") String priority,
+                                @Nullable @RequestParam("attachments") File[] files) throws IOException{
+        System.out.println(to+"\n"+ subject +"\n"+ body +"\n"+ type +"\n"+ priority +"\n"+ userId);
+    
+         try {
+            Date time = new Date(2019, 11, 20);
+            System.out.println(java.time.LocalDateTime.now());
+            Queue <Integer> To = new LinkedList<>();
+            proxy = new Proxy("", "");
+            To = proxy.getReceiversIds(to.split(","));
+            message Msg = this.mMaker.getNewMessage(/* msgID */Integer.parseInt(userId), body, body.length(), Integer.parseInt(userId), To, subject, time, Integer.parseInt(priority), files);
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
             s.addMessage(Msg);
             return true;
