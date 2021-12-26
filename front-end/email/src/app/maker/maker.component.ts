@@ -18,7 +18,7 @@ export class MakerComponent implements OnInit {
   to?:string;
   subject?:string;
   messagex?:string;
-
+  selected: string="1";
 
   selectedFiles?: FileList;
 
@@ -36,6 +36,7 @@ export class MakerComponent implements OnInit {
 
   selectFiles(event:any): void {
     this.urls = [];
+    this.fileList = [];
     this.selectedFiles = event.target.files;
     if(this.selectedFiles){
      for (let i = 0; i < this.selectedFiles.length; i++) {
@@ -86,7 +87,7 @@ export class MakerComponent implements OnInit {
   }
 
   del(inter:SafeUrl):void {
-    console.log("here")
+
     let x=this.urls.indexOf(inter);
     this.urls.splice(x,1);
     this.fileList.splice(x,1);

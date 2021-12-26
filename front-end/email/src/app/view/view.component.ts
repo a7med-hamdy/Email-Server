@@ -19,6 +19,7 @@ export class ViewComponent implements OnInit {
   }
   constructor() { }
   requestDataSource(src:any){
+
     this.dataSource = new MatTableDataSource(src);
   }
   ngOnInit() {

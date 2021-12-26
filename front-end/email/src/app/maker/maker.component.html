@@ -1,6 +1,16 @@
-<div><label class="to"  [(ngModel)]="to"> to  </label> <input type="text" ></div>
-<div><label class="subj"  [(ngModel)]="subject"> Subject </label> <input type="text" ></div>
+<div><label class="to" > to  </label> <input [(ngModel)]="to" type="text" ></div>
+
+<div><label class="subj"  > Subject </label> <input type="text"  [(ngModel)]="subject"></div>
+
+<mat-select name="FILTEES" [(value)]="selected" >
+  <mat-option value="1">1 lowest</mat-option>
+  <mat-option value="2" >2</mat-option>
+  <mat-option value="3" >3</mat-option>
+  <mat-option value="4" >4 highest</mat-option>
+</mat-select>
+
 <input type="textarea" class="area"  [(ngModel)]="messagex">
+
 <div class="bot">
 <button> Sent </button>
 <button> Draft</button>
@@ -9,7 +19,9 @@
 <button (click)="uploadFiles()" >Upload</button>
 </div>
 
+
 <div *ngFor=" let url of urls">
 <iframe  [src]="url"> </iframe>
 <button (click)="del(url)" >x</button>
 </div>
+

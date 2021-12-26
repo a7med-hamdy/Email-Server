@@ -35,7 +35,7 @@ export class MainComponent implements OnInit {
   public extractId(){
     this.route.queryParams.subscribe(params =>{
       this.userID = params['ID'];
-      console.log(this.userID);
+
      })
   }
   ngOnInit(): void {
