@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
@@ -97,7 +98,17 @@ public class Server {
 
     public ArrayList<user> getUsers() throws IOException
     {
-        String content = new Scanner(this.current_users).useDelimiter("\\Z").next();
+        String content = "";
+        try {
+            Scanner sc = new Scanner(this.current_users).useDelimiter("\\Z");
+            if(sc.hasNext())
+            {
+                content = sc.next();
+            }
+            sc.close();
+        } catch (FileNotFoundException | NoSuchElementException e) {
+            System.out.println("ERROR reading the file.");
+        }
         if(content.equalsIgnoreCase(""))
         {
             return new ArrayList<>();
