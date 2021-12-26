@@ -149,7 +149,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         System.out.println(type);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            return s.getMessages(type, "time",Integer.parseInt(p)).toString();
+            return s.getMessages(type, "priority",Integer.parseInt(p)).toString();
         }catch (Exception e){
             e.printStackTrace();
             return null;
