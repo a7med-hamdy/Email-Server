@@ -15,7 +15,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  userID:any;
+  userID:string[] = [];
   selected?: string;
   search:Boolean=false;
   profile:Boolean=false;
@@ -27,7 +27,7 @@ export class MainComponent implements OnInit {
   viewT:Boolean=false;
   filter?:string;
   clickedRows = new Set<any>();
-  displayedColumns: string[] = [' ',"ID", "subject","body","date", "priority"];
+  displayedColumns: string[] = [' ',"ID", "subject","date"];
   page:number = 1;
   dataSource!: MatTableDataSource<any>;
   selection = new SelectionModel<number>(true, []);
@@ -44,12 +44,13 @@ export class MainComponent implements OnInit {
               }
   public extractId(){
     this.route.queryParams.subscribe(params =>{
-      this.userID = params['ID'];
+      this.userID.push(params["ID"]);
       console.log(this.userID);
      })
   }
   Logout(){
-    this.req.logOut(this.userID);
+    this.req.logOut(this.userID[0]);
+    this.userID.pop();
     this.router.navigate(["/login"])
   }
   ngOnInit(): void {
@@ -76,6 +77,7 @@ export class MainComponent implements OnInit {
       || this.router.url.includes('Drafted')){
         this.active(this.router.url);
         console.log(this.userID);
+
         this.updateDataSource();
       }
 
@@ -92,7 +94,7 @@ export class MainComponent implements OnInit {
   }
 
   updateDataSource(){
-    (this.req.getEmails(this.folder, this.userID,this.page.toString())).subscribe(response =>{
+    (this.req.getEmails(this.folder, this.userID[0],this.page.toString())).subscribe(response =>{
       this.dataSource = new MatTableDataSource<any>(response);
       console.log(response);
     });
@@ -171,6 +173,8 @@ export class MainComponent implements OnInit {
     }
   }
 
-
+onclick(){
+  console.log("fok")
+}
 
 }

@@ -33,3 +33,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
 ::-webkit-scrollbar-thumb:hover {
   background: #929292;
 }
+button{
+  transition-duration: 0.4s;
+  border: 0;
+  padding: 25px;
+  height: 62px;
+  background-color:#272727;
+  color:  white;
+  font-weight: bold;
+}
+button:hover{
+  background-color:#797979;
+  color:  rgb(0, 0, 0);
+}

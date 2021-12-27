@@ -1,3 +1,78 @@
-li{
-  list-style-type: none;
+
+table{
+  background-color:#191a1a;
+  transition-duration: 0.4s;
+  border-color: whitesmoke;
+  width: 100%;
+  height: 62px;
 }
+mat-paginator{
+  background-color:#191a1a;
+
+}
+
+mat-column {
+  width: 32px;
+  border-right: 1px solid currentColor;
+  padding-right: 24px;
+  text-align: center;
+
+  padding-left: 16px;
+  font-size: 20px;
+}
+
+
+
+mat-column {
+  width: 32px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.main{
+  width: 1300px;
+  border: 2px solid black;
+  height: 825px;
+
+}
+.gret{
+  display: flex;
+}
+.add{
+  border: 2px solid black;
+  margin-bottom: 10px;
+}
+.add input{
+  display: block;
+  width: 490px;
+  height: 56.5px;
+  margin: 7.5px 0  7.5px 0 ;
+}
+.add button{
+   width: 490px;
+  height: 40.5px;
+  margin: 7.5px 0  7.5px 0 ;
+
+}
+label{
+  font-size: 20px;
+  color: black;
+  margin: 7.5px;
+}
+
+.edit{
+  border: 2px solid black;
+}
+.edit input{
+  display: block;
+  width: 490px;
+  height: 56.5px;
+  margin: 7.5px 0  7.5px 0 ;
+}
+
+.edit button{
+  width: 490px;
+  height: 40.5px;
+  margin: 7.5px 0  7.5px 0 ;
+}
+

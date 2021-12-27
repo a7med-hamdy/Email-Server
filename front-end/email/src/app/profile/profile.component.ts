@@ -1,4 +1,7 @@
+import { Router } from '@angular/router';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { RequestsService } from '../requests/requests.service';
 
 @Component({
@@ -8,18 +11,24 @@ import { RequestsService } from '../requests/requests.service';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private rs: RequestsService) { }
+  constructor(private rs: RequestsService, public router: Router) { }
 
   contact?:any[];
-  ngOnInit(): void {
+  ngOnviewInit(){
+    this.getcontact();
 
   }
-
+  ngOnInit(): void {
+    this.getcontact();
+  }
+  dataSource!: MatTableDataSource<any>;
   selectedcontact?:string
   here1:Boolean=false;
   main:Boolean=true;
   here2:Boolean=false;
-
+  displayedColumns: string[] = ["ID", "name","email","userName"];
+  selection = new SelectionModel<number>(true, []);
+  added?: string;
 
   back():void {
     this.here1=false;
@@ -32,12 +41,11 @@ export class ProfileComponent implements OnInit {
     this.main=false;
     this.here2=false;
     this.rs.getContacts().subscribe(done => {
+      this.dataSource = new MatTableDataSource<any>(done);
       console.log(done);
-      this.contact=done;
-      console.log(this.contact);
-    },err => {alert("something went WRONG!!")}
+    }
     );
-    console.log(this.contact);
+
   }
 
   getFolder():void{
@@ -45,7 +53,7 @@ export class ProfileComponent implements OnInit {
     this.main=false;
     this.here2=true;
   }
-  onSelect():void{
+  addedC():void{
 
   }
 

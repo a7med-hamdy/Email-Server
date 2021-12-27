@@ -32,6 +32,7 @@ button:hover{
 mat-select{
   transition-duration: 0.4s;
   border: 0;
+  width: 78%;
   padding: 25px;
   height: 62px;
   background-color:#272727;

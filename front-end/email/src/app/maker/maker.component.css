@@ -38,7 +38,7 @@ button:hover{
 .receivers-form-field, .body-form-field, .subject-form-field{
   margin-left: 32px;
   width: 250px;
-  
+
 }
 
 input, textarea{
@@ -52,4 +52,9 @@ label{
 
 .body-form-field{
   width: 30%;
+}
+
+iframe{
+  width:  500px;
+  height: 500px;
 }
