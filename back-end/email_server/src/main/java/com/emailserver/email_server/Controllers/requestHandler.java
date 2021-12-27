@@ -93,6 +93,13 @@ Logging & Signing up Requests
         System.out.println(sManager.getSessions());
     }
 
+    @GetMapping("/auth/{id}")
+    @ResponseBody
+    public int getSessionID(@PathVariable("id") String userID){
+        sessionInterface s = (sessionInterface) sManager.getSessionByUserID(Integer.parseInt(userID));
+        System.out.println(s.getSessionID());
+        return (s.getSessionID());
+    }
 /*---------------------------------------------------------------
 Emails (create | delete) Requests
 -----------------------------------------------------------------*/

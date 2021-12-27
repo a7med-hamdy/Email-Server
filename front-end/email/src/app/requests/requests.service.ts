@@ -77,6 +77,11 @@ export class RequestsService {
       console.log("logout");
     })
   }
+  getSessionID(id:string){
+    let _url = `${this.url}/auth/${id}`;
+    return this.http.get<any>(_url);
+  }
+
 /*---------------------------------------------------------------
   Emails Requests
   ---------------------------------------------------------------*/

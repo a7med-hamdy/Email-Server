@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RequestsService } from '../requests/requests.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
   //constructor
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder,
-              private router: Router) {}
+              private router: Router,
+              private req:RequestsService) {}
 
   // for login component
   ngOnInit(): void{
@@ -40,7 +42,13 @@ export class LoginComponent implements OnInit {
       console.log("Log in!!", "userID = ", ID)
       if(ID != 0){
         this.loginForm.reset();
-        this.router.navigate([`main`, 'Inbox'], {queryParams: {ID : ID}}); //navigate to user's home page
+        this.req.getSessionID(ID).subscribe(response =>{
+          sessionStorage.setItem('id', response)
+          console.log(response);
+          console.log(sessionStorage.getItem('id'));
+          this.router.navigate([`main`, 'Inbox'], {queryParams: {ID : ID}});
+        })
+        //navigate to user's home page
       }
       else{
         this.error = "Username or password is incorrect";

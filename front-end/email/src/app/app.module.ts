@@ -64,7 +64,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatSelectModule,
     MatCheckboxModule
   ],
-  providers: [],
+  providers: [{ provide: Window, useValue: window }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

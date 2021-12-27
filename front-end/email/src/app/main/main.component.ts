@@ -44,6 +44,9 @@ export class MainComponent implements OnInit {
               }
   public extractId(){
     this.route.queryParams.subscribe(params =>{
+      if(sessionStorage.getItem('id') == null){
+        this.router.navigate(['/login'])
+      }
       this.userID = params["ID"];
       console.log(this.userID);
      })
@@ -66,7 +69,6 @@ export class MainComponent implements OnInit {
   routerEventListener(){
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
-
       if(this.router.url.includes('Profile')){this.profile1(this.router.url);}
       else if(this.router.url.includes('Search')){this.search1(this.router.url);}
       else if(this.router.url.includes('Create')){this.make1(this.router.url);}
