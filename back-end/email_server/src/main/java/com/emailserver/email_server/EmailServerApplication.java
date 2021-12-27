@@ -60,8 +60,8 @@ public class EmailServerApplication {
 		message n = maker.getNewMessage(1111, "hello", 5,342544, to, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n1 = maker.getNewMessage(2222, "hello", 5,342544, to1, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n2 = maker.getNewMessage(3333, "hello", 5,342544, to2, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
-		message n3 = maker.getNewMessage(4444, "hello", 5,342544, to3, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
-		message n4 = maker.getNewMessage(5555, "hello", 5,342544, to4, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
+		message n3 = maker.getNewMessage(4444, "hello", 5,342544, to3, "subject", now, 3, new ArrayList<>(Arrays.asList("image.jpf")));
+		message n4 = maker.getNewMessage(5555, "hello", 5,342544, to4, "subject", now, 2, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n5 = maker.getNewMessage(6666, "hello", 5,342544, to5, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n6 = maker.getNewMessage(7777, "hello", 5,342544, to6, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf","another.extesnion")));
 		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", now, 4, new ArrayList<>((Arrays.asList("image.jpf"))));

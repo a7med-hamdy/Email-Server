@@ -43,18 +43,9 @@
 
 <!--Filter Side Nav-->
   <mat-sidenav mode="side"  disableClose  opened position="end" class="side1">
-   <div class="filter">
-    <mat-select name="FILTEES" [(value)]="selected" [(ngModel)]="filter">
-      <mat-option value="None">None</mat-option>
-      <mat-option value="Subject" >Subject</mat-option>
-      <mat-option value="Sender" >Sender</mat-option>
-    </mat-select>
-    <button class="filler">filter</button>
-  </div>
     <div>
-    <button>Date</button>
-    <button>Pirority</button>
-    <button>Subject</button>
+    <button (click)="sorting('Date')">Date</button>
+    <button (click)="sorting('priority')">Pirority</button>
     <button>Body</button>
   </div>
 

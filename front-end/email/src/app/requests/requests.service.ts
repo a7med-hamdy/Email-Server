@@ -108,8 +108,8 @@ export class RequestsService {
   Get Emails (Inbox | Trash | Draft | Sent)
   ---------------------------------------------------------------*/
   // get mails
-  getEmails(t: string, id:string, page:string){
-    return this.http.get<any>(`${this.url}/getEmails/${id}-${page}`, {params: {type: t}});
+  getEmails(t: string, id:string, page:string ,srt:string){
+    return this.http.get<any>(`${this.url}/getEmails/${id}-${page}`, {params: {type: t, folder: srt}});
    /* err => {
       //alert("something went WRONG!!")
     //} */

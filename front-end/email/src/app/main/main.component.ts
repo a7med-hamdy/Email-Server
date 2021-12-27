@@ -111,8 +111,17 @@ export class MainComponent implements OnInit {
   /**
    * get nwe data
    */
+   sorting(type:string){
+    (this.req.getEmails(this.folder, this.userID,this.page.toString(),type)).subscribe(response =>{
+      /*if(response == null)
+        this.Logout();
+        */
+      this.dataSource = new MatTableDataSource<any>(response);
+      console.log(response);
+    });
+  }
   updateDataSource(){
-    (this.req.getEmails(this.folder, this.userID,this.page.toString())).subscribe(response =>{
+    (this.req.getEmails(this.folder, this.userID,this.page.toString(),"date")).subscribe(response =>{
       /*if(response == null)
         this.Logout();
         */
