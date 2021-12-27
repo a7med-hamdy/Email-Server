@@ -243,14 +243,14 @@ Contacts (get | add | delete | edit | filter) Requests
 
     //add contact
     @PostMapping("/addContact/{id}")
-    public boolean addContact(  @RequestParam("email") String email, 
-                                @RequestParam("name") String contactName)  {
-       /*  String[]  contactsList = email.split(",");
-        ArrayList<String> emails = new ArrayList<>();
-        Collections.addAll(emails , contactsList); */
-        System.out.println("Contact name = " + contactName);
+    public boolean addContact(  @PathVariable("id") String userID,
+                                @RequestParam("email") String email, 
+                                @RequestParam("name") String name) throws IOException  {
+        System.out.println("Contact name = " + name);
         System.out.println("Emails = " + email);
         try {
+            Server server = Server.getInstanceOf();
+            server.addContact(Integer.parseInt(userID), email, name);
             return true;
         }catch (Exception e){
             e.printStackTrace();

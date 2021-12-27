@@ -160,16 +160,23 @@ export class RequestsService {
   }
 
   // add contact
-  addContact(){
-
+  addContact(name: string, email: string){
+    let params = new HttpParams
+    params = params.append("name", name)
+    params = params.append("email", email)
+    return this.http.post<any>(`${this.url}/addContact/${887788}`, params)
   }
   // delete contact
-  deleteContact(){
-
+  deleteContact(names: String[]){
+    return this.http.post<any>(`${this.url}/deleteContacts/${887788}`, names)
   }
   // edit contact
-  editContact(){
-
+  editContact(emails: string, oldName: string, newName: string){
+    let params = new HttpParams
+    params = params.append("email", emails)
+    params = params.append("oldName", oldName)
+    params = params.append("newName", newName)
+    return this.http.post<any>(`${this.url}/addContact/${887788}`, params)
   }
   // filter contacts
   filterContacts(){
