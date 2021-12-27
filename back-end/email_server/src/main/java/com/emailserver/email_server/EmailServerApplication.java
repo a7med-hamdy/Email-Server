@@ -1,5 +1,4 @@
 package com.emailserver.email_server;
-import java.io.File;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -34,7 +33,7 @@ public class EmailServerApplication {
 		s2.SignUp(887788,"messi", "score", "@barcelona",contacts);
 		s2.SignUp(555,"tony Soprano", "big head", "@mafia",contacts);
 		Queue<Integer> to = new LinkedList<>();
-		to.add(234);
+		to.add(99999);
 		to.add(555);
 		Queue<Integer> to2 = new LinkedList<>();
 		to2.add(234);
@@ -46,25 +45,24 @@ public class EmailServerApplication {
 		to4.add(234);
 		to4.add(555);
 		Queue<Integer> to5 = new LinkedList<>();
-		to5.add(234);
+		to5.add(99999);
 		to5.add(555);
 		Queue<Integer> to6 = new LinkedList<>();
 		to6.add(887788);
 		to6.add(555);
 		Queue<Integer> to1 = new LinkedList<>();
-		to1.add(234);
+		to1.add(99999);
 		to1.add(555);
 		messageMaker maker = new messageMaker();
 		////////
 		Date now=new Date();
-		message n = maker.getNewMessage(1111, "hello", 5,342544, to, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
-		message n1 = maker.getNewMessage(2222, "hello", 5,342544, to1, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
-		message n2 = maker.getNewMessage(3333, "hello", 5,342544, to2, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
-		message n3 = maker.getNewMessage(4444, "hello", 5,342544, to3, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
-		message n4 = maker.getNewMessage(5555, "hello", 5,342544, to4, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
-		message n5 = maker.getNewMessage(6666, "hello", 5,342544, to5, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
-		message n6 = maker.getNewMessage(7777, "hello", 5,342544, to6, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf","another.extesnion")));
-		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", now, 4, new ArrayList<>((Arrays.asList("image.jpf"))));
+		message n = maker.getNewMessage(1111, "hello", 5,342544, to, "new", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
+		message n1 = maker.getNewMessage(2222, "to be extracted", 5,234, to1, "subject", now, 2, new ArrayList<>(Arrays.asList("test.jpg")));
+		message n2 = maker.getNewMessage(3333, "hello", 5,342544, to2, "subject2", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
+		message n3 = maker.getNewMessage(4444, "hello 1239", 10,234, to3, "subject3", now, 4, new ArrayList<>(Arrays.asList("image.jpf")));
+		message n4 = maker.getNewMessage(5555, "to be extracted", 5,342544, to4, "subject4", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
+		message n5 = maker.getNewMessage(6666, "hello", 5,342544, to5, "subject5", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
+		message n6 = maker.getNewMessage(7777, "hello", 5,342544, to6, "subject5", now, 1, new ArrayList<>(Arrays.asList("image.jpf","another.extesnion")));
 		
 		
 		s.sendMessage(n);
@@ -74,8 +72,10 @@ public class EmailServerApplication {
 		s.sendMessage(n4);
 		s.sendMessage(n5);
 		s.sendMessage(n6);
+		System.out.println(s.filterMessages(234, "global", "to be", "time", 1));
+		
 		// s.addAttachment(1111);
-		System.out.println(s.requestFolder(887788, "inbox","time",1).toString());
+		// System.out.println(s.requestFolder(234, "sent","body",1).toString());
 		// s.createFolder(555, "tobe");
 		// s.moveMessage(555, 10, "inbox","tobe");
 		// s.createFolder(234, "mails");
