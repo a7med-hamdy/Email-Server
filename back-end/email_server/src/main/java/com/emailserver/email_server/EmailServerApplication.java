@@ -22,12 +22,6 @@ public class EmailServerApplication {
 	public static void main(String[] args) throws IOException{
 		
 		SpringApplication.run(EmailServerApplication.class, args);
-<<<<<<< HEAD
-||||||| a568b0a
-		/*
-=======
-		
->>>>>>> ea904e5d937bc7b0917d36c758d4e85fb08b2620
 		Server s = Server.getInstanceOf();
 		Server s2 = Server.getInstanceOf();
 		ArrayList<userContact> contacts = new ArrayList<>();
@@ -69,11 +63,10 @@ public class EmailServerApplication {
 		message n3 = maker.getNewMessage(4444, "hello", 5,342544, to3, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n4 = maker.getNewMessage(5555, "hello", 5,342544, to4, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n5 = maker.getNewMessage(6666, "hello", 5,342544, to5, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
-		message n6 = maker.getNewMessage(7777, "hello", 5,342544, to6, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
+		message n6 = maker.getNewMessage(7777, "hello", 5,342544, to6, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf","another.extesnion")));
 		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", now, 4, new ArrayList<>((Arrays.asList("image.jpf"))));
 		
 		//////////
-<<<<<<< HEAD
 		s.sendMessage(n);
 		s.sendMessage(n1);
 		s.sendMessage(n2);
@@ -81,30 +74,9 @@ public class EmailServerApplication {
 		s.sendMessage(n4);
 		s.sendMessage(n5);
 		s.sendMessage(n6);
-||||||| a568b0a
-		/*s.senew ArrayList<String>();*/
-		s.sendMessage(n3);
-		s.sendMessage(n4);
-		s.sendMessage(n5);
-		s.sendMessage(n6);
-=======
-		/*s.senew ArrayList<String>();*/
-		//s.sendMessage(n3);
-		//s.sendMessage(n4);
-		//s.sendMessage(n5);
-		//s.sendMessage(n6);
->>>>>>> ea904e5d937bc7b0917d36c758d4e85fb08b2620
 		// s.addAttachment(1111);
-<<<<<<< HEAD
-		// System.out.println(s.requestFolder(342544, "sent","time",1).toString());
+		System.out.println(s.requestFolder(887788, "inbox","time",1).toString());
 		// s.createFolder(555, "tobe");
-||||||| a568b0a
-		System.out.println(s.requestFolder(342544, "sent","time",1).toString());
-		s.createFolder(555, "tobe");
-=======
-		//System.out.println(s.requestFolder(342544, "sent","time",1).toString());
-		//s.createFolder(555, "tobe");
->>>>>>> ea904e5d937bc7b0917d36c758d4e85fb08b2620
 		// s.moveMessage(555, 10, "inbox","tobe");
 		// s.createFolder(234, "mails");
 		// s.moveMessage(234, 10, "inbox","mails");
