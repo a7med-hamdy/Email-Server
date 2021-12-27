@@ -28,14 +28,15 @@ export class ProfileComponent implements OnInit {
     this.extractId();
     this.getcontact();
   }
-  dataSource!: MatTableDataSource<any>;
+  dataSource!: MatTableDataSource<contact>;
   selectedcontact?:string
   here1:Boolean=false;
   main:Boolean=true;
   here2:Boolean=false;
-  displayedColumns: string[] = ["ID", "name","email","userName"];
-  selection = new SelectionModel<number>(true, []);
+  displayedColumns: string[] = ["select", "ID", "name","email","userName"];
+  selection = new SelectionModel<contact>(true, []);
   added?: string;
+  addingContact = false
 
   back():void {
     this.here1=false;
@@ -53,7 +54,7 @@ export class ProfileComponent implements OnInit {
     this.main=false;
     this.here2=false;
     this.rs.getContacts(this.userID).subscribe(done => {
-      this.dataSource = new MatTableDataSource<any>(done);
+      this.dataSource = new MatTableDataSource<contact>(done);
       console.log(done);
     }
     );
@@ -80,5 +81,47 @@ export class ProfileComponent implements OnInit {
       }
       else{console.log("Error!! Contact wasn't added!")}
     })
+    this.addingContact = false;
   }
+
+  getAddContact(){
+    this.addingContact = true;
+  }
+  cancelAddContact(){
+    this.addingContact = false;
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: contact): string {
+    console.log(this.selection.selected)
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.ID}`;
+  }
+}
+
+
+export class contact{
+  name?: string
+  ID?: number
+  userName?: string
+  email?: string[]
 }
