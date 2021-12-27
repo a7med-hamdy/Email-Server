@@ -5,7 +5,7 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 import { urlx } from './type'
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RequestsService } from '../requests/requests.service';
 
 
@@ -22,7 +22,7 @@ export class MakerComponent implements OnInit {
   subject?:string;
   messagex?:string;
   msg: number=-1;
-
+  userID?:string;
   selectedFiles?: FileList;
   attachNamse: Array<string>=[];
   url = "http://localhost:8080";
@@ -33,12 +33,14 @@ export class MakerComponent implements OnInit {
               private http: HttpClient,
               private fb: FormBuilder,
               private router: Router,
+              public route:ActivatedRoute,
               private rs: RequestsService) { }
 
   fileList: File[] = [];
   urls:SafeUrl[] = [];
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params =>{ this.userID = params["ID"]});
   }
   /******************************************************* */
   messageForm = this.fb.group({
@@ -56,14 +58,15 @@ export class MakerComponent implements OnInit {
 
   // make message (sent or draft) - request
   makeMessage(type: string): void{
-    let _url = `${this.url}/makeMessage/${555}`;
-    //let attachs: string[] = this.messageForm.value.attachements;
+    let _url = `${this.url}/makeMessage/${this.userID}`;
+
     let params = new HttpParams()
     params = params.append('subject',this.messageForm.value.subject)
     params = params.append('body',this.messageForm.value.body)
     params = params.append('type',type)
     params = params.append('priority',this.messageForm.value.priority)
     params = params.append('receivers', "" + this.messageForm.value.toEmails)
+    params = params.append('attachments', "" + this.attachNamse)
     this.http.post<any>(_url,params)
     .subscribe(done => {
       if(done>-1){

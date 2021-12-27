@@ -296,10 +296,10 @@ Contacts (get | add | delete | edit | filter) Requests
     /*private final Path root = Paths.get("uploads");*/
 
     ////atachment 
-    @PostMapping("/upload/{id}/{usId}")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,@PathVariable("id") int Id,@PathVariable("usId") int usId) {
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,@PathVariable("id") int Id) {
     String message = "";
-    System.out.println(Id);
+
     try {
      /* Files.createDirectory(root);*/
     
@@ -312,5 +312,21 @@ Contacts (get | add | delete | edit | filter) Requests
       return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
     }
   }
+  
 
+  /*---------------------------------------------------------------
+folder (get | make | delete | edit ) Requests
+-----------------------------------------------------------------*/
+// make folder
+@PostMapping("/makefolder/{id}")
+public boolean makeFolder(@RequestParam("name") String name,
+                          @RequestParam("name") String user){
+    try {
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(user));
+        s.addFolder(name);
+        return true;
+    }catch (Exception e){
+        return false;
+    }
+}
 }

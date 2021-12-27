@@ -8,6 +8,10 @@ mat-sidenav-container {
   padding: 0;
   border: 0;
 }
+.view{
+  background-color:#272727;
+
+}
 button{
   transition-duration: 0.4s;
   border: 0;
@@ -53,7 +57,7 @@ mat-select{
 
 }
 mat-sidenav-content{
-  background-color: rgb(105, 103, 103);
+  background-color:#272727;
 }
 .logout{
   width: 100%;
