@@ -26,12 +26,12 @@ export class MainComponent implements OnInit {
   viewD:Boolean=false;
   viewT:Boolean=false;
   filter?:string;
-  clickedRows = new Set<any>();
+  clickedRows:any[] = [];
   displayedColumns: string[] = [' ',"ID", "subject","date"];
   page:number = 1;
   dataSource!: MatTableDataSource<any>;
-  selection = new SelectionModel<number>(true, []);
-  @ViewChild('paginator') paginator!: MatPaginator;
+  selectedRows!: Set<any>;
+  selection = new SelectionModel<any>(true, []);
   folder: string = 'inbox' ;
 
 
@@ -48,12 +48,9 @@ export class MainComponent implements OnInit {
       console.log(this.userID);
      })
   }
-  Logout(){
-    this.req.logOut(this.userID[0]);
-    this.userID.pop();
-    this.router.navigate(["/login"])
-  }
+
   ngOnInit(): void {
+    console.log(this.selection.selected)
     this.extractId();
     this.updateDataSource();
     this.routerEventListener();
@@ -64,10 +61,12 @@ export class MainComponent implements OnInit {
   }
   decreasePage(){
     this.page--;
-    if(this.page <0)
+    if(this.page <= 0)
       this.page = 1;
     this.updateDataSource();
   }
+
+
   routerEventListener(){
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
@@ -88,17 +87,32 @@ export class MainComponent implements OnInit {
     });
 
   }
+
+
+  Logout(){
+    this.req.logOut(this.userID[0]);
+    this.userID.pop();
+    this.router.navigate(["/login"])
+  }
+
+
+
   addClickedRows(a:any){
-    this.clickedRows.add(a);
+    this.clickedRows = [];
+    this.clickedRows.push(a);
     console.log(this.clickedRows);
   }
 
   updateDataSource(){
     (this.req.getEmails(this.folder, this.userID[0],this.page.toString())).subscribe(response =>{
+      console.log(this.selection.selected);
       this.dataSource = new MatTableDataSource<any>(response);
       console.log(response);
     });
 }
+
+
+
   active(a:string){
     this.view=true
     this.profile=false;
