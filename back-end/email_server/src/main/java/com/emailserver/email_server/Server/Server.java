@@ -79,9 +79,9 @@ public class Server {
     {
         this.contactManager.editContactName(userID, contactID, name);
     }
-    public void addContact(int userID, userContact contact)
+    public void addContact(int userID, String email, String name)
     {
-        this.contactManager.addContact(userID, contact);
+        this.contactManager.addContact(userID, email, name);
     }
     public void addContactEmail(int userID, int contactID, String newEmail)
     {

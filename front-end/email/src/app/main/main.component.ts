@@ -54,6 +54,7 @@ export class MainComponent implements OnInit {
     this.extractId();
     this.updateDataSource();
     this.routerEventListener();
+
   }
   increasePage(){
     this.page ++;
