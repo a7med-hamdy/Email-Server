@@ -18,7 +18,7 @@ public class Proxy {
 
 	private Server server = Server.getInstanceOf();
 	
-	//constructor of proxy class
+	//constructors of proxy class
 	public Proxy(String userName,String password) throws IOException {
 		this.userName = userName;
 		this.password = password;
@@ -27,6 +27,17 @@ public class Proxy {
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
+	}
+
+	public String getEmailFromId(int id) throws IOException{
+		ArrayList<user> ExistUsers = new ArrayList<user>(){};
+		ExistUsers = server.getUsers();
+		for(user  user : ExistUsers){
+			if(user.getID() == id){
+				return user.getEmail();
+			}
+		}
+		return "";
 	}
 
 	public Queue<Integer> getReceiversIds(String[] to) throws IOException{
