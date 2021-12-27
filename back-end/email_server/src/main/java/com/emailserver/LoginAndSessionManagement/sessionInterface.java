@@ -1,7 +1,7 @@
 package com.emailserver.LoginAndSessionManagement;
 
 import java.io.IOException;
-import java.util.ArrayList;
+
 
 import com.emailserver.email_server.userAndMessage.message;
 
@@ -27,6 +27,7 @@ public interface sessionInterface {
     
 
     /**CRUD Operations on messages */
+    public String[] getEmailFolders() throws IOException;
     public void addMessage(message message) throws IOException;
 
     public void moveMessage(int msgID,String source, String folder)throws IOException;
@@ -45,4 +46,6 @@ public interface sessionInterface {
     public void editContact(String email, String newName, String oldname)throws IOException;
 
     public void addFolder(String name)throws IOException;
+    public void deleteFolder(String name)throws IOException;
+    public void renameFolder(String oldname,String newName)throws IOException;
 }

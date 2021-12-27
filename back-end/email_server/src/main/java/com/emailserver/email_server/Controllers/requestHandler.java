@@ -1,37 +1,32 @@
 package com.emailserver.email_server.Controllers;
 
-import java.io.Console;
-import java.io.File;
+
 import java.io.IOException;
-import java.nio.file.Files;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.core.io.UrlResource;
 import com.emailserver.LoginAndSessionManagement.LoggingManager;
 import com.emailserver.LoginAndSessionManagement.sessionInterface;
 import com.emailserver.LoginAndSessionManagement.sessionManager;
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.contact;
 import com.emailserver.email_server.userAndMessage.message;
-import com.emailserver.email_server.userAndMessage.messageAttachmenets;
-import com.emailserver.email_server.userAndMessage.messageBody;
-import com.emailserver.email_server.userAndMessage.messageHeader;
+
 import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.emailserver.email_server.userAndMessage.user;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-import org.json.JSONArray;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -81,7 +76,7 @@ Logging & Signing up Requests
                             "Username = " + userName + "\n" + 
                             "Password = " + password);
         try {
-            System.out.println(sManager.sessions);
+            System.out.println(sManager.getSessions());
 
             return lManager.LOGIN(userName, password);
         }catch (Exception e){
@@ -95,7 +90,7 @@ Logging & Signing up Requests
     public void logOut(@PathVariable("id") String userID)
     {
         sManager.deleteSession(Integer.parseInt(userID));
-        System.out.println(sManager.sessions);
+        System.out.println(sManager.getSessions());
     }
 
 /*---------------------------------------------------------------
@@ -132,43 +127,77 @@ Emails (create | delete) Requests
     }
 
     //delete email(s) (moveToTrash | restoreFromTrash) - delete
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}-{page}")
     @ResponseBody
-    public void delete_or_restore(  @RequestBody int[] IDs, 
+    public String delete_or_restore(  @RequestParam("IDs") String[] IDs, 
                                     @RequestParam("type") String type, 
-                                    @RequestParam("toTrash") boolean toTrash,
-                                    @PathVariable("id") String userId){
-        System.out.println("IDs are "+ Arrays.toString(IDs));
+                                    @RequestParam("toTrash") String toTrash,
+                                    @PathVariable("id") String userId,
+                                    @PathVariable("page")String page){
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
         try {
-            for (int i : IDs) {
-                if (toTrash)
-                    s.moveMessage(i,type,"trash");
+            for (String i : IDs) {
+                if (toTrash.equals("true"))
+                    s.moveMessage(Integer.parseInt(i),type,"trash");
                 else
-                    s.moveMessage(i,"trash", type);
+                    s.moveMessage(Integer.parseInt(i),"trash", type);
                 i = i + 1;
             }
-        }catch (Exception ignoredException){}
+            return s.getMessages(type, "priority", Integer.parseInt(page)).toString();
+        }catch (Exception ignoredException){return null;}
+    }
+
+
+    @DeleteMapping("/Move/{id}-{page}")
+    @ResponseBody
+    public String moveEmail(        @RequestParam("ID") String[] IDs, 
+                                    @RequestParam("type") String type, 
+                                    @RequestParam("destination") String destination,
+                                    @PathVariable("id") String userId,
+                                    @PathVariable("page")String page){
+        System.out.println(IDs);
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+        try {
+            for (String i : IDs) {
+                    s.moveMessage(Integer.parseInt(i),type,destination);
+                i = i + 1;
+            }
+            return s.getMessages(type, "priority", Integer.parseInt(page)).toString();
+        }catch (Exception ignoredException){return null;}
+        //return "oK";
     }
 
 /*---------------------------------------------------------------
 Get Emails (unsorted | sorted | priority | filter) Requests
 -----------------------------------------------------------------*/
-
+    @GetMapping("/getFolders/{id}")
+    public String[] getEmailFolders( 
+                        @PathVariable("id") String userId){
+    System.out.println(userId);
+    try {
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+        return s.getEmailFolders();
+    }catch (Exception e){
+        e.printStackTrace();
+        return null;
+    }
+}
     //get mails (Type: Inbox | Trash | Draft | sent)
     @GetMapping("/getEmails/{id}-{page}")
     public String getEmails(@RequestParam("type") String type, 
+                            @RequestParam("folder") String folder,
                             @PathVariable("id") String userId,
                             @PathVariable("page") String p){
         System.out.println(type);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            return s.getMessages(type, "priority",Integer.parseInt(p)).toString();
+            return s.getMessages(type, folder,Integer.parseInt(p)).toString();
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
     }
+
     //sort
     @GetMapping("/sort/{id}")
     public ArrayList<messageMaker> getSorted( @RequestParam("folder") String folder, 
@@ -243,14 +272,14 @@ Contacts (get | add | delete | edit | filter) Requests
 
     //add contact
     @PostMapping("/addContact/{id}")
-    public boolean addContact(  @RequestParam("email") String email, 
-                                @RequestParam("name") String contactName)  {
-       /*  String[]  contactsList = email.split(",");
-        ArrayList<String> emails = new ArrayList<>();
-        Collections.addAll(emails , contactsList); */
-        System.out.println("Contact name = " + contactName);
+    public boolean addContact(  @PathVariable("id") String userID,
+                                @RequestParam("email") String email, 
+                                @RequestParam("name") String name) throws IOException  {
+        System.out.println("Contact name = " + name);
         System.out.println("Emails = " + email);
         try {
+            Server server = Server.getInstanceOf();
+            server.addContact(Integer.parseInt(userID), email, name);
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -318,9 +347,9 @@ Contacts (get | add | delete | edit | filter) Requests
 folder (get | make | delete | edit ) Requests
 -----------------------------------------------------------------*/
 // make folder
-@PostMapping("/makefolder/{id}")
-public boolean makeFolder(@RequestParam("name") String name,
-                          @RequestParam("name") String user){
+@PostMapping("/makefolder/{id}/{name}")
+public boolean makeFolder(@PathVariable("name") String name,
+                          @PathVariable("id") String user){
     try {
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(user));
         s.addFolder(name);
@@ -329,4 +358,36 @@ public boolean makeFolder(@RequestParam("name") String name,
         return false;
     }
 }
+//delete folder
+@DeleteMapping("/deletefolder/{id}/{name}")
+public boolean deleteFolder(@PathVariable("name") String name,
+                          @PathVariable("id") String user){
+ 
+    try {
+    
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(user));
+        s.deleteFolder(name);
+        return true;
+    }catch (Exception e){
+        return false;
+    }
+}
+ //edit contact
+ @PutMapping("/editfolder/{id}/{oldname}/{newname}")
+ public boolean editFoldre(@PathVariable("id") String user,
+                            @PathVariable("oldname") String name1,
+                            @PathVariable("newname") String name2){
+   
+ 
+     try {
+        
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(user));
+        s.renameFolder(name1,name2);
+     }catch (Exception e){
+         e.printStackTrace();
+     }
+     return true;
+ }
+
+
 }

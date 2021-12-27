@@ -1,0 +1,25 @@
+{
+  "ID": 16867,
+  "body": {
+    "body": "aadadas5 s4695465sd4654sd",
+    "length": 25
+  },
+  "header": {
+    "senderId": 555,
+    "recieverIds": [
+      234
+    ],
+    "subject": "asd"
+  },
+  "attachments": {
+    "attachements": [
+      "mail_report.pdf",
+      "qaifncf1hc651.png",
+      "Numericals_project-phase1.docx"
+    ],
+    "number": 3
+  },
+  "time": 1640629123637,
+  "date": "Dec 27, 2021, 8:18:43 PM",
+  "priority": 1
+}

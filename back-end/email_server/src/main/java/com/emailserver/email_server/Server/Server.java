@@ -1,7 +1,7 @@
 package com.emailserver.email_server.Server;
 
 import com.emailserver.email_server.userAndMessage.message;
-import com.emailserver.email_server.userAndMessage.messageAttachmenets;
+
 import com.emailserver.email_server.userAndMessage.user;
 import com.emailserver.email_server.userAndMessage.userContact;
 import com.google.gson.Gson;
@@ -334,7 +334,7 @@ public class Server {
         this.folderManager.renameFolder(userID, newName, oldName);
     }
     public void deleteFolder(int userID, String name)
-    {
+    {   
         this.folderManager.deleteFolder(userID, name);
     }
 }

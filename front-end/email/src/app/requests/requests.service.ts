@@ -93,23 +93,27 @@ export class RequestsService {
   }
 
   // delete message(s) (moveToTrash or restoreFromTrash)
-  delete_or_retrieve(IDs: number[], Type: string, movetoTrash: boolean){
-    let _url = `${this.url}/delete`;
-    this.http.delete(_url, /* this.messageForm.value */)
-    .subscribe(response => {
-      console.log("deleted/restores successfuly!!")
-    },/* err => {
-      alert("something went WRONG!!")
-    } */)
+  deleteEmail(ID:string,IDs: string[], Type: string, page:string){
+    let _url = `${this.url}/delete/${ID}-${page}`;
+    return this.http.delete<any>(`${this.url}/delete/${ID}-${page}`, {params: { IDs: IDs, type: Type, toTrash:'true'}})
+
+  }
+  MoveEmail(ID:string,IDs: string[], Type: string,destination: string,page:string){
+    let _url = `${this.url}/Move/${ID}-${page}`;
+    return this.http.delete<any>(`${this.url}/Move/${ID}-${page}`, {params: { ID: IDs, type: Type, destination: destination}})
+
   }
 
 
 /*---------------------------------------------------------------
   Get Emails (Inbox | Trash | Draft | Sent)
   ---------------------------------------------------------------*/
+  getEmailFolders(id:string){
+    return this.http.get<any>(`${this.url}/getFolders/${id}`);
+  }
   // get mails
-  getEmails(t: string, id:string, page:string){
-    return this.http.get<any>(`${this.url}/getEmails/${id}-${page}`, {params: {type: t}});
+  getEmails(t: string, id:string, page:string ,srt:string){
+    return this.http.get<any>(`${this.url}/getEmails/${id}-${page}`, {params: {type: t, folder: srt}});
    /* err => {
       //alert("something went WRONG!!")
     //} */
@@ -155,24 +159,63 @@ export class RequestsService {
   ---------------------------------------------------------------*/
 
   // get contacts
-  getContacts(){
-    return this.http.get<any>(`${this.url}/getContacts/${555}`)
+  getContacts(id:string){
+    return this.http.get<any>(`${this.url}/getContacts/${id}`)
   }
 
   // add contact
-  addContact(){
-
+  addContact(name: string, email: string){
+    let params = new HttpParams
+    params = params.append("name", name)
+    params = params.append("email", email)
+    return this.http.post<any>(`${this.url}/addContact/${887788}`, params)
   }
   // delete contact
-  deleteContact(){
-
+  deleteContact(names: String[]){
+    return this.http.post<any>(`${this.url}/deleteContacts/${887788}`, names)
   }
   // edit contact
-  editContact(){
-
+  editContact(emails: string, oldName: string, newName: string){
+    let params = new HttpParams
+    params = params.append("email", emails)
+    params = params.append("oldName", oldName)
+    params = params.append("newName", newName)
+    return this.http.post<any>(`${this.url}/addContact/${887788}`, params)
   }
   // filter contacts
   filterContacts(){
 
   }
+  /*---------------------------------------------------------------
+  folder Requests
+  ---------------------------------------------------------------*/
+  addFolder(id:string ,name:string){
+    let param=new HttpParams();
+
+    return this.http.post<any>(`${this.url}/makefolder/${id}/${name}`,param).subscribe(response=>{
+      console.log(response);
+    }
+
+    );
+  }
+
+  deleteFolder(id:string ,name:string){
+
+
+    return this.http.delete<any>(`${this.url}/deletefolder/${id}/${name}`).subscribe(response=>{
+      console.log(response);})
+    }
+
+  editFolder(id:string ,name:string,name2:string){
+      let param=new HttpParams();
+
+      return this.http.put<any>(`${this.url}/editfolder/${id}/${name}/${name2}`, param).subscribe(response=>{
+        console.log(response);})
+    }
+
+  downfile(id:string){
+    return this.http.get<any>(`${this.url}/deletefolder/${id}`)
+  }
 }
+
+
