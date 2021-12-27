@@ -3,6 +3,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { RequestsService } from '../requests/requests.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -10,12 +11,22 @@ import { RequestsService } from '../requests/requests.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+<<<<<<< HEAD
   userID!:string;
   constructor(private rs: RequestsService,
               public router: Router,
               public route:ActivatedRoute) { }
+=======
+
+  constructor(private rs: RequestsService, public router: Router, private fb: FormBuilder) { }
+>>>>>>> 079bf2d2f48c8e46e260a4e29b58da1e606be434
 
   contact?:any[];
+
+  newContactForm = this.fb.group({
+    name: [''],
+    emails: ['']
+  })
   ngOnviewInit(){
     this.getcontact();
 
@@ -62,7 +73,19 @@ export class ProfileComponent implements OnInit {
     this.here2=true;
   }
   addFolder():void{
-    this.rs.editFolder("555","hamoksha","el5ars")
+    this.rs.deleteFolder("555","hamoksha")
   }
 
+  addContact(){
+    let name = this.newContactForm.value.name;
+    let emails = this.newContactForm.value.emails;
+    this.rs.addContact(name, emails)
+    .subscribe(done => {
+      if(done){
+        console.log("Contact added successfully")
+        this.getcontact() //refresh the contacts list
+      }
+      else{console.log("Error!! Contact wasn't added!")}
+    })
+  }
 }

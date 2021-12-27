@@ -90,6 +90,7 @@ public class session implements sessionInterface{
           || name.equalsIgnoreCase("Sent") || name.equalsIgnoreCase("Inbox")){
                ;
           }else{
+               
                server.deleteFolder(this.getUserId(),name);
           }
      }
