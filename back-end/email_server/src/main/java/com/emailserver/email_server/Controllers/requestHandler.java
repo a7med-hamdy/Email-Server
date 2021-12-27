@@ -132,23 +132,25 @@ Emails (create | delete) Requests
     }
 
     //delete email(s) (moveToTrash | restoreFromTrash) - delete
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}-{page}")
     @ResponseBody
-    public void delete_or_restore(  @RequestBody int[] IDs, 
+    public String delete_or_restore(  @RequestParam("IDs") String[] IDs, 
                                     @RequestParam("type") String type, 
-                                    @RequestParam("toTrash") boolean toTrash,
-                                    @PathVariable("id") String userId){
-        System.out.println("IDs are "+ Arrays.toString(IDs));
+                                    @RequestParam("toTrash") String toTrash,
+                                    @PathVariable("id") String userId,
+                                    @PathVariable("page")String page){
+        System.out.println("IDs are "+ (IDs));
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
         try {
-            for (int i : IDs) {
-                if (toTrash)
-                    s.moveMessage(i,type,"trash");
+            for (String i : IDs) {
+                if (toTrash.equals("true"))
+                    s.moveMessage(Integer.parseInt(i),type,"trash");
                 else
-                    s.moveMessage(i,"trash", type);
+                    s.moveMessage(Integer.parseInt(i),"trash", type);
                 i = i + 1;
             }
-        }catch (Exception ignoredException){}
+            return s.getMessages(type, "priority", Integer.parseInt(page)).toString();
+        }catch (Exception ignoredException){return null;}
     }
 
 /*---------------------------------------------------------------
@@ -163,6 +165,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         System.out.println(type);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+            System.out.println(s.getMessages(type, "priority",Integer.parseInt(p)).toString());
             return s.getMessages(type, "priority",Integer.parseInt(p)).toString();
         }catch (Exception e){
             e.printStackTrace();

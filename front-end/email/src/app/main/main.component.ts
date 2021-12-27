@@ -14,7 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class MainComponent implements OnInit {
   userID!:string;
-  selected?: string;
+  selected:number = 1;
   userSessionID!:string;
   /**VIEW BOOLEANs */
   search:Boolean=false;
@@ -59,7 +59,6 @@ export class MainComponent implements OnInit {
 
   }
 
-
   routerEventListener(){
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
@@ -88,7 +87,6 @@ export class MainComponent implements OnInit {
   Logout(){
     this.router.onSameUrlNavigation = 'reload'
     this.req.logOut(this.userID);
-    this.userID = '';
     this.router.navigate(["/login"])
   }
 
@@ -111,9 +109,10 @@ export class MainComponent implements OnInit {
 
 
   /**
-   * get nwe data
+   * get new data
    */
   updateDataSource(){
+    this.selection.clear();
     (this.req.getEmails(this.folder, this.userID,this.page.toString())).subscribe(response =>{
       /*if(response == null)
         this.Logout();
@@ -126,6 +125,16 @@ export class MainComponent implements OnInit {
 
 /****************************FOLDER FUNCTIONS *********************************/
 DeleteSelected(){
+
+  this.req.delete_or_retrieve(this.userID,this.selection.selected,this.folder,true,this.page.toString())
+  .subscribe(response => {
+    this.dataSource = new MatTableDataSource<any>(response);
+    console.log("delete")
+  },/* err => {
+    alert("something went WRONG!!")
+  } */);
+  this.selection.clear();
+
   console.log(this.selection.selected)
 }
 increasePage(){

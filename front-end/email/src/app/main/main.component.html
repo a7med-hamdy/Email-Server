@@ -68,7 +68,7 @@
           <td mat-cell *matCellDef="let row" >
             <mat-checkbox
                           (click)="$event.stopPropagation()"
-                      (change)="$event ? selection.toggle(row) : null"
+                      (change)="$event ? selection.toggle(row['ID']) : null"
                       [checked]="selection.isSelected(row)"
                           >
             </mat-checkbox>
@@ -96,7 +96,7 @@
     <button (click)="increasePage()" >➡️</button>
     </div>
     <!--------------------------------------------------------------------------------------------------------->
-    <div *ngIf="!selection.isEmpty()">
+    <div>
       <button (click) ="DeleteSelected()">
         Delete
       </button>
