@@ -11,15 +11,8 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-<<<<<<< HEAD
   userID!:string;
-  constructor(private rs: RequestsService,
-              public router: Router,
-              public route:ActivatedRoute) { }
-=======
-
-  constructor(private rs: RequestsService, public router: Router, private fb: FormBuilder) { }
->>>>>>> 079bf2d2f48c8e46e260a4e29b58da1e606be434
+  constructor(private rs: RequestsService, public router: Router,  public route:ActivatedRoute,private fb: FormBuilder) { }
 
   contact?:any[];
 
