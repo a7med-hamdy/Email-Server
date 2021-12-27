@@ -175,4 +175,33 @@ export class RequestsService {
   filterContacts(){
 
   }
+  /*---------------------------------------------------------------
+  folder Requests
+  ---------------------------------------------------------------*/
+  addFolder(id:string ,name:string){
+    let param=new HttpParams();
+
+    return this.http.post<any>(`${this.url}/makefolder/${id}/${name}`,param).subscribe(response=>{
+      console.log(response);
+    }
+
+    );
+  }
+
+  deleteFolder(id:string ,name:string){
+
+
+    return this.http.delete<any>(`${this.url}/deletefolder/${id}/${name})`).subscribe(response=>{
+      console.log(response);})
+    }
+
+    editFolder(id:string ,name:string,name2:string){
+      let param=new HttpParams();
+
+      return this.http.put<any>(`${this.url}/editfolder/${id}/${name}/${name2})`, param).subscribe(response=>{
+        console.log(response);})
+      }
+
 }
+
+
