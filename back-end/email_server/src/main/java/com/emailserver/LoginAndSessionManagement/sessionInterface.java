@@ -45,4 +45,6 @@ public interface sessionInterface {
     public void editContact(String email, String newName, String oldname)throws IOException;
 
     public void addFolder(String name)throws IOException;
+    public void deleteFolder(String name)throws IOException;
+    public void renameFolder(String oldname,String newName)throws IOException;
 }

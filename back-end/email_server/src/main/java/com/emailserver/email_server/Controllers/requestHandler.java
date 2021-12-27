@@ -318,9 +318,9 @@ Contacts (get | add | delete | edit | filter) Requests
 folder (get | make | delete | edit ) Requests
 -----------------------------------------------------------------*/
 // make folder
-@PostMapping("/makefolder/{id}")
-public boolean makeFolder(@RequestParam("name") String name,
-                          @RequestParam("name") String user){
+@PostMapping("/makefolder/{id}/{name}")
+public boolean makeFolder(@PathVariable("name") String name,
+                          @PathVariable("id") String user){
     try {
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(user));
         s.addFolder(name);
@@ -329,4 +329,32 @@ public boolean makeFolder(@RequestParam("name") String name,
         return false;
     }
 }
+//delete folder
+@DeleteMapping("/deletefolder/{id}/{name}")
+public boolean deleteFolder(@PathVariable("name") String name,
+                          @PathVariable("id") String user){
+ 
+    try {
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(user));
+        s.deleteFolder(name);
+        return true;
+    }catch (Exception e){
+        return false;
+    }
+}
+ //edit contact
+ @PutMapping("/editfolder/{id}/{oldname}/{newname}")
+ public boolean editFoldre(@PathVariable("id") String user,
+                            @PathVariable("oldname") String name1,
+                            @PathVariable("newname") String name2){
+   
+ 
+     try {
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(user));
+        s.renameFolder(name1,name2);
+     }catch (Exception e){
+         e.printStackTrace();
+     }
+     return true;
+ }
 }

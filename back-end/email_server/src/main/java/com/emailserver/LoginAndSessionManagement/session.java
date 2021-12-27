@@ -76,6 +76,33 @@ public class session implements sessionInterface{
      }
      public void addFolder(String name)throws IOException{
           server = Server.getInstanceOf();
-          server.createFolder(this.getUserId(),name);
+          if(name.equalsIgnoreCase("Deleted") || name.equalsIgnoreCase("Draft")
+          || name.equalsIgnoreCase("Sent") || name.equalsIgnoreCase("Inbox")){
+               ;
+          }else{
+               server.createFolder(this.getUserId(),name);
+          }
+          
+     }
+     public void deleteFolder(String name)throws IOException{
+          server = Server.getInstanceOf();
+          if(name.equalsIgnoreCase("Deleted") || name.equalsIgnoreCase("Draft")
+          || name.equalsIgnoreCase("Sent") || name.equalsIgnoreCase("Inbox")){
+               ;
+          }else{
+               server.deleteFolder(this.getUserId(),name);
+          }
+     }
+     public void renameFolder(String oldname,String newName)throws IOException{
+          server = Server.getInstanceOf();
+          if(oldname.equalsIgnoreCase("Deleted") || oldname.equalsIgnoreCase("Draft")
+          || oldname.equalsIgnoreCase("Sent") || oldname.equalsIgnoreCase("Inbox")
+          || newName.equalsIgnoreCase("Deleted") || newName.equalsIgnoreCase("Draft")
+          || newName.equalsIgnoreCase("Sent") || newName.equalsIgnoreCase("Inbox")
+          ){
+               ;
+          }else{
+               server.renameFolder(this.getUserId(), newName, oldname);
+          }
      }
 }
