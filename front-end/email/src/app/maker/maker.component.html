@@ -52,13 +52,6 @@
         </mat-form-field>
     </div>
 
-    <!-- Attachments -->
-    <input type="file" multiple (change)="selectFiles($event)" />
-    <button mat-raised-button  >Upload</button>
-        <div *ngFor=" let url of urls; let j=index">
-            <iframe  [src]="url"> </iframe>
-            <button mat-raised-button (click)="del(url)" >x</button>
-        </div>
 
     <div class="bot">
         <button type="submit" mat-raised-button class="submit-btn" [disabled]="!enableSentBtn()" (click)="makeMessageOfType('sent')" > Sent </button>
@@ -68,6 +61,15 @@
             Done
         </span>
     </div>
+
+      <!-- Attachments -->
+      <input type="file" multiple (change)="selectFiles($event)" />
+      <button mat-raised-button  >Upload</button>
+          <div *ngFor=" let url of urls; let j=index">
+              <iframe  [src]="url"> </iframe>
+              <button mat-raised-button (click)="del(url)" >x</button>
+          </div>
+
 </form>
 </div>
 

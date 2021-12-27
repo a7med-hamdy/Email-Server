@@ -1,6 +1,4 @@
-li{
-  list-style-type: none;
-}
+
 table{
   background-color:#191a1a;
   transition-duration: 0.4s;
@@ -30,3 +28,51 @@ mat-column {
   text-align: center;
   font-weight: bold;
 }
+
+.main{
+  width: 1300px;
+  border: 2px solid black;
+  height: 825px;
+
+}
+.gret{
+  display: flex;
+}
+.add{
+  border: 2px solid black;
+  margin-bottom: 10px;
+}
+.add input{
+  display: block;
+  width: 490px;
+  height: 56.5px;
+  margin: 7.5px 0  7.5px 0 ;
+}
+.add button{
+   width: 490px;
+  height: 40.5px;
+  margin: 7.5px 0  7.5px 0 ;
+
+}
+label{
+  font-size: 20px;
+  color: black;
+  margin: 7.5px;
+}
+
+.edit{
+  border: 2px solid black;
+}
+.edit input{
+  display: block;
+  width: 490px;
+  height: 56.5px;
+  margin: 7.5px 0  7.5px 0 ;
+}
+
+.edit button{
+  width: 490px;
+  height: 40.5px;
+  margin: 7.5px 0  7.5px 0 ;
+}
+

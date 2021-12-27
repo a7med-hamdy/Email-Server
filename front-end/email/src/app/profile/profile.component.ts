@@ -26,8 +26,9 @@ export class ProfileComponent implements OnInit {
   here1:Boolean=false;
   main:Boolean=true;
   here2:Boolean=false;
-  displayedColumns: string[] = [' ',"ID", "name","email","userName"];
+  displayedColumns: string[] = ["ID", "name","email","userName"];
   selection = new SelectionModel<number>(true, []);
+  added?: string;
 
   back():void {
     this.here1=false;
@@ -44,7 +45,7 @@ export class ProfileComponent implements OnInit {
       console.log(done);
     }
     );
-     console.log(this.contact);
+
   }
 
   getFolder():void{
@@ -52,7 +53,7 @@ export class ProfileComponent implements OnInit {
     this.main=false;
     this.here2=true;
   }
-  onSelect():void{
+  addedC():void{
 
   }
 
