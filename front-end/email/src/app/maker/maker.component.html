@@ -64,7 +64,6 @@
 
       <!-- Attachments -->
       <input type="file" multiple (change)="selectFiles($event)" />
-      <button mat-raised-button  >Upload</button>
           <div *ngFor=" let url of urls; let j=index">
               <iframe  [src]="url"> </iframe>
               <button mat-raised-button (click)="del(url)" >x</button>
