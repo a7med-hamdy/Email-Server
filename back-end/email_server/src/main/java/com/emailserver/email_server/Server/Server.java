@@ -54,7 +54,7 @@ public class Server {
     public void SignUp(int id, String username, String password, String email, ArrayList<userContact> contacts) throws IOException{    
         user new_user = new user(id,username,password,email,contacts);
         this.arr.put(new JSONObject(this.gson.toJson(new_user)));
-        this.writeUsers();
+        ReaderWriter.writeData(this.current_users.toString(), this.arr.toString());
         File f = new File(this.path+id);
         f.mkdir();
         ArrayList<String> folders = new ArrayList<>(Arrays.asList("inbox","trash","sent","draft"));
@@ -67,53 +67,9 @@ public class Server {
         }
     }
 
-    public String getContacts(int userID)
-    {
-       return this.contactManager.getContacts(userID);
-    }
-    public String deleteContact(int userID, int contactID)
-    {
-        return this.contactManager.deleteContact(userID, contactID);
-    }
-
-    public String editContactName(int userID, int contactID, String name)
-    {
-        return this.contactManager.editContactName(userID, contactID, name);
-    }
-    public String addContact(int userID, String email, String name)
-    {
-        return this.contactManager.addContact(userID, email, name);
-    }
-    public String addContactEmail(int userID, int contactID, String newEmail)
-    {
-        return this.contactManager.addContactEmail(userID, contactID, newEmail);
-    }
-    public String removeContactEmail(int userID, int contactID, String email)
-    {
-        return this.contactManager.removeContactEmail(userID, contactID, email);
-    }
-    public String editContactEmail(int userID, int contactID, String oldEmail, String newEmail)
-    {
-        return this.contactManager.editContactEmail(userID, contactID, oldEmail, newEmail);
-    }
-
     public ArrayList<user> getUsers() throws IOException
     {
-        String content = "";
-        try {
-            Scanner sc = new Scanner(this.current_users).useDelimiter("\\Z");
-            if(sc.hasNext())
-            {
-                content = sc.next();
-            }
-            sc.close();
-        } catch (FileNotFoundException | NoSuchElementException e) {
-            System.out.println("ERROR reading the file.");
-        }
-        if(content.equalsIgnoreCase(""))
-        {
-            return new ArrayList<>();
-        }
+        String content = ReaderWriter.readData(this.current_users.toString());
         user[] users = this.gson.fromJson(content, user[].class);
         JSONArray temp = new JSONArray(content);
         this.arr.clear();
@@ -124,48 +80,18 @@ public class Server {
     //type "time" for sort by time and "priority" for priority
     public JSONArray requestFolder(int userID, String folder, String type, int count)
     {
-        PriorityQueue<JSONObject> queue;
-        if(type.equalsIgnoreCase("priority"))
-        {
-            queue = new PriorityQueue<>(new priorityComparator());
-        }
-        else
-        {
-            queue = new PriorityQueue<>(new messageComparator());
-        }
         JSONArray messages = new JSONArray();
+        messageSorter Sorter = new messageSorter(type);
         File[] folders = new File(this.path+userID+"\\"+folder).listFiles((FileFilter)FileFilterUtils.directoryFileFilter());
         for(File iter: folders)
         {
             ArrayList<File> files = (ArrayList<File>) FileUtils.listFiles(iter, new String[]{"json"}, false);
             String content = ReaderWriter.readData(files.get(0).toString());
             message m = gson.fromJson(content, message.class);
-            ArrayList<String> paths = new ArrayList<>();
-            for(String t : m.getAttachments().getAttachment())
-            {
-                File f = new File(iter, t);
-                paths.add(f.getAbsolutePath());
-
-            }
-            m.getAttachments().setAttachments(paths);
-            String json = gson.toJson(m);
-            JSONObject temp = new JSONObject(json);
-            queue.add(temp);
+            JSONObject temp = new JSONObject(this.addMessageAttachments(iter, m));
+            Sorter.addToQueue(temp);
         }
-        for(int i = 0; i < (count-1)*5;i++)
-        {
-            JSONObject temp = queue.poll();
-        }
-        int n = queue.size();
-        if(n > 5)
-        {
-            n=5;
-        }
-        for(int i = 0; i < n;i++)
-        {
-            messages.put(queue.poll());
-        }
-        return messages;
+        return Sorter.sortMessages(count);
     }
 
 
@@ -275,6 +201,10 @@ public class Server {
         }
         JSONObject temp = new JSONObject(m);
         JSONObject obj = new JSONObject().putOpt("ID", temp.optString("ID")).putOpt("subject", temp.getJSONObject("header").optString("subject"));
+        obj.putOpt("sender", temp.getJSONObject("header").optString("senderId"));
+        obj.putOpt("receivers", temp.getJSONObject("header").optString("recieverIds"));
+        obj.putOpt("attachments", temp.getJSONObject("attachments").optString("attachements").replaceAll("\\\\", ""));
+        obj.putOpt("body", temp.getJSONObject("body").optString("body"));
         messages.put(obj);
         ReaderWriter.writeData(path+"index.json", messages.toString());
     }
@@ -299,10 +229,37 @@ public class Server {
             }
         }
     }
-
-
-
-
+    /**
+     * 
+     * @param userID
+     * id of the user
+     * @param field
+     * the field is one of attachment/sender/receiver/subject/body/global for search
+     * @param keyword
+     * the keyword
+     * @param sortType
+     * the type of sort wanted time/priority/body
+     * @param count
+     * the needed page
+     * @return
+     */
+    public JSONArray filterMessages(int userID, String field, String keyword, String sortType, int count)
+    {
+        Criteria criteria = CriteriaManager.getCriteria(field);
+        messageSorter Sorter = new messageSorter(sortType);
+        ArrayList<String> IDs = new ArrayList<>(); 
+        String[] folders = this.getFolders(userID);
+        for(String folder : folders)
+        {
+            IDs = criteria.meetCriteria(this.path+userID+"\\"+folder+"\\"+"index.json", keyword);
+            for(String id : IDs)
+            {
+                message m = gson.fromJson(ReaderWriter.readData(this.path+userID+"\\"+folder+"\\"+id+"\\"+id+".json"), message.class);
+                Sorter.addToQueue(new JSONObject(this.addMessageAttachments(new File(this.path+userID+"\\"+folder+"\\"+id), m)));
+            }
+        }
+        return Sorter.sortMessages(count);
+    }
 
     private String findMessage(String path, int id, boolean flag)
     {
@@ -323,12 +280,20 @@ public class Server {
         }
         return "-1";
     }
-    private void writeUsers() throws IOException
+
+    private String addMessageAttachments(File file, message m)
     {
-        FileWriter myWriter = new FileWriter(this.current_users);
-        myWriter.write(this.arr.toString());
-        myWriter.close();
+        ArrayList<String> paths = new ArrayList<>();
+        for(String t : m.getAttachments().getAttachment())
+        {
+            File f = new File(file, t);
+            paths.add(f.getAbsolutePath());
+
+        }
+        m.getAttachments().setAttachments(paths);
+        return gson.toJson(m);
     }
+
     public String[] getFolders(int userID)
     {
         File f = new File(this.path+userID);
@@ -342,6 +307,37 @@ public class Server {
         });
         return folders;
     }
+
+    public String getContacts(int userID)
+    {
+       return this.contactManager.getContacts(userID);
+    }
+    public String deleteContact(int userID, int contactID)
+    {
+        return this.contactManager.deleteContact(userID, contactID);
+    }
+
+    public String editContactName(int userID, int contactID, String name)
+    {
+        return this.contactManager.editContactName(userID, contactID, name);
+    }
+    public String addContact(int userID, String email, String name)
+    {
+        return this.contactManager.addContact(userID, email, name);
+    }
+    public String addContactEmail(int userID, int contactID, String newEmail)
+    {
+        return this.contactManager.addContactEmail(userID, contactID, newEmail);
+    }
+    public String removeContactEmail(int userID, int contactID, String email)
+    {
+        return this.contactManager.removeContactEmail(userID, contactID, email);
+    }
+    public String editContactEmail(int userID, int contactID, String oldEmail, String newEmail)
+    {
+        return this.contactManager.editContactEmail(userID, contactID, oldEmail, newEmail);
+    }
+
     public void createFolder(int userID, String name)
     {
         this.folderManager.createFolder(userID, name);
