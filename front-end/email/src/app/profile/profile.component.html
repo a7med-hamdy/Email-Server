@@ -8,7 +8,7 @@
 <button (click)="back()"> get back</button>
 <h2>My Contacts</h2>
 <div class="gret">
-<div *ngIf="dataSource.data != [null]" class="main">
+<div *ngIf="dataSource != undefined" class="main">
   <table  mat-table [dataSource]="dataSource" >
     <ng-container matColumnDef="select">
 

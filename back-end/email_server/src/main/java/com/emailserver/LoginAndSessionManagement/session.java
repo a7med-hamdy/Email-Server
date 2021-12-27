@@ -74,4 +74,8 @@ public class session implements sessionInterface{
      public void editContact(String email, String newName, String oldname)throws IOException{
        
      }
+     public void addFolder(String name)throws IOException{
+          server = Server.getInstanceOf();
+          server.createFolder(this.getUserId(),name);
+     }
 }

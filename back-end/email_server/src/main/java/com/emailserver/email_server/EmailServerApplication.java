@@ -66,7 +66,7 @@ public class EmailServerApplication {
 		message n6 = maker.getNewMessage(7777, "hello", 5,342544, to6, "subject", now, 1, new ArrayList<>(Arrays.asList("image.jpf","another.extesnion")));
 		message x = maker.getNewMessage(1010, "another message", 15,342544, to2, "TWO", now, 4, new ArrayList<>((Arrays.asList("image.jpf"))));
 		
-		//////////
+		
 		s.sendMessage(n);
 		s.sendMessage(n1);
 		s.sendMessage(n2);
