@@ -117,6 +117,8 @@ export class MakerComponent implements OnInit {
 
   selectFiles(event:any): void {
     this.urls = [];
+    this.fileList = [];
+    this.attachNamse=[];
     this.selectedFiles = event.target.files;
     if(this.selectedFiles){
      for (let i = 0; i < this.selectedFiles.length; i++) {
@@ -173,6 +175,9 @@ export class MakerComponent implements OnInit {
     this.urls.splice(x,1);
     this.fileList.splice(x,1);
     this.attachNamse.splice(x,1);
+    console.log(this.urls)
+    console.log(this.fileList)
+    console.log(this.attachNamse)
   }
 
 
