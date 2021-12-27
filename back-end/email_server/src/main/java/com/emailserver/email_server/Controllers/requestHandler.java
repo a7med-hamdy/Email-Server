@@ -2,17 +2,18 @@ package com.emailserver.email_server.Controllers;
 
 
 import java.io.IOException;
-
-
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.core.io.UrlResource;
 import com.emailserver.LoginAndSessionManagement.LoggingManager;
 import com.emailserver.LoginAndSessionManagement.sessionInterface;
 import com.emailserver.LoginAndSessionManagement.sessionManager;
@@ -24,8 +25,8 @@ import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.emailserver.email_server.userAndMessage.user;
 
-
-
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -356,4 +357,19 @@ public boolean deleteFolder(@PathVariable("name") String name,
      }
      return true;
  }
+
+ //atachment download
+ @GetMapping("/downattach/{file}")
+ public Resource downfile(@PathVariable("file") String file){
+    System.out.println(file);
+    try{
+    System.out.println(file);
+    Path filePath= Paths.get(file);
+    Resource resource= new UrlResource(filePath.toUri());
+    return resource;
+    }catch (MalformedURLException e) {
+        throw new RuntimeException("Error: " + e.getMessage());
+    }
+ }
+
 }

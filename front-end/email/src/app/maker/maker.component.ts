@@ -172,7 +172,7 @@ export class MakerComponent implements OnInit {
     let x=this.urls.indexOf(inter);
     this.urls.splice(x,1);
     this.fileList.splice(x,1);
-
+    this.attachNamse.splice(x,1);
   }
 
 

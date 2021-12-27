@@ -31,7 +31,7 @@
         Body: <b>{{clickedRows[0].body.body}}</b>
       </div>
       <div>
-        attachements: <div *ngFor="let att of clickedRows[0].attachements"><b>{{att}}</b></div>
+        attachements: <div *ngFor="let att of clickedRows[0].attachments.attachements"><b><a href="file:///{{att}}" download>attachement</a></b></div>
       </div>
     </div>
     <app-profile *ngIf="profile"></app-profile>

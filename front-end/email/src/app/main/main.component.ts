@@ -4,6 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/router";
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 
 
@@ -39,6 +40,7 @@ export class MainComponent implements OnInit {
 
 
   constructor(public route:ActivatedRoute,
+              private sanitizer: DomSanitizer,
               public router:Router,
               public req:RequestsService) {
                 //router.navigate(['main']);
@@ -237,8 +239,9 @@ decreasePage(){
     }
   }
 
-onclick(){
-  console.log("fok")
-}
+onclick(url:string): SafeUrl{
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url)
+  }
+
 
 }

@@ -198,13 +198,16 @@ export class RequestsService {
       console.log(response);})
     }
 
-    editFolder(id:string ,name:string,name2:string){
+  editFolder(id:string ,name:string,name2:string){
       let param=new HttpParams();
 
       return this.http.put<any>(`${this.url}/editfolder/${id}/${name}/${name2}`, param).subscribe(response=>{
         console.log(response);})
-      }
+    }
 
+  downfile(id:string){
+    return this.http.get<any>(`${this.url}/deletefolder/${id}`)
+  }
 }
 
 
