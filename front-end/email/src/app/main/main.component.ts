@@ -2,8 +2,6 @@ import { RequestsService } from './../requests/requests.service';
 import { query } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/router";
-import { ViewComponent } from '../view/view.component';
-import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -17,6 +15,8 @@ import { MatTableDataSource } from '@angular/material/table';
 export class MainComponent implements OnInit {
   userID!:string;
   selected?: string;
+  userSessionID!:string;
+  /**VIEW BOOLEANs */
   search:Boolean=false;
   profile:Boolean=false;
   make:Boolean=false;
@@ -26,6 +26,8 @@ export class MainComponent implements OnInit {
   viewD:Boolean=false;
   viewT:Boolean=false;
   filter?:string;
+
+
   clickedRows:any[] = [];
   displayedColumns: string[] = [' ',"ID", "subject","date"];
   page:number = 1;
