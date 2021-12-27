@@ -14,7 +14,26 @@
 
 <!--Folder Tables-->
    <mat-sidenav-content>
-
+    <div class ="view" *ngIf="clickedRows.length != 0">
+      <div>
+        TO: <b>{{clickedRows[0].body.body}}</b>
+      </div>
+      <div>
+        FROM: <b>{{clickedRows[0].body.body}}</b>
+      </div>
+      <div>
+        SUBJECT: <b>{{clickedRows[0].header.subject}}</b>
+      </div>
+      <div>
+        Date: <b>{{clickedRows[0].date}}</b>
+      </div>
+      <div>
+        Body: <b>{{clickedRows[0].body.body}}</b>
+      </div>
+      <div>
+        attachements: <div *ngFor="let att of clickedRows[0].attachements"><b>{{att}}</b></div>
+      </div>
+    </div>
     <app-profile *ngIf="profile"></app-profile>
     <app-maker *ngIf="make"></app-maker>
     <app-search *ngIf="search"></app-search>
@@ -39,19 +58,18 @@
     <button>Body</button>
   </div>
 
-  <div *ngIf="dataSource.data != [null]">
+  <div *ngIf="dataSource != undefined">
     <table *ngIf="view" mat-table [dataSource]="dataSource" >
       <ng-container matColumnDef="select">
 
       </ng-container>
       <ng-container  [matColumnDef]="column" *ngFor="let column of displayedColumns">
         <div *ngIf="column == ' '">
-          <th mat-header-cell *matHeaderCellDef>
-            selected
-          </th>
           <td mat-cell *matCellDef="let row" >
-            <mat-checkbox (click)="addClickedRows(row)"
-                          (change)="$event ? selection.toggle(row) : null"
+            <mat-checkbox
+                          (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
                           >
             </mat-checkbox>
           </td>
@@ -59,8 +77,13 @@
 
         <th mat-header-cell *matHeaderCellDef> {{column}} </th>
         <div *ngIf="column == 'body'"
-             ><td mat-cell *matCellDef="let emp">{{emp[column][column]}}</td></div>
-        <td mat-cell *matCellDef="let emp"> {{emp[column]}} </td>
+             ><td mat-cell (click)="addClickedRows(emp)" *matCellDef="let emp">{{emp[column][column]}}</td>
+            </div>
+
+             <div *ngIf="column == 'subject'">
+               <td mat-cell (click)="addClickedRows(emp)" *matCellDef="let emp">{{emp['header'][column]}}</td>
+              </div>
+        <td mat-cell (click)="addClickedRows(emp)" *matCellDef="let emp"> {{emp[column]}} </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -71,6 +94,15 @@
     <button (click)="decreasePage()">⬅️</button>
     {{page}}
     <button (click)="increasePage()" >➡️</button>
+    </div>
+    <!--------------------------------------------------------------------------------------------------------->
+    <div *ngIf="!selection.isEmpty()">
+      <button (click) ="DeleteSelected()">
+        Delete
+      </button>
+      <button>
+        move
+      </button>
     </div>
 
 </mat-sidenav>

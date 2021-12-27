@@ -1,6 +1,7 @@
 package com.emailserver.email_server.Server;
 
 import com.emailserver.email_server.userAndMessage.message;
+import com.emailserver.email_server.userAndMessage.messageAttachmenets;
 import com.emailserver.email_server.userAndMessage.user;
 import com.emailserver.email_server.userAndMessage.userContact;
 import com.google.gson.Gson;
@@ -70,30 +71,30 @@ public class Server {
     {
        return this.contactManager.getContacts(userID);
     }
-    public void deleteContact(int userID, int contactID)
+    public String deleteContact(int userID, int contactID)
     {
-        this.contactManager.deleteContact(userID, contactID);
+        return this.contactManager.deleteContact(userID, contactID);
     }
 
-    public void editContactName(int userID, int contactID, String name)
+    public String editContactName(int userID, int contactID, String name)
     {
-        this.contactManager.editContactName(userID, contactID, name);
+        return this.contactManager.editContactName(userID, contactID, name);
     }
-    public void addContact(int userID, String email, String name)
+    public String addContact(int userID, String email, String name)
     {
-        this.contactManager.addContact(userID, email, name);
+        return this.contactManager.addContact(userID, email, name);
     }
-    public void addContactEmail(int userID, int contactID, String newEmail)
+    public String addContactEmail(int userID, int contactID, String newEmail)
     {
-        this.contactManager.addContactEmail(userID, contactID, newEmail);
+        return this.contactManager.addContactEmail(userID, contactID, newEmail);
     }
-    public void removeContactEmail(int userID, int contactID, String email)
+    public String removeContactEmail(int userID, int contactID, String email)
     {
-        this.contactManager.removeContactEmail(userID, contactID, email);
+        return this.contactManager.removeContactEmail(userID, contactID, email);
     }
-    public void editContactEmail(int userID, int contactID, String oldEmail, String newEmail)
+    public String editContactEmail(int userID, int contactID, String oldEmail, String newEmail)
     {
-        this.contactManager.editContactEmail(userID, contactID, oldEmail, newEmail);
+        return this.contactManager.editContactEmail(userID, contactID, oldEmail, newEmail);
     }
 
     public ArrayList<user> getUsers() throws IOException
@@ -138,7 +139,17 @@ public class Server {
         {
             ArrayList<File> files = (ArrayList<File>) FileUtils.listFiles(iter, new String[]{"json"}, false);
             String content = ReaderWriter.readData(files.get(0).toString());
-            JSONObject temp = new JSONObject(content);
+            message m = gson.fromJson(content, message.class);
+            ArrayList<String> paths = new ArrayList<>();
+            for(String t : m.getAttachments().getAttachment())
+            {
+                File f = new File(iter, t);
+                paths.add(f.getAbsolutePath());
+
+            }
+            m.getAttachments().setAttachments(paths);
+            String json = gson.toJson(m);
+            JSONObject temp = new JSONObject(json);
             queue.add(temp);
         }
         for(int i = 0; i < (count-1)*5;i++)
@@ -191,21 +202,26 @@ public class Server {
         }
     }
 
-    public String getMessage(int userID, int messageID)
-    {
-        File[] folders = new File(this.path+userID).listFiles((FileFilter)FileFilterUtils.directoryFileFilter());
-        for(File folder : folders)
-        {
-            System.out.println(folder);
-            String content = this.findMessage(folder+"\\", messageID, true);
-            if(!content.equalsIgnoreCase("-1"))
-            {
-                System.out.println(folder);
-                return content;
-            }
-        }
-        return "not Found";
-    }
+    // public String getMessage(int userID, int messageID)
+    // {
+    //     File[] folders = new File(this.path+userID).listFiles((FileFilter)FileFilterUtils.directoryFileFilter());
+    //     if(folders == null)
+    //     {
+    //         return "error occurred retrieving the message";
+    //     }
+    //     for(File folder : folders)
+    //     {
+    //         System.out.println(folder);
+    //         String content = this.findMessage(folder+"\\", messageID, true);
+    //         if(!content.equalsIgnoreCase("-1"))
+    //         {
+    //             JSONObject json = new JSONObject(content);
+    //             System.out.println(json);
+    //             return content;
+    //         }
+    //     }
+    //     return "not Found";
+    // }
 
     public void moveMessage(int userID, int messageID, String src, String dst)
     {
