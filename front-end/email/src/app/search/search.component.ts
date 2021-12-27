@@ -8,8 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class SearchComponent implements OnInit {
 
   constructor() { }
-  selected?:string;
+  selected?:string="0"
+  selName?:string
   ngOnInit(): void {
+  }
+
+  search(){
+    console.log(this.selected)
   }
 
 }

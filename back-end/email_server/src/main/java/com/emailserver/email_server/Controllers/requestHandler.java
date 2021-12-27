@@ -1,15 +1,11 @@
 package com.emailserver.email_server.Controllers;
 
-import java.io.Console;
-import java.io.File;
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -24,15 +20,13 @@ import com.emailserver.LoginAndSessionManagement.sessionManager;
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.contact;
 import com.emailserver.email_server.userAndMessage.message;
-import com.emailserver.email_server.userAndMessage.messageAttachmenets;
-import com.emailserver.email_server.userAndMessage.messageBody;
-import com.emailserver.email_server.userAndMessage.messageHeader;
+
 import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.emailserver.email_server.userAndMessage.user;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-import org.json.JSONArray;
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -191,12 +185,13 @@ Get Emails (unsorted | sorted | priority | filter) Requests
     //get mails (Type: Inbox | Trash | Draft | sent)
     @GetMapping("/getEmails/{id}-{page}")
     public String getEmails(@RequestParam("type") String type, 
+                            @RequestParam("folder") String folder,
                             @PathVariable("id") String userId,
                             @PathVariable("page") String p){
         System.out.println(type);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            return s.getMessages(type, "priority",Integer.parseInt(p)).toString();
+            return s.getMessages(type, folder,Integer.parseInt(p)).toString();
         }catch (Exception e){
             e.printStackTrace();
             return null;
