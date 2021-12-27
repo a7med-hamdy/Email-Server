@@ -33,8 +33,12 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
-
+/*********************************Login IN function************************************/
   // log in - request
+  /**
+   * requests login
+   * @returns result of login request
+   */
   logIn(){
     let _url = `${this.url}/login-${this.loginForm.value.userName}-${this.loginForm.value.password}`;
     return this.http.get<any>(_url)
@@ -58,6 +62,11 @@ export class LoginComponent implements OnInit {
     })
   }
 
+
+/**
+ * enables login button
+ * @returns the validation of a login form True or false
+ */
   enableSubmitButton(): boolean{
     return this.loginForm.valid;
   }
