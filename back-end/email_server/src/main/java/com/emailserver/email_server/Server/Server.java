@@ -229,6 +229,20 @@ public class Server {
             }
         }
     }
+    /**
+     * 
+     * @param userID
+     * id of the user
+     * @param field
+     * the field is one of attachment/sender/receiver/subject/body/global for search
+     * @param keyword
+     * the keyword
+     * @param sortType
+     * the type of sort wanted time/priority/body
+     * @param count
+     * the needed page
+     * @return
+     */
     public JSONArray filterMessages(int userID, String field, String keyword, String sortType, int count)
     {
         Criteria criteria = CriteriaManager.getCriteria(field);
