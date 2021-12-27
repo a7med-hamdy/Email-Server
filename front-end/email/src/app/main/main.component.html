@@ -58,16 +58,13 @@
     <button>Body</button>
   </div>
 
-  <div *ngIf="dataSource.data != [null]">
+  <div *ngIf="dataSource != undefined">
     <table *ngIf="view" mat-table [dataSource]="dataSource" >
       <ng-container matColumnDef="select">
 
       </ng-container>
       <ng-container  [matColumnDef]="column" *ngFor="let column of displayedColumns">
         <div *ngIf="column == ' '">
-          <th mat-header-cell *matHeaderCellDef>
-            selected
-          </th>
           <td mat-cell *matCellDef="let row" >
             <mat-checkbox
                           (click)="$event.stopPropagation()"
@@ -98,9 +95,13 @@
     {{page}}
     <button (click)="increasePage()" >➡️</button>
     </div>
-    <div *ngIf="selection.selected != []">
-      <button>
+    <!--------------------------------------------------------------------------------------------------------->
+    <div *ngIf="!selection.isEmpty()">
+      <button (click) ="DeleteSelected()">
         Delete
+      </button>
+      <button>
+        move
       </button>
     </div>
 

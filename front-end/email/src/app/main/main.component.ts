@@ -15,7 +15,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  userID:string[] = [];
+  userID!:string;
   selected?: string;
   search:Boolean=false;
   profile:Boolean=false;
@@ -44,40 +44,29 @@ export class MainComponent implements OnInit {
               }
   public extractId(){
     this.route.queryParams.subscribe(params =>{
-      this.userID.push(params["ID"]);
+      this.userID = params["ID"];
       console.log(this.userID);
      })
   }
 
   ngOnInit(): void {
-    console.log(this.selection.selected)
+    this.router.onSameUrlNavigation ='reload';
     this.extractId();
     this.updateDataSource();
     this.routerEventListener();
 
-  }
-  increasePage(){
-    this.page ++;
-    this.updateDataSource();
-  }
-  decreasePage(){
-    this.page--;
-    if(this.page <= 0)
-      this.page = 1;
-    this.updateDataSource();
   }
 
 
   routerEventListener(){
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
+
       if(this.router.url.includes('Inbox')
       || this.router.url.includes('Deleted')
       || this.router.url.includes('Sent')
       || this.router.url.includes('Drafted')){
         this.active(this.router.url);
-        console.log(this.userID);
-
         this.updateDataSource();
       }
 
@@ -90,30 +79,71 @@ export class MainComponent implements OnInit {
   }
 
 
+
+
+
+
   Logout(){
-    this.req.logOut(this.userID[0]);
-    this.userID.pop();
+    this.router.onSameUrlNavigation = 'reload'
+    this.req.logOut(this.userID);
+    this.userID = '';
     this.router.navigate(["/login"])
   }
 
 
 
+
+
+
+  /**
+   *
+   * @param a
+   */
   addClickedRows(a:any){
     this.clickedRows = [];
     this.clickedRows.push(a);
     console.log(this.clickedRows);
   }
 
+
+
+
+  /**
+   * get nwe data
+   */
   updateDataSource(){
-    (this.req.getEmails(this.folder, this.userID[0],this.page.toString())).subscribe(response =>{
-      console.log(this.selection.selected);
+    (this.req.getEmails(this.folder, this.userID,this.page.toString())).subscribe(response =>{
+      /*if(response == null)
+        this.Logout();
+        */
       this.dataSource = new MatTableDataSource<any>(response);
       console.log(response);
     });
 }
 
 
+/****************************FOLDER FUNCTIONS *********************************/
+DeleteSelected(){
+  console.log(this.selection.selected)
+}
+increasePage(){
+  this.selection.clear();
+  this.page ++;
+  this.updateDataSource();
+}
+decreasePage(){
+  this.selection.clear();
 
+  this.page--;
+  if(this.page <= 0)
+    this.page = 1;
+  this.updateDataSource();
+}
+
+/**
+ * folder function
+ * @param a
+ */
   active(a:string){
     this.view=true
     this.profile=false;
