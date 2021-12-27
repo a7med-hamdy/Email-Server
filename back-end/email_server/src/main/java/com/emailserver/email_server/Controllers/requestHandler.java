@@ -16,6 +16,7 @@ import java.util.Queue;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 import com.emailserver.LoginAndSessionManagement.LoggingManager;
 import com.emailserver.LoginAndSessionManagement.sessionInterface;
@@ -139,7 +140,6 @@ Emails (create | delete) Requests
                                     @RequestParam("toTrash") String toTrash,
                                     @PathVariable("id") String userId,
                                     @PathVariable("page")String page){
-        System.out.println("IDs are "+ (IDs));
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
         try {
             for (String i : IDs) {
@@ -153,10 +153,41 @@ Emails (create | delete) Requests
         }catch (Exception ignoredException){return null;}
     }
 
+
+    @DeleteMapping("/Move/{id}-{page}")
+    @ResponseBody
+    public String moveEmail(        @RequestParam("ID") String[] IDs, 
+                                    @RequestParam("type") String type, 
+                                    @RequestParam("destination") String destination,
+                                    @PathVariable("id") String userId,
+                                    @PathVariable("page")String page){
+        System.out.println(IDs);
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+        try {
+            for (String i : IDs) {
+                    s.moveMessage(Integer.parseInt(i),type,destination);
+                i = i + 1;
+            }
+            return s.getMessages(type, "priority", Integer.parseInt(page)).toString();
+        }catch (Exception ignoredException){return null;}
+        //return "oK";
+    }
+
 /*---------------------------------------------------------------
 Get Emails (unsorted | sorted | priority | filter) Requests
 -----------------------------------------------------------------*/
-
+    @GetMapping("/getFolders/{id}")
+    public String[] getEmailFolders( 
+                        @PathVariable("id") String userId){
+    System.out.println(userId);
+    try {
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+        return s.getEmailFolders();
+    }catch (Exception e){
+        e.printStackTrace();
+        return null;
+    }
+}
     //get mails (Type: Inbox | Trash | Draft | sent)
     @GetMapping("/getEmails/{id}-{page}")
     public String getEmails(@RequestParam("type") String type, 
@@ -165,13 +196,13 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         System.out.println(type);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            System.out.println(s.getMessages(type, "priority",Integer.parseInt(p)).toString());
             return s.getMessages(type, "priority",Integer.parseInt(p)).toString();
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
     }
+
     //sort
     @GetMapping("/sort/{id}")
     public ArrayList<messageMaker> getSorted( @RequestParam("folder") String folder, 

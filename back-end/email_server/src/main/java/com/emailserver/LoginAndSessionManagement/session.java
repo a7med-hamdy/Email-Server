@@ -36,6 +36,10 @@ public class session implements sessionInterface{
 
 
      /** CRUD Operations on Messages */
+     public String[] getEmailFolders()throws IOException{
+          server= Server.getInstanceOf();
+          return server.getFolders(this.getUserId());
+     }
 
      public void addMessage(message message) throws IOException{
           server = Server.getInstanceOf();
