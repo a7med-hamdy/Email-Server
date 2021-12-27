@@ -5,7 +5,7 @@ import java.util.List;
 
 public class sessionManager {
     
-    public List<sessionInterface> sessions = new ArrayList<sessionInterface>();
+    private List<sessionInterface> sessions = new ArrayList<sessionInterface>();
     //serverDatabase server;
     //sessionManager(serverDatabase serve){
       //  this.server = serve;
@@ -55,7 +55,7 @@ public class sessionManager {
             return null;
     }
 
-    List<sessionInterface> getSessions(){
+    public List<sessionInterface> getSessions(){
            return this.sessions;
     }
 

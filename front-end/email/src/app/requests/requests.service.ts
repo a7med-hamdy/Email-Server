@@ -93,14 +93,10 @@ export class RequestsService {
   }
 
   // delete message(s) (moveToTrash or restoreFromTrash)
-  delete_or_retrieve(IDs: number[], Type: string, movetoTrash: boolean){
-    let _url = `${this.url}/delete`;
-    this.http.delete(_url, /* this.messageForm.value */)
-    .subscribe(response => {
-      console.log("deleted/restores successfuly!!")
-    },/* err => {
-      alert("something went WRONG!!")
-    } */)
+  delete_or_retrieve(ID:string,IDs: string[], Type: string, movetoTrash: boolean, page:string){
+    let _url = `${this.url}/delete/${ID}-${page}`;
+    return this.http.delete<any>(`${this.url}/delete/${ID}-${page}`, {params: { IDs: IDs, type: Type, toTrash:'true'}})
+
   }
 
 
@@ -155,8 +151,8 @@ export class RequestsService {
   ---------------------------------------------------------------*/
 
   // get contacts
-  getContacts(){
-    return this.http.get<any>(`${this.url}/getContacts/${555}`)
+  getContacts(id:string){
+    return this.http.get<any>(`${this.url}/getContacts/${id}`)
   }
 
   // add contact

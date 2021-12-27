@@ -1,15 +1,11 @@
 package com.emailserver.email_server.Controllers;
 
-import java.io.Console;
-import java.io.File;
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -23,15 +19,13 @@ import com.emailserver.LoginAndSessionManagement.sessionManager;
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.contact;
 import com.emailserver.email_server.userAndMessage.message;
-import com.emailserver.email_server.userAndMessage.messageAttachmenets;
-import com.emailserver.email_server.userAndMessage.messageBody;
-import com.emailserver.email_server.userAndMessage.messageHeader;
+
 import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.emailserver.email_server.userAndMessage.user;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-import org.json.JSONArray;
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -81,7 +75,7 @@ Logging & Signing up Requests
                             "Username = " + userName + "\n" + 
                             "Password = " + password);
         try {
-            System.out.println(sManager.sessions);
+            System.out.println(sManager.getSessions());
 
             return lManager.LOGIN(userName, password);
         }catch (Exception e){
@@ -95,7 +89,7 @@ Logging & Signing up Requests
     public void logOut(@PathVariable("id") String userID)
     {
         sManager.deleteSession(Integer.parseInt(userID));
-        System.out.println(sManager.sessions);
+        System.out.println(sManager.getSessions());
     }
 
 /*---------------------------------------------------------------
@@ -132,23 +126,25 @@ Emails (create | delete) Requests
     }
 
     //delete email(s) (moveToTrash | restoreFromTrash) - delete
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}-{page}")
     @ResponseBody
-    public void delete_or_restore(  @RequestBody int[] IDs, 
+    public String delete_or_restore(  @RequestParam("IDs") String[] IDs, 
                                     @RequestParam("type") String type, 
-                                    @RequestParam("toTrash") boolean toTrash,
-                                    @PathVariable("id") String userId){
-        System.out.println("IDs are "+ Arrays.toString(IDs));
+                                    @RequestParam("toTrash") String toTrash,
+                                    @PathVariable("id") String userId,
+                                    @PathVariable("page")String page){
+        System.out.println("IDs are "+ (IDs));
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
         try {
-            for (int i : IDs) {
-                if (toTrash)
-                    s.moveMessage(i,type,"trash");
+            for (String i : IDs) {
+                if (toTrash.equals("true"))
+                    s.moveMessage(Integer.parseInt(i),type,"trash");
                 else
-                    s.moveMessage(i,"trash", type);
+                    s.moveMessage(Integer.parseInt(i),"trash", type);
                 i = i + 1;
             }
-        }catch (Exception ignoredException){}
+            return s.getMessages(type, "priority", Integer.parseInt(page)).toString();
+        }catch (Exception ignoredException){return null;}
     }
 
 /*---------------------------------------------------------------

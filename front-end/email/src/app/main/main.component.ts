@@ -2,8 +2,6 @@ import { RequestsService } from './../requests/requests.service';
 import { query } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/router";
-import { ViewComponent } from '../view/view.component';
-import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -16,7 +14,9 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class MainComponent implements OnInit {
   userID!:string;
-  selected?: string;
+  selected:number = 1;
+  userSessionID!:string;
+  /**VIEW BOOLEANs */
   search:Boolean=false;
   profile:Boolean=false;
   make:Boolean=false;
@@ -26,6 +26,8 @@ export class MainComponent implements OnInit {
   viewD:Boolean=false;
   viewT:Boolean=false;
   filter?:string;
+
+
   clickedRows:any[] = [];
   displayedColumns: string[] = [' ',"ID", "subject","date"];
   page:number = 1;
@@ -57,7 +59,6 @@ export class MainComponent implements OnInit {
 
   }
 
-
   routerEventListener(){
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
@@ -86,7 +87,6 @@ export class MainComponent implements OnInit {
   Logout(){
     this.router.onSameUrlNavigation = 'reload'
     this.req.logOut(this.userID);
-    this.userID = '';
     this.router.navigate(["/login"])
   }
 
@@ -109,7 +109,7 @@ export class MainComponent implements OnInit {
 
 
   /**
-   * get nwe data
+   * get new data
    */
    sorting(type:string){
     (this.req.getEmails(this.folder, this.userID,this.page.toString(),type)).subscribe(response =>{
@@ -133,6 +133,16 @@ export class MainComponent implements OnInit {
 
 /****************************FOLDER FUNCTIONS *********************************/
 DeleteSelected(){
+
+  this.req.delete_or_retrieve(this.userID,this.selection.selected,this.folder,true,this.page.toString())
+  .subscribe(response => {
+    this.dataSource = new MatTableDataSource<any>(response);
+    console.log("delete")
+  },/* err => {
+    alert("something went WRONG!!")
+  } */);
+  this.selection.clear();
+
   console.log(this.selection.selected)
 }
 increasePage(){

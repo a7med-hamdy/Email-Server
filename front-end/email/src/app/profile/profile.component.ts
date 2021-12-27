@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,8 +11,8 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
-  constructor(private rs: RequestsService, public router: Router, private fb: FormBuilder) { }
+  userID!:string;
+  constructor(private rs: RequestsService, public router: Router,  public route:ActivatedRoute,private fb: FormBuilder) { }
 
   contact?:any[];
 
@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    this.extractId();
     this.getcontact();
   }
   dataSource!: MatTableDataSource<any>;
@@ -41,12 +42,17 @@ export class ProfileComponent implements OnInit {
     this.main=true;
     this.here2=false;
   }
-
+  public extractId(){
+      this.route.queryParams.subscribe(params =>{
+        this.userID = params["ID"];
+        console.log(this.userID);
+       })
+    }
   getcontact():void{
     this.here1=true;
     this.main=false;
     this.here2=false;
-    this.rs.getContacts().subscribe(done => {
+    this.rs.getContacts(this.userID).subscribe(done => {
       this.dataSource = new MatTableDataSource<any>(done);
       console.log(done);
     }
