@@ -34,6 +34,7 @@ class folderManager {
     protected void deleteFolder(int userID, String name)
     {
         File f = new File(this.path+userID+"\\"+name);
+    
         if(f.isDirectory())
         {
             try {

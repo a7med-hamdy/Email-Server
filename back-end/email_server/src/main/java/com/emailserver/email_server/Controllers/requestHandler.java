@@ -335,6 +335,7 @@ public boolean deleteFolder(@PathVariable("name") String name,
                           @PathVariable("id") String user){
  
     try {
+    
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(user));
         s.deleteFolder(name);
         return true;
@@ -350,6 +351,7 @@ public boolean deleteFolder(@PathVariable("name") String name,
    
  
      try {
+        
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(user));
         s.renameFolder(name1,name2);
      }catch (Exception e){

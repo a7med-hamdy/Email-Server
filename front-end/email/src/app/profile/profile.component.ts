@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit {
     this.here2=true;
   }
   addFolder():void{
-    this.rs.editFolder("555","hamoksha","el5ars")
+    this.rs.deleteFolder("555","hamoksha")
   }
 
 }

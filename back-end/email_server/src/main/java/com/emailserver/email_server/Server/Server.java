@@ -352,7 +352,7 @@ public class Server {
         this.folderManager.renameFolder(userID, newName, oldName);
     }
     public void deleteFolder(int userID, String name)
-    {
+    {   
         this.folderManager.deleteFolder(userID, name);
     }
 }
