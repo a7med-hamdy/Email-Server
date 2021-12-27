@@ -134,7 +134,6 @@ Emails (create | delete) Requests
                                     @RequestParam("toTrash") String toTrash,
                                     @PathVariable("id") String userId,
                                     @PathVariable("page")String page){
-        System.out.println("IDs are "+ (IDs));
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
         try {
             for (String i : IDs) {
@@ -148,10 +147,41 @@ Emails (create | delete) Requests
         }catch (Exception ignoredException){return null;}
     }
 
+
+    @DeleteMapping("/Move/{id}-{page}")
+    @ResponseBody
+    public String moveEmail(        @RequestParam("ID") String[] IDs, 
+                                    @RequestParam("type") String type, 
+                                    @RequestParam("destination") String destination,
+                                    @PathVariable("id") String userId,
+                                    @PathVariable("page")String page){
+        System.out.println(IDs);
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+        try {
+            for (String i : IDs) {
+                    s.moveMessage(Integer.parseInt(i),type,destination);
+                i = i + 1;
+            }
+            return s.getMessages(type, "priority", Integer.parseInt(page)).toString();
+        }catch (Exception ignoredException){return null;}
+        //return "oK";
+    }
+
 /*---------------------------------------------------------------
 Get Emails (unsorted | sorted | priority | filter) Requests
 -----------------------------------------------------------------*/
-
+    @GetMapping("/getFolders/{id}")
+    public String[] getEmailFolders( 
+                        @PathVariable("id") String userId){
+    System.out.println(userId);
+    try {
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+        return s.getEmailFolders();
+    }catch (Exception e){
+        e.printStackTrace();
+        return null;
+    }
+}
     //get mails (Type: Inbox | Trash | Draft | sent)
     @GetMapping("/getEmails/{id}-{page}")
     public String getEmails(@RequestParam("type") String type, 
@@ -167,6 +197,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
             return null;
         }
     }
+
     //sort
     @GetMapping("/sort/{id}")
     public ArrayList<messageMaker> getSorted( @RequestParam("folder") String folder, 
@@ -358,18 +389,5 @@ public boolean deleteFolder(@PathVariable("name") String name,
      return true;
  }
 
- //atachment download
- @GetMapping("/downattach/{file}")
- public Resource downfile(@PathVariable("file") String file){
-    System.out.println(file);
-    try{
-    System.out.println(file);
-    Path filePath= Paths.get(file);
-    Resource resource= new UrlResource(filePath.toUri());
-    return resource;
-    }catch (MalformedURLException e) {
-        throw new RuntimeException("Error: " + e.getMessage());
-    }
- }
 
 }

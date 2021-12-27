@@ -27,6 +27,7 @@ public interface sessionInterface {
     
 
     /**CRUD Operations on messages */
+    public String[] getEmailFolders() throws IOException;
     public void addMessage(message message) throws IOException;
 
     public void moveMessage(int msgID,String source, String folder)throws IOException;

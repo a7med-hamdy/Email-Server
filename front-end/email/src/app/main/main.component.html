@@ -3,11 +3,12 @@
   <mat-sidenav mode="side"  disableClose  opened position="start" class="side">
     <button  [disabled]="profile" class="button" [routerLink]= "['/main','Profile']"queryParamsHandling="preserve" routerLinkActive="active">Profile</button>
     <button  [disabled]="make" class="button" [routerLink]= "['/main','Create']"queryParamsHandling="preserve" routerLinkActive="active">Make message</button>
-    <button  [disabled]="viewI" class="button"[routerLink]="['/main','Inbox']" queryParamsHandling="preserve" routerLinkActive="active">Inbox</button>
-    <button  [disabled]="viewS" class="button"[routerLink]="['/main','Sent']"queryParamsHandling="preserve" routerLinkActive="active">Sent</button>
-    <button  [disabled]="viewD" class="button"[routerLink]="['/main','Drafted']"queryParamsHandling="preserve" routerLinkActive="active">Draft</button>
-    <button  [disabled]="viewT" class="button"[routerLink]="['/main','Deleted']" queryParamsHandling="preserve" routerLinkActive="active">Deleted</button>
     <button  [disabled]="search" class="button"[routerLink]="['/main','Search']"queryParamsHandling="preserve"  routerLinkActive="active">Search</button>
+    <div>
+      <button *ngFor="let fold of folders" class="button" [routerLink]= "['/main',fold]"queryParamsHandling="preserve" routerLinkActive="active">
+        {{fold}}
+      </button>
+    </div>
     <button (click) = "Logout()" class="logout" routerLinkActive = "active">LogOut</button>
    </mat-sidenav>
    <router-outlet></router-outlet>
@@ -43,6 +44,14 @@
 
 <!--Filter Side Nav-->
   <mat-sidenav mode="side"  disableClose  opened position="end" class="side1">
+   <div class="filter">
+    <mat-select name="FILTEES" [(ngModel)]="selected">
+      <mat-option  value="None">None</mat-option>
+      <mat-option value="Subject" >Subject</mat-option>
+      <mat-option value="Sender" >Sender</mat-option>
+    </mat-select>
+    <button class="filler">filter</button>
+  </div>
     <div>
     <button (click)="sorting('Date')">Date</button>
     <button (click)="sorting('priority')">Pirority</button>
@@ -87,13 +96,22 @@
     <button (click)="increasePage()" >➡️</button>
     </div>
     <!--------------------------------------------------------------------------------------------------------->
-    <div>
-      <button (click) ="DeleteSelected()">
+    <div *ngIf="!selection.isEmpty()">
+      <button *ngIf="folder != 'trash'" (click) ="DeleteSelected()">
         Delete
       </button>
-      <button>
-        move
-      </button>
+
+      <mat-form-field appearance="fill"style="margin-left: 10px;">
+        <mat-label>Folder</mat-label>
+        <mat-select>
+            <mat-option (onSelectionChange)="selected = fold" *ngFor="let fold of folders" [value]="fold">
+            {{fold}}
+          </mat-option>
+        </mat-select>
+        <button (click) ="MoveSelected()" >
+          move
+        </button>
+      </mat-form-field>
     </div>
 
 </mat-sidenav>

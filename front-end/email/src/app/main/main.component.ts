@@ -15,20 +15,16 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class MainComponent implements OnInit {
   userID!:string;
-  selected:number = 1;
+  selected:string = '1';
   userSessionID!:string;
   /**VIEW BOOLEANs */
   search:Boolean=false;
   profile:Boolean=false;
   make:Boolean=false;
   view:Boolean=true;
-  viewI:Boolean=true;
-  viewS:Boolean=false;
-  viewD:Boolean=false;
-  viewT:Boolean=false;
   filter?:string;
 
-
+  folders:string[] = [];
   clickedRows:any[] = [];
   displayedColumns: string[] = [' ',"ID", "subject","date"];
   page:number = 1;
@@ -52,10 +48,16 @@ export class MainComponent implements OnInit {
       console.log(this.userID);
      })
   }
-
+  public getUserFolders(){
+    this.req.getEmailFolders(this.userID).subscribe(response =>{
+      this.folders = response;
+      console.log(response);
+    })
+  }
   ngOnInit(): void {
     this.router.onSameUrlNavigation ='reload';
     this.extractId();
+    this.getUserFolders();
     this.updateDataSource();
     this.routerEventListener();
 
@@ -65,17 +67,13 @@ export class MainComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if(event instanceof NavigationEnd){
 
-      if(this.router.url.includes('Inbox')
-      || this.router.url.includes('Deleted')
-      || this.router.url.includes('Sent')
-      || this.router.url.includes('Drafted')){
+      if(this.router.url.includes('Profile')){this.profile1(this.router.url);}
+      else if(this.router.url.includes('Search')){this.search1(this.router.url);}
+      else if(this.router.url.includes('Create')){this.make1(this.router.url);}
+      else{
         this.active(this.router.url);
         this.updateDataSource();
       }
-
-      if(this.router.url.includes('Profile')){this.profile1(this.router.url);}
-      if(this.router.url.includes('Search')){this.search1(this.router.url);}
-      if(this.router.url.includes('Create')){this.make1(this.router.url);}
     }
     });
 
@@ -134,9 +132,19 @@ export class MainComponent implements OnInit {
 
 
 /****************************FOLDER FUNCTIONS *********************************/
+MoveSelected(){
+  console.log(this.selection.selected)
+  this.req.MoveEmail(this.userID,this.selection.selected,this.folder,this.selected,this.page.toString())
+  .subscribe(response =>{
+    this.dataSource = new MatTableDataSource<any>(response);
+    console.log('moved')
+  })
+  this.selection.clear();
+}
+
 DeleteSelected(){
 
-  this.req.delete_or_retrieve(this.userID,this.selection.selected,this.folder,true,this.page.toString())
+  this.req.deleteEmail(this.userID,this.selection.selected,this.folder,this.page.toString())
   .subscribe(response => {
     this.dataSource = new MatTableDataSource<any>(response);
     console.log("delete")
@@ -170,72 +178,35 @@ decreasePage(){
     this.profile=false;
     this.search=false;
     this.make=false;
-    if(a.includes('Inbox')){
-      this.folder = this.folder.replace(this.folder, "inbox")
-      console.log(this.folder);
-      this.viewI=true;
-      this.viewS=false;
-      this.viewD=false;
-      this.viewT=false;
+    for(let i = 0; i < this.folders.length;i++){
+      if(a.includes(this.folders[i])){
+        this.folder= this.folder.replace(this.folder,this.folders[i]);
+      }
     }
-    else if(a.includes('Sent')){
-      this.folder = this.folder.replace(this.folder, "sent")
-      this.viewS=true;
-      this.viewI=false;
-      this.viewD=false;
-      this.viewT=false;
-    }
-    else if(a.includes('Drafted')){
-      this.folder = this.folder.replace(this.folder, "draft")
-      this.viewD=true;
-      this.viewI=false;
-      this.viewS=false;
-      this.viewT=false;
-    }
-    else if(a.includes('Deleted')){
-      this.folder = this.folder.replace(this.folder, "trash")
-      this.viewT=true;
-      this.viewI=false;
-      this.viewS=false;
-      this.viewD=false;
-    }
-
-
   }
   profile1(a:string){
     if(a.includes('Profile')){
-    this.profile=true;
-    this.search=false;
-    this.make=false;
-    this.view=false;
-    this.viewI=false;
-    this.viewS=false;
-    this.viewD=false;
-    this.viewT=false;
+
+      this.profile=true;
+      this.search=false;
+      this.make=false;
+      this.view = false;
     }
   }
   make1(a:String){
     if(a.includes('Create')){
-    this.profile=false;
-    this.search=false;
-    this.make=true;
-    this.view=false;
-    this.viewI=false;
-    this.viewS=false;
-    this.viewD=false;
-    this.viewT=false;
+      this.profile=false;
+      this.search=false;
+      this.make=true;
+      this.view=false;
     }
   }
   search1(a:String){
     if(a.includes('Search')){
-    this.profile=false;
-    this.search=true;
-    this.make=false;
-    this.view=false;
-    this.viewI=false;
-    this.viewS=false;
-    this.viewD=false;
-    this.viewT=false;
+      this.profile=false;
+      this.search=true;
+      this.make=false;
+      this.view = false;
     }
   }
 

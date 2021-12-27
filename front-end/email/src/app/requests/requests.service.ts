@@ -93,9 +93,14 @@ export class RequestsService {
   }
 
   // delete message(s) (moveToTrash or restoreFromTrash)
-  delete_or_retrieve(ID:string,IDs: string[], Type: string, movetoTrash: boolean, page:string){
+  deleteEmail(ID:string,IDs: string[], Type: string, page:string){
     let _url = `${this.url}/delete/${ID}-${page}`;
     return this.http.delete<any>(`${this.url}/delete/${ID}-${page}`, {params: { IDs: IDs, type: Type, toTrash:'true'}})
+
+  }
+  MoveEmail(ID:string,IDs: string[], Type: string,destination: string,page:string){
+    let _url = `${this.url}/Move/${ID}-${page}`;
+    return this.http.delete<any>(`${this.url}/Move/${ID}-${page}`, {params: { ID: IDs, type: Type, destination: destination}})
 
   }
 
@@ -103,6 +108,9 @@ export class RequestsService {
 /*---------------------------------------------------------------
   Get Emails (Inbox | Trash | Draft | Sent)
   ---------------------------------------------------------------*/
+  getEmailFolders(id:string){
+    return this.http.get<any>(`${this.url}/getFolders/${id}`);
+  }
   // get mails
   getEmails(t: string, id:string, page:string ,srt:string){
     return this.http.get<any>(`${this.url}/getEmails/${id}-${page}`, {params: {type: t, folder: srt}});
