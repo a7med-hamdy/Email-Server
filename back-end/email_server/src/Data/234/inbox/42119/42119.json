@@ -1,0 +1,21 @@
+{
+  "ID": 42119,
+  "body": {
+    "body": "the fk",
+    "length": 6
+  },
+  "header": {
+    "senderId": 555,
+    "recieverIds": [
+      234
+    ],
+    "subject": "aaser"
+  },
+  "attachments": {
+    "attachements": [],
+    "number": 0
+  },
+  "time": 1640596546300,
+  "date": "Dec 27, 2021, 11:15:46 AM",
+  "priority": 4
+}

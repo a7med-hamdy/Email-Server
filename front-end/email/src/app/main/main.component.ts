@@ -27,7 +27,7 @@ export class MainComponent implements OnInit {
   viewT:Boolean=false;
   filter?:string;
   clickedRows = new Set<any>();
-  displayedColumns: string[] = [' ',"ID", "subject","body","date", "priority"];
+  displayedColumns: string[] = [' ',"ID", "subject","date"];
   page:number = 1;
   dataSource!: MatTableDataSource<any>;
   selection = new SelectionModel<number>(true, []);
@@ -173,6 +173,8 @@ export class MainComponent implements OnInit {
     }
   }
 
-
+onclick(){
+  console.log("fok")
+}
 
 }
