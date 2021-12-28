@@ -172,7 +172,6 @@ export class MakerComponent implements OnInit {
   }
 
 
-
   uploadFiles(ids:number): void {
 
     if (this.fileList && ids>-1) {

@@ -56,7 +56,8 @@ public class EmailServerApplication {
 		messageMaker maker = new messageMaker();
 		////////
 		Date now=new Date();
-		Date then= new Date(1000000000);
+		Date then= new Date(121,10,25);
+		System.out.println(now);
 		System.out.println(then);
 		message n = maker.getNewMessage(1111, "hello", 5,342544, to, "new", then, 1, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n1 = maker.getNewMessage(2222, "to be extracted", 5,234, to1, "subject", now, 2, new ArrayList<>(Arrays.asList("test.jpg")));

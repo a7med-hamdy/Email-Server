@@ -2,11 +2,12 @@ package com.emailserver.LoginAndSessionManagement;
 
 import java.io.IOException;
 
-
+import com.emailserver.email_server.Controllers.Proxy;
 import com.emailserver.email_server.Server.Server;
 import com.emailserver.email_server.userAndMessage.message;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 public class session implements sessionInterface{
     
@@ -35,11 +36,42 @@ public class session implements sessionInterface{
      public void setUserEmail(String userEmail){this.userEmail = userEmail;}
 
 
-     /** CRUD Operations on Messages */
-     public String[] getEmailFolders()throws IOException{
-          server= Server.getInstanceOf();
-          return server.getFolders(this.getUserId());
+     /******************************************************************************************** *****************************/
+     /**MAPPING FUNCTION ***/
+     /**
+      * 
+      * @param arr Array to be mapped
+      * @return mapped array
+      * @throws JSONException
+      * @throws IOException
+      */
+     private JSONArray MapEmails(JSONArray arr) throws JSONException, IOException{
+          Proxy proxy = new Proxy(this.getUserName(),this.getUserPassword());
+
+          for(int i = 0; i < arr.length();i++){
+
+              int ID =  Integer.parseInt(arr.getJSONObject(i).getJSONObject("header").optString("senderId"));
+              int noOFRecievers = arr.getJSONObject(i).getJSONObject("header").getJSONArray("recieverIds").length();
+
+              arr.getJSONObject(i)
+              .getJSONObject("header")
+              .put("senderId",proxy.getEmailFromId(ID));
+
+              for(int j = 0; j < noOFRecievers; j++){
+               int ID1 =  (arr.getJSONObject(i).getJSONObject("header").getJSONArray("recieverIds").optInt(j));
+               
+               arr.getJSONObject(i).getJSONObject("header")
+               .getJSONArray("recieverIds")
+               .put(j, proxy.getEmailFromId(ID1));
+              }            
+          }
+          return arr;
      }
+
+     /****************************Messages************************************************************ */
+
+     /** CRUD Operations on Messages */
+
 
      public void addMessage(message message) throws IOException{
           server = Server.getInstanceOf();
@@ -57,10 +89,18 @@ public class session implements sessionInterface{
 
      public JSONArray getMessages(String folder, String criteria, int count)throws IOException{
           server = Server.getInstanceOf();
+
           //System.out.println(server.requestFolder(this.getUserId(), folder, criteria));
-          return server.requestFolder(this.getUserId(), folder, criteria, count);
+          return this.MapEmails(server.requestFolder(this.getUserId(), folder, criteria, count));
      }
 
+     public JSONArray FilterMessages(String field, String keyword, String sortType, int count)throws IOException{
+          server = Server.getInstanceOf();
+          return this.MapEmails(server.filterMessages(this.getUserId(), field, keyword, sortType, count));
+     }
+
+
+/******************************************Contacts************************************************************ */
 
      /**CRUD Operations on Contacts */
 
@@ -78,6 +118,16 @@ public class session implements sessionInterface{
      public void editContact(String email, String newName, String oldname)throws IOException{
        
      }
+
+
+     /*******************************************Folders********************************************************** */
+
+     public String[] getEmailFolders()throws IOException{
+          server= Server.getInstanceOf();
+          return server.getFolders(this.getUserId());
+     }
+
+
      public void addFolder(String name)throws IOException{
           server = Server.getInstanceOf();
           if(name.equalsIgnoreCase("Deleted") || name.equalsIgnoreCase("Draft")
