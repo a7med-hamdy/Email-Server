@@ -67,20 +67,15 @@ class contactManager {
     }
     public String addContact(int userID, String email, String name)
     {   
-        System.out.println("");
-        System.out.println("x");
-        System.out.println("");
+    
         String content = ReaderWriter.readData(this.path);
         user[] users = this.gson.fromJson(content, user[].class);
         int index = this.findUser(users, userID);
         int index2 = this.findUser(users, email);
-        System.out.println(index);
-        System.out.println(index2);
+  
         if(index == -1 || index2 == -1)
         {     
-            System.out.println("");
-            System.out.println("false");
-            System.out.println("");
+  
             return "fail user not found";
         }
         userContact contact = new userContact(users[index2], name);
