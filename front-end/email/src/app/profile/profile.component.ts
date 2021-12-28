@@ -190,10 +190,6 @@ export class ProfileComponent implements OnInit {
     this.here2=true;
     this.rs.getFolders(this.userID).subscribe(done => {
       this.dataSource2 = new MatTableDataSource<folder>(done);
-      this.dataSource2.data.pop()
-      this.dataSource2.data.pop()
-      this.dataSource2.data.pop()
-      this.dataSource2.data.pop()
       console.log(done);
     }
     );
