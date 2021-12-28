@@ -67,9 +67,22 @@ export class ProfileComponent implements OnInit {
     this.here1=false;
     this.main=false;
     this.here2=true;
+    this.rs.getFolders(this.userID).subscribe(done => {
+      this.dataSource2 = new MatTableDataSource<folder>(done);
+      console.log(done);
+    }
+    );
   }
-  addFolder():void{
-    this.rs.addFolder("555","aaa")
+  addFolder(name: string):void{
+    this.rs.addFolder("887788",name)
+    .subscribe( done => {
+      if(done){
+        console.log("Folder added successfully")
+        // this.getcontact() //refresh the contacts list
+        this.newFolderForm.controls['name'].setValue('')
+      }
+      else{console.log("Error!! Folder wasn't added!")}
+    })
   }
   
   addContact(){
@@ -169,6 +182,24 @@ export class ProfileComponent implements OnInit {
     this.newContactForm.controls['name'].setValue('');
     this.newContactForm.controls['emails'].setValue('');
   }
+
+  /* Folders */
+  dataSource2!: MatTableDataSource<folder>;
+  displayedColumns2: string[] = ["name"];
+  selection2 = new SelectionModel<contact>(true, []);
+
+  newFolderForm = this.fb.group({
+    name: ['']
+  })
+
+  addingFolder: boolean = false
+  showNewFolderForm(){
+    this.addingFolder = true;
+  }
+  closeNewFolderForm(){
+    this.addingFolder = false;
+  }
+  
 }
 
 
@@ -177,4 +208,8 @@ export class contact{
   ID!: number
   userName!: string
   email!: string[]
+}
+
+export class folder{
+  name!: string
 }

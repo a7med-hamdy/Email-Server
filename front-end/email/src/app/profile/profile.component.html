@@ -54,7 +54,7 @@
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20]"
@@ -131,29 +131,51 @@
 </div>
 </div>
 
-<!--<div *ngIf="here2">
-<button (click)="back()"> get back</button>
-<h2>My Folder</h2>
-  <ul class="contact">
-  <li *ngFor="let foldre of Folders"
-    [class.selected]="hero === selectedHero"
-    (click)="onSelect(hero)">
-    <div>{{contact.name}}</div>
-    <div>{{contact.username}}</div>
-    <div*ngFor="let email of contact.emails">{{email}}</div>
-  </li>
- </ul>
+<!-- <<<<<<<<<<<<<<< Folders >>>>>>>>>>>>>> -->
 
- <div class="edit* ngIf="selectedcontact">
-    <label for="selectedContact">Hero name: </label>
-    <input id="selectedContact" [(ngModel)]="selectedContacted.name" placeholder="name">
-    <button> confirm </button>
+<div *ngIf="here2">
+  <button (click)="back()"> get back </button>
+  <button (click)="showNewFolderForm()"> + Add Folder </button>
+  <h2>My Folders</h2>
+  <div *ngIf="dataSource2 != undefined" class="main">
+    <table  mat-table [dataSource]="dataSource2" >
+      
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+    </table>
+
+
+  </div>
+  <!-- <div class="edit" *ngIf="selectedcontact">
+      <label for="selectedContact">Hero name: </label>
+      <input id="selectedContact" [(ngModel)]="selectedContacted.name" placeholder="name">
+      <button> confirm </button>
+  </div> -->
+
+  <!-- Add new Filder div -->
+  <div *ngIf="addingFolder">
+    <h2>Add new Folder</h2>
+    <form [formGroup]="newFolderForm">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input formControlName="name" type="text" matInput>
+        </mat-form-field>
+      </div>
+
+      <button (click)="addFolder(newFolderForm.controls['name'].value)" mat-raised-button>
+         confirm 
+      </button>
+      <button (click)="closeNewFolderForm()" mat-raised-button> 
+        cancel 
+      </button>
+    </form>
  </div>
 
-  <div ngIf="addFolder">
-    <label for="selectedContact">Hero name: </label>
-    <input id="selectedContact" [(ngModel)]="selectedContacted.name" placeholder="name">
-    <button> confirm </button>
- </div>
-
-</div>-->
+</div>
