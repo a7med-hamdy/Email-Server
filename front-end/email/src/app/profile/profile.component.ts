@@ -28,6 +28,12 @@ export class ProfileComponent implements OnInit {
     this.extractId();
     this.getcontact();
   }
+
+  /********************************************************************
+   * Contacts
+   * 
+   ********************************************************************/
+
   dataSource!: MatTableDataSource<contact>;
   selectedcontact?:string
   here1:Boolean=false;
@@ -63,32 +69,11 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  getFolder():void{
-    this.here1=false;
-    this.main=false;
-    this.here2=true;
-    this.rs.getFolders(this.userID).subscribe(done => {
-      this.dataSource2 = new MatTableDataSource<folder>(done);
-      console.log(done);
-    }
-    );
-  }
-  addFolder(name: string):void{
-    this.rs.addFolder("887788",name)
-    .subscribe( done => {
-      if(done){
-        console.log("Folder added successfully")
-        // this.getcontact() //refresh the contacts list
-        this.newFolderForm.controls['name'].setValue('')
-      }
-      else{console.log("Error!! Folder wasn't added!")}
-    })
-  }
   
   addContact(){
     let name = this.newContactForm.value.name;
     let emails = this.newContactForm.value.emails;
-    this.rs.addContact(name, emails)
+    this.rs.addContact(this.userID, name, emails)
     .subscribe(done => {
       if(done){
         console.log("Contact added successfully")
@@ -100,7 +85,7 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteContact(){
-    this.rs.deleteContact(this.selection.selected.map(function(a){return a.ID}))
+    this.rs.deleteContact(this.userID, this.selection.selected.map(function(a){return a.ID}))
     .subscribe(done =>{
       if(done){
         console.log("Contact(s) deleted successfully")
@@ -111,11 +96,12 @@ export class ProfileComponent implements OnInit {
   }
 
   editContact(){
-    this.rs.editContact(this.selection.selected.map(function(a){return a.ID})[0],
-                        this.selection.selected.map(function(a){return a.email})[0] as unknown as string,
-                        this.newContactForm.controls['emails'].value,
-                        this.selection.selected.map(function(a){return a.name}) as unknown as string,
-                        this.newContactForm.controls['name'].value)
+    let contactId = this.selection.selected.map(function(a){return a.ID})[0];
+    let oldEmail = this.selection.selected.map(function(a){return a.email})[0] as unknown as string;
+    let newEmail = this.newContactForm.controls['emails'].value;
+    let oldNmae = this.selection.selected.map(function(a){return a.name}) as unknown as string;
+    let newName = this.newContactForm.controls['name'].value;
+    this.rs.editContact(this.userID, contactId, oldEmail, newEmail, oldNmae, newName)
     .subscribe(done => {
       if(done){
         console.log("Contact edited successfully")
@@ -183,21 +169,110 @@ export class ProfileComponent implements OnInit {
     this.newContactForm.controls['emails'].setValue('');
   }
 
-  /* Folders */
+  /********************************************************************
+   * Folders
+   * 
+   ********************************************************************/
+  
   dataSource2!: MatTableDataSource<folder>;
-  displayedColumns2: string[] = ["name"];
-  selection2 = new SelectionModel<contact>(true, []);
+  displayedColumns2: string[] = ["select", "name"];
+  selection2 = new SelectionModel<folder>(true, []);
+  editingFolder: boolean = false;
 
   newFolderForm = this.fb.group({
     name: ['']
   })
-
   addingFolder: boolean = false
+
+  getFolder():void{
+    this.here1=false;
+    this.main=false;
+    this.here2=true;
+    this.rs.getFolders(this.userID).subscribe(done => {
+      this.dataSource2 = new MatTableDataSource<folder>(done);
+      this.dataSource2.data.pop()
+      this.dataSource2.data.pop()
+      this.dataSource2.data.pop()
+      this.dataSource2.data.pop()
+      console.log(done);
+    }
+    );
+  }
+  addFolder():void{
+    let name = this.newFolderForm.value.name;
+    this.rs.addFolder(this.userID, name)
+    .subscribe( done => {
+      if(done){
+        console.log("Folder added successfully")
+        this.getFolder() //refresh the folder list
+        this.newFolderForm.controls['name'].setValue('')
+      }
+      else{console.log("Error!! Folder wasn't added!")}
+    })
+  }
+  deleteFolder(){ 
+    let name = this.selection2.selected.map(function(a){return a.name})[0];
+    this.rs.deleteFolder(this.userID, name)
+    .subscribe( done => {
+      if(done){
+        console.log("Folder deleted successfully")
+        this.getFolder() //refresh the folder list
+      }
+      else{console.log("Error!! Folder wasn't deleted!")}
+    })
+  }
+  editFolder(){
+    let oldName = this.selection2.selected.map(function(a){return a.name})[0];
+    let newName = this.newFolderForm.controls['name'].value;
+    this.rs.editFolder(this.userID, oldName, newName)
+    .subscribe( done => {
+      if(done){
+        console.log("Folder edited successfully")
+        this.getFolder() //refresh the folder list
+      }
+      else{console.log("Error!! Folder wasn't edited!")}
+    })
+  }
+
+
   showNewFolderForm(){
     this.addingFolder = true;
   }
   closeNewFolderForm(){
     this.addingFolder = false;
+  }
+
+  getFolderEditor(){
+    this.editingFolder = true;
+  }
+  closeFolderEditor(){
+    this.editingFolder = false;
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected2() {
+    const numSelected = this.selection2.selected.length;
+    const numRows = this.dataSource2.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle2() {
+    if (this.isAllSelected2()) {
+      this.selection2.clear();
+      return;
+    }
+
+    this.selection2.select(...this.dataSource2.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel2(row?: folder): string {
+    // console.log(this.selection.selected)
+    if (!row) {
+      return `${this.isAllSelected2() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection2.isSelected(row) ? 'deselect' : 'select'} row ${row.name}`;
   }
   
 }

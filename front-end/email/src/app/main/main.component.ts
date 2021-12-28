@@ -61,10 +61,8 @@ export class MainComponent implements OnInit {
       this.router.navigate(['/'])
     }
     else{
-
       this.extractId();
-      this.getUserFolders();
-      this.updateDataSource();
+      this.refresh();
       this.routerEventListener();
       this.searchForm = this.formBuilder.group({
         searchField: ['', [Validators.required]],
@@ -106,6 +104,10 @@ export class MainComponent implements OnInit {
 
 /**********************************DataBase Requests*************************************************** */
 
+public refresh(){
+  this.getUserFolders();
+  this.updateDataSource();
+}
 /**
  * requesting user folders to be viewed
  */
