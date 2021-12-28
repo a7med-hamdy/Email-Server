@@ -3,7 +3,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { RequestsService } from '../requests/requests.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -23,8 +23,12 @@ export class ProfileComponent implements OnInit {
   ngOnviewInit(){
     this.getcontact();
 
+
   }
   ngOnInit(): void {
+    this.searchForm = this.fb.group({
+      searchField: ['', [Validators.required]],
+    });
     this.extractId();
     this.getcontact();
   }
@@ -33,7 +37,7 @@ export class ProfileComponent implements OnInit {
    * Contacts
    *
    ********************************************************************/
-
+   searchForm !: FormGroup;
   dataSource!: MatTableDataSource<contact>;
   selectedcontact?:string
   here1:Boolean=false;
@@ -118,7 +122,7 @@ export class ProfileComponent implements OnInit {
   }
 
   filterContact(){
-    this.rs.filterContacts(this.userID,"nggw").subscribe(response =>{
+    this.rs.filterContacts(this.userID,this.searchForm.value.searchField).subscribe(response =>{
       this.dataSource = new MatTableDataSource<contact>(response);
       console.log(response);
     })

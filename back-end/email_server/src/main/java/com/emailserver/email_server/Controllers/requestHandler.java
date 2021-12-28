@@ -326,14 +326,14 @@ Contacts (get | add | delete | edit | filter) Requests
 
     //filter contact
     @GetMapping("/filterContacts/{id}")
-    public ArrayList<contact> filterContacts(   @RequestParam("keyword") String keyword,
+    public String filterContacts(   @RequestParam("keyword") String keyword,
                                                 @PathVariable("id") String userId){
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+            return s.filterContacts(keyword);
         } catch (Exception e) {
-
+            return null;
         }
-        return /* server.searchingContact(type, name) */null;
     }
 
     /*private final Path root = Paths.get("uploads");*/
