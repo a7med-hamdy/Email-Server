@@ -300,7 +300,7 @@ Contacts (get | add | delete | edit | filter) Requests
     public boolean deleteContacts( @PathVariable("id") int userId,
                                     @PathVariable("ids") int[] ids){
         System.out.println("IDs to be deleted: " + ids[0] + "  " + userId);
-        /* try {
+        try {
             Server server = Server.getInstanceOf();
             for (int id : ids){
                 server.deleteContact(userId, id);
@@ -309,7 +309,7 @@ Contacts (get | add | delete | edit | filter) Requests
         }catch (Exception e){
             e.printStackTrace();
             return false;
-        } */
+        }
         return false;
     }
 
@@ -328,15 +328,15 @@ Contacts (get | add | delete | edit | filter) Requests
         System.out.println("New Emails: " + newEmails);
         System.out.println("Old Name: " + oldName);
         System.out.println("New Name: " + newName);
-        // ArrayList<String> emailsList = new ArrayList<>();
-        // String[] list = emails.split(",");
-        // Collections.addAll(emailsList , list);
         try {
-            // server.editContact(oldName, newName, emailsList);
+            Server server = Server.getInstanceOf();
+            server.editContactEmail(userId, contactId, oldEmails, newEmails);
+            server.editContactName(userId, contactId, newName);
+            return true;
         }catch (Exception e){
             e.printStackTrace();
+            return false;
         }
-        return true;
     }
 
     //filter contact

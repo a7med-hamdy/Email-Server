@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { RequestsService } from '../requests/requests.service';
 import { FormBuilder } from '@angular/forms';
-import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -143,7 +142,6 @@ export class ProfileComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    delay(500);
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
