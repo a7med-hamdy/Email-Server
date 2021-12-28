@@ -23,6 +23,8 @@ import com.emailserver.email_server.userAndMessage.messageMaker;
 // import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.emailserver.email_server.userAndMessage.user;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.core.io.Resource;
 
 import org.springframework.http.HttpStatus;
@@ -345,6 +347,28 @@ Contacts (get | add | delete | edit | filter) Requests
   /*---------------------------------------------------------------
 folder (get | make | delete | edit ) Requests
 -----------------------------------------------------------------*/
+@GetMapping("/getFolderss/{id}")
+    public String getFolders( 
+                        @PathVariable("id") String userId){
+    System.out.println(userId);
+    try {
+        sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+        // String[] ss = s.getEmailFolders();
+        String[] dummies = s.getEmailFolders();
+        JSONArray folders = new JSONArray();
+        for(String dummy: dummies)
+        {
+            JSONObject temp = new JSONObject();
+            temp.put("name", dummy);
+            folders.put(temp);
+        }
+        return folders.toString();
+    }catch (Exception e){
+        e.printStackTrace();
+        return null;
+    }
+}
+
 // make folder
 @PostMapping("/makefolder/{id}/{name}")
 public boolean makeFolder(@PathVariable("name") String name,
