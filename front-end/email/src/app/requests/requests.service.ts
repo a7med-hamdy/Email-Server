@@ -189,8 +189,8 @@ export class RequestsService {
     return this.http.put<any>(`${this.url}/editContacts/${id}/${contactId}`, params)
   }
   // filter contacts
-  filterContacts(){
-
+  filterContacts(id :string, keyword: string){
+    return this.http.get<any>(`${this.url}/filterContacts/${id}`,{params: {keyword: keyword}});
   }
   /*---------------------------------------------------------------
   folder Requests

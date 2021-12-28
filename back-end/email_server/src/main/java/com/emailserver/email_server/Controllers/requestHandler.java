@@ -10,8 +10,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.emailserver.LoginAndSessionManagement.LoggingManager;
 import com.emailserver.LoginAndSessionManagement.sessionInterface;
 import com.emailserver.LoginAndSessionManagement.sessionManager;
@@ -25,7 +23,6 @@ import com.emailserver.email_server.userAndMessage.user;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.core.io.Resource;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -208,7 +205,6 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         System.out.println(type);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            
             return s.getMessages(type, folder,Integer.parseInt(p)).toString();
         }catch (Exception e){
             System.out.println("user Session Not found!");
@@ -233,19 +229,6 @@ Get Emails (unsorted | sorted | priority | filter) Requests
             return null;
 
         }
-    }
-
-/*---------------------------------------------------------------
-Download Attachment Request
------------------------------------------------------------------*/
-
-    //download Attachment
-    @GetMapping("/download/{id}")
-    public ResponseEntity<Resource> downloadFile(HttpServletRequest request, 
-                                                            @RequestParam(name="id")String id, 
-                                                            @RequestParam(name="type") String type,
-                                                            @RequestParam(name="name")String file)  {
-        return null;
     }
 
 /*---------------------------------------------------------------
@@ -327,8 +310,13 @@ Contacts (get | add | delete | edit | filter) Requests
 
     //filter contact
     @GetMapping("/filterContacts/{id}")
-    public ArrayList<contact> filterContacts( @RequestParam("typeOfSort") String type, 
-                                                        @RequestParam("name") String name){
+    public ArrayList<contact> filterContacts(   @RequestParam("keyword") String keyword,
+                                                @PathVariable("id") String userId){
+        try {
+            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+        } catch (Exception e) {
+
+        }
         return /* server.searchingContact(type, name) */null;
     }
 
