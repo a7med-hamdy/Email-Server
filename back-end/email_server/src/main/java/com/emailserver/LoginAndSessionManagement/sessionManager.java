@@ -50,10 +50,12 @@ public class sessionManager {
                     return s;
                 }
             }
+            }
+            catch(Exception e){
+                return null;
+            }
         }
-        catch(Exception e){e.printStackTrace();}
-        }
-            
+        
             return null;
     }
 
