@@ -75,7 +75,8 @@ public class EmailServerApplication {
 		s.sendMessage(n5, "trash");
 		s.sendMessage(n6);
 		// System.out.println(s.filterMessages(234, "global", "to be", "time", 1));
-		
+		s.addContact(234, "@colombia", "new");
+		System.out.println(s.getContacts(234));
 		// String[] dummies = s.getFolders(234);
 		// JSONArray folders = new JSONArray();
 		// for(String dummy: dummies)
