@@ -74,6 +74,7 @@ public class EmailServerApplication {
 		s.sendMessage(n4);
 		s.sendMessage(n5, "trash");
 		s.sendMessage(n6);
+		s.addContact(555, "email", "name");
 		// System.out.println(s.filterMessages(234, "global", "to be", "time", 1));
 		
 		// String[] dummies = s.getFolders(234);

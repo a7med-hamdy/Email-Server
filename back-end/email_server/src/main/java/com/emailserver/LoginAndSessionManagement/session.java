@@ -106,17 +106,25 @@ public class session implements sessionInterface{
 
      public String getContacts()throws IOException{
           Server server = Server.getInstanceOf();
-          server.addContact(this.getUserId(), this.getUserEmail(), this.getUserName());
-          return "done";
+          return server.getContacts(this.getUserId());
      }
 
      public void addContact(String name, String email)throws IOException{
+          Server server = Server.getInstanceOf();
+          server.addContact(this.getUserId(), email, name);
 
      }
-     public void deleteContact(String name)throws IOException{
-
+     public void deleteContact(int[] ids)throws IOException{
+          Server server = Server.getInstanceOf();
+          for (int id : ids){
+              
+              server.deleteContact(this.getUserId(), id);
+          }
      }
-     public void editContact(String email, String newName, String oldname)throws IOException{
+     public void editContact(String NewEmails, String oldEmails,String newName, int contactId)throws IOException{
+          Server server = Server.getInstanceOf();
+          server.editContactEmail(this.getUserId(), contactId, oldEmails, NewEmails);
+          server.editContactName(this.getUserId(), contactId, newName);
        
      }
 
