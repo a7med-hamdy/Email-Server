@@ -39,6 +39,16 @@ public class Proxy {
 		}
 		return "";
 	}
+	public int getIdFromEmail(String email) throws IOException{
+		ArrayList<user> ExistUsers = new ArrayList<user>(){};
+		ExistUsers = server.getUsers();
+		for(user  user : ExistUsers){
+			if(user.getEmail().equals(email)){
+				return user.getID();
+			}
+		}
+		return 0;
+	}
 
 	public Queue<Integer> getReceiversIds(String[] to) throws IOException{
 		Queue<Integer> Ids = new LinkedList<>(); 

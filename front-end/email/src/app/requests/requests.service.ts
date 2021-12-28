@@ -144,8 +144,8 @@ export class RequestsService {
     } */)
   }
   // get filtered mails
-  getFilteredEmails(){
-
+  getFilteredEmails(id: string, field:string, keyword:string, sortType:string, page:string){
+    return this.http.get<any>(`${this.url}/filter/${id}-${page}`,{params: {keyword: keyword, sortType:sortType, field:field}})
   }
 
 

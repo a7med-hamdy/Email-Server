@@ -3,7 +3,7 @@
   <mat-sidenav mode="side"  disableClose  opened position="start" class="side">
     <button  [disabled]="profile" class="button" [routerLink]= "['/main','Profile']"queryParamsHandling="preserve" routerLinkActive="active">Profile</button>
     <button  [disabled]="make" class="button" [routerLink]= "['/main','Create']"queryParamsHandling="preserve" routerLinkActive="active">Make message</button>
-    <button  [disabled]="search" class="button"[routerLink]="['/main','Search']"queryParamsHandling="preserve"  routerLinkActive="active">Search</button>
+    <button  [disabled]="search" class="button"[routerLink]="['/main','Search']"queryParamsHandling="preserve"  routerLinkActive="active">Search🔎</button>
     <div>
       <button *ngFor="let fold of folders" class="button" [routerLink]= "['/main',fold]"queryParamsHandling="preserve" routerLinkActive="active">
         {{fold}}
@@ -13,55 +13,61 @@
    </mat-sidenav>
    <router-outlet></router-outlet>
 
-<!--Folder Tables-->
    <mat-sidenav-content>
-    <div class ="view" *ngIf="clickedRows.length != 0">
-      <button (click)="clickedRows = []">go back</button>
 
-      <div>
-        TO: <b>{{clickedRows[0].body.body}}</b>
-      </div>
-      <div>
-        FROM: <b>{{clickedRows[0].body.body}}</b>
-      </div>
-      <div>
-        SUBJECT: <b>{{clickedRows[0].header.subject}}</b>
-      </div>
-      <div>
-        Date: <b>{{clickedRows[0].date}}</b>
-      </div>
-      <div>
-        Body: <b>{{clickedRows[0].body.body}}</b>
-      </div>
-      <div>
-        attachements: <div *ngFor="let att of clickedRows[0].attachments.attachements"><b><a href="file:///{{att}}" download>attachement</a></b></div>
-      </div>
-    </div>
+    <!--PROFILE COMPONENT-->
     <app-profile *ngIf="profile"></app-profile>
+    <!--MESSAGE CREATION COMPONENT-->
     <app-maker *ngIf="make"></app-maker>
-    <app-search *ngIf="search"></app-search>
+    <div *ngIf="search" class = 'search'>
+      <!--Search Button-->
+    <form [formGroup]="searchForm" (ngSubmit)="searchEmails()">
+      <mat-form-field  appearance="fill" >
+        <mat-label>Select a priority</mat-label>
+        <mat-select>
+          <mat-option (click)="searchSelected = fold" *ngFor="let fold of searchcriteria" [value]="fold">{{fold}}</mat-option>
+         </mat-select>
+      </mat-form-field>
+      <input type="text" matInput placeholder="Filter" formControlName="searchField" aria-label="Filtering">
+      <button> Search</button>
+    </form>
+    </div>
+  <!--Show Message on CLICK-->
+  <div class ="view" *ngIf="clickedRows.length != 0">
+    <button (click)="clickedRows = []">go back</button>
+
+    <div >
+      TO: <b *ngFor="let rec of clickedRows[0].header.recieverIds">{{rec}}, </b>
+    </div>
+    <div>
+      FROM: <b>{{clickedRows[0].header.senderId}}</b>
+    </div>
+    <div>
+      SUBJECT: <b>{{clickedRows[0].header.subject}}</b>
+    </div>
+    <div>
+      Date: <b>{{clickedRows[0].date}}</b>
+    </div>
+    <div>
+      Body: <b>{{clickedRows[0].body.body}}</b>
+    </div>
+    <div>
+      attachements: <div *ngFor="let att of clickedRows[0].attachments.attachements"><b><a href="file:///{{att}}" download>attachement</a></b></div>
+    </div>
+  </div>
+
    </mat-sidenav-content>
 
 
 
-<!--Filter Side Nav-->
+<!--Folder Email Side Nav-->
   <mat-sidenav mode="side"  disableClose  opened position="end" class="side1">
-   <div class="filter">
-    <mat-select name="FILTEES" [(ngModel)]="selected">
-      <mat-option  value="None">None</mat-option>
-      <mat-option value="Subject" >Subject</mat-option>
-      <mat-option value="Sender" >Sender</mat-option>
-    </mat-select>
-    <button class="filler">filter</button>
-  </div>
-    <div>
     <button (click)="sorting('Date')">Date</button>
     <button (click)="sorting('priority')">Pirority</button>
-    <button>Body</button>
-  </div>
-
+    <button (click)="sorting('body')">Body</button>
+<!--Folder Tables-->
   <div *ngIf="dataSource != undefined">
-    <table *ngIf="view" mat-table [dataSource]="dataSource" >
+    <table *ngIf="view || search" mat-table [dataSource]="dataSource" >
       <ng-container matColumnDef="select">
 
       </ng-container>

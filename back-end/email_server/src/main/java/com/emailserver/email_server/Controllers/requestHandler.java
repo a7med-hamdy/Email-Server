@@ -154,7 +154,7 @@ Emails (create | delete) Requests
         }catch (Exception ignoredException){return null;}
     }
 
-
+    //move email from one folder to another
     @DeleteMapping("/Move/{id}-{page}")
     @ResponseBody
     public String moveEmail(        @RequestParam("ID") String[] IDs, 
@@ -198,6 +198,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         System.out.println(type);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+            System.out.println(s.getMessages(type, folder,Integer.parseInt(p)));
             return s.getMessages(type, folder,Integer.parseInt(p)).toString();
         }catch (Exception e){
             e.printStackTrace();
@@ -205,47 +206,23 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         }
     }
 
-    //sort
-    @GetMapping("/sort/{id}")
-    public ArrayList<messageMaker> getSorted( @RequestParam("folder") String folder, 
-                                                @RequestParam("type") String type){
+    //filter
+    @GetMapping("/filter/{id}-{page}")
+    public String  filterBy(@RequestParam(name = "field")String field,
+                                                 @RequestParam(name = "keyword") String keyword,
+                                                 @RequestParam(name = "sortType") String sortType,
+                                                 @PathVariable("page") String page,
+                                                 @PathVariable("id") String ID){
+                                        
         try {
-            System.out.println("Folder = " + folder
-                             + "\nType = " + type);
-            // ArrayList<messageCreator> messages = server.sort(folder, type);
-            // System.out.println("Size is  "+ messages.size());
-            return /* messages */null;
-        }catch (Exception e){
+            System.out.println("filter");
+            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(ID));
+            return s.FilterMessages(field, keyword, sortType, Integer.parseInt(page)).toString();
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
+
         }
-    }
-    //sortPriority
-    @GetMapping("/sortPriority/{id}")
-    public ArrayList<message> sortPriority(@RequestParam("inboxOrSent") String inbox){
-        /* ArrayList<message> list = new ArrayList<>();
-        ArrayList<? extends message> primary = server.myFilter(Constants.TRUE ,Constants.PRIORITY , inbox);
-        ArrayList<? extends message> defaultList = server.myFilter(Constants.FALSE , Constants.PRIORITY , inbox);
-        if(primary != null)
-            list.addAll(primary);
-        if(defaultList != null)
-            list.addAll(defaultList);
-        System.out.println(list);
-
-        return list.isEmpty() ? null : list; */
-        return null;
-    }
-    //filter
-    @GetMapping("/filter/{id}")
-    public ArrayList<? extends message> filterBy(@RequestParam(name = "filterName")String filterName,
-                                                 @RequestParam(name = "subOrRec") String subOrRec,
-                                                 @RequestParam(name = "inboxOrSent") String inOrSent){
-
-        System.out.println(filterName);
-        System.out.println(subOrRec);
-        System.out.println(inOrSent);
-
-        return /* server.myFilter(filterName, subOrRec, inOrSent) */null;
     }
 
 /*---------------------------------------------------------------

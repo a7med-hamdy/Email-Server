@@ -25,9 +25,8 @@ public interface sessionInterface {
     public String getUserEmail();
     public void setUserEmail(String userEmail);
     
-
+    /****************************Messages************************************************************ */
     /**CRUD Operations on messages */
-    public String[] getEmailFolders() throws IOException;
     public void addMessage(message message) throws IOException;
 
     public void moveMessage(int msgID,String source, String folder)throws IOException;
@@ -36,6 +35,9 @@ public interface sessionInterface {
 
     public JSONArray getMessages(String folder, String criteria, int count)throws IOException;
 
+    public JSONArray FilterMessages(String field, String keyword, String sortType, int count)throws IOException;
+    
+/******************************************Contacts************************************************************ */
     /**CRUD Operations on Contacts */
     public String getContacts()throws IOException;
 
@@ -45,6 +47,9 @@ public interface sessionInterface {
 
     public void editContact(String email, String newName, String oldname)throws IOException;
 
+/*******************************************Folders********************************************************** */
+    /**CRUD Operations on Folders */
+    public String[] getEmailFolders() throws IOException;
     public void addFolder(String name)throws IOException;
     public void deleteFolder(String name)throws IOException;
     public void renameFolder(String oldname,String newName)throws IOException;
