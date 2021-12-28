@@ -74,7 +74,7 @@ public class EmailServerApplication {
 		s.sendMessage(n4);
 		s.sendMessage(n5);
 		s.sendMessage(n6);
-		System.out.println(s.filterMessages(234, "global", "to be", "time", 1));
+		//System.out.println(s.filterMessages(234, "global", "to be", "time", 1));
 		
 		// s.addAttachment(1111);
 		// System.out.println(s.requestFolder(234, "sent","body",1).toString());
