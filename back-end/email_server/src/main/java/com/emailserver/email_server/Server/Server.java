@@ -97,7 +97,6 @@ public class Server {
     //type "time" for sort by time and "priority" for priority
     public JSONArray requestFolder(int userID, String folder, String type, int count)
     {
-        JSONArray messages = new JSONArray();
         messageSorter Sorter = new messageSorter(type);
         File[] folders = new File(this.path+userID+"\\"+folder).listFiles((FileFilter)FileFilterUtils.directoryFileFilter());
         for(File iter: folders)
@@ -105,12 +104,9 @@ public class Server {
             ArrayList<File> files = (ArrayList<File>) FileUtils.listFiles(iter, new String[]{"json"}, false);
             String content = ReaderWriter.readData(files.get(0).toString());
             message m = gson.fromJson(content, message.class);
-            System.out.println(iter);
-            System.out.println(m.getDeleted());
-            System.out.println();
        
             if(iter.toString().contains("trash") && m.getDeleted()){
-                System.out.println("enter");
+                this.removeFromIndex(iter.toString(), m.getID());
                 deleteDirectory(iter);
                 iter.delete();
             }else{
