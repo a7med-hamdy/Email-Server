@@ -228,6 +228,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(ID));
             return s.FilterMessages(field, keyword, sortType, Integer.parseInt(page)).toString();
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("user Session Not found!");
             return null;
 
