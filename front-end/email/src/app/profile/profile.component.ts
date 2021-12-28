@@ -73,6 +73,7 @@ export class ProfileComponent implements OnInit {
   addContact(){
     let name = this.newContactForm.value.name;
     let emails = this.newContactForm.value.emails;
+    console.log(this.newContactForm.value.emails);
     this.rs.addContact(this.userID, name, emails)
     .subscribe(done => {
       if(done){

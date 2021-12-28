@@ -208,7 +208,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         System.out.println(type);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            System.out.println(s.getMessages(type, folder,Integer.parseInt(p)));
+            
             return s.getMessages(type, folder,Integer.parseInt(p)).toString();
         }catch (Exception e){
             System.out.println("user Session Not found!");

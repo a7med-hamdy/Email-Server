@@ -28,10 +28,10 @@ public class EmailServerApplication {
 		user user2 = new user(222,"222","22","@2", contacts);
 		contacts.add(new userContact(user, "mohamed"));
 		s.SignUp(234,"aly", "pass", "a7a@gmail",contacts);
-		s.SignUp(342544,"dqly", "pAAss", "@gmail",contacts);
-		s.SignUp(99999,"pablo", "cocaine", "@colombia",contacts);
-		s2.SignUp(887788,"messi", "score", "@barcelona",contacts);
-		s2.SignUp(555,"tony Soprano", "big head", "@mafia",contacts);
+		s.SignUp(342544,"dqly", "pAAss", "lo@gmail",contacts);
+		s.SignUp(99999,"pablo", "cocaine", "sabah@colombia",contacts);
+		s2.SignUp(887788,"messi", "score", "masy@barcelona",contacts);
+		s2.SignUp(555,"tony Soprano", "big head", "shof@mafia",contacts);
 		Queue<Integer> to = new LinkedList<>();
 		to.add(99999);
 		to.add(555);
