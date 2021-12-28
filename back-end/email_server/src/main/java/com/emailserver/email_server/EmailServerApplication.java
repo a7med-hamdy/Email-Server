@@ -56,12 +56,14 @@ public class EmailServerApplication {
 		messageMaker maker = new messageMaker();
 		////////
 		Date now=new Date();
-		message n = maker.getNewMessage(1111, "hello", 5,342544, to, "new", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
+		Date then= new Date(1000000000);
+		System.out.println(then);
+		message n = maker.getNewMessage(1111, "hello", 5,342544, to, "new", then, 1, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n1 = maker.getNewMessage(2222, "to be extracted", 5,234, to1, "subject", now, 2, new ArrayList<>(Arrays.asList("test.jpg")));
 		message n2 = maker.getNewMessage(3333, "hello", 5,342544, to2, "subject2", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n3 = maker.getNewMessage(4444, "hello 1239", 10,234, to3, "subject3", now, 4, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n4 = maker.getNewMessage(5555, "to be extracted", 5,342544, to4, "subject4", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
-		message n5 = maker.getNewMessage(6666, "hello", 5,342544, to5, "subject5", now, 1, new ArrayList<>(Arrays.asList("image.jpf")));
+		message n5 = maker.getNewMessage(6666, "hello", 5,342544, to5, "subject5", then, 1, new ArrayList<>(Arrays.asList("image.jpf")));
 		message n6 = maker.getNewMessage(7777, "hello", 5,342544, to6, "subject5", now, 1, new ArrayList<>(Arrays.asList("image.jpf","another.extesnion")));
 		
 		

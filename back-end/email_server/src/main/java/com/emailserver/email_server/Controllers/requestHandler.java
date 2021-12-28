@@ -2,9 +2,7 @@ package com.emailserver.email_server.Controllers;
 
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 
 import java.util.Date;
@@ -13,7 +11,7 @@ import java.util.Queue;
 
 
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.core.io.UrlResource;
+
 import com.emailserver.LoginAndSessionManagement.LoggingManager;
 import com.emailserver.LoginAndSessionManagement.sessionInterface;
 import com.emailserver.LoginAndSessionManagement.sessionManager;
@@ -26,7 +24,7 @@ import com.emailserver.email_server.userAndMessage.messageMaker;
 import com.emailserver.email_server.userAndMessage.user;
 
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;

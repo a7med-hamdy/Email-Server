@@ -1,16 +1,16 @@
 {
-  "ID": 6666,
+  "ID": 5555,
   "body": {
-    "body": "hello",
+    "body": "to be extracted",
     "length": 5
   },
   "header": {
     "senderId": 342544,
     "recieverIds": [
-      99999,
+      234,
       555
     ],
-    "subject": "subject5"
+    "subject": "subject4"
   },
   "attachments": {
     "attachements": [
@@ -18,7 +18,7 @@
     ],
     "number": 1
   },
-  "time": 1000000000,
-  "date": "Jan 12, 1970, 3:46:40 PM",
+  "time": 1640692051827,
+  "date": "Dec 28, 2021, 1:47:31 PM",
   "priority": 1
 }
