@@ -114,7 +114,7 @@ export class RequestsService {
   Get Emails (Inbox | Trash | Draft | Sent)
   ---------------------------------------------------------------*/
   getEmailFolders(id:string){
-    return this.http.get<any>(`${this.url}/getFolders/${id}`);
+    return this.http.get<any>(`${this.url}/getFolder/${id}`);
   }
   // get mails
   getEmails(t: string, id:string, page:string ,srt:string){
@@ -195,14 +195,14 @@ export class RequestsService {
   /*---------------------------------------------------------------
   folder Requests
   ---------------------------------------------------------------*/
+  getFolders(id: string){
+    return this.http.get<any>(`${this.url}/getFolders/${id}`)
+  }
+  
   addFolder(id:string ,name:string){
     let param=new HttpParams();
 
-    return this.http.post<any>(`${this.url}/makefolder/${id}/${name}`,param).subscribe(response=>{
-      console.log(response);
-    }
-
-    );
+    return this.http.post<any>(`${this.url}/makefolder/${id}/${name}`,param)
   }
 
   deleteFolder(id:string ,name:string){

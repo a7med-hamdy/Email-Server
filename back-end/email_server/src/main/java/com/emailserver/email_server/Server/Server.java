@@ -77,10 +77,26 @@ public class Server {
         return new ArrayList<user>(Arrays.asList(users));
     }
 
+    /////////////for deleting
+    public void deleteDirectory(File file)
+    {
+        // store all the paths of files and folders present
+        // inside directory
+        for (File subfile : file.listFiles()) {
+  
+            // if it is a subfolder,e.g Rohan and Ritik,
+            // recursiley call function to empty subfolder
+            if (subfile.isDirectory()) {
+                deleteDirectory(subfile);
+            }
+  
+            // delete files and empty subfolders
+            subfile.delete();
+        }
+    }
     //type "time" for sort by time and "priority" for priority
     public JSONArray requestFolder(int userID, String folder, String type, int count)
     {
-        JSONArray messages = new JSONArray();
         messageSorter Sorter = new messageSorter(type);
         File[] folders = new File(this.path+userID+"\\"+folder).listFiles((FileFilter)FileFilterUtils.directoryFileFilter());
         for(File iter: folders)
@@ -88,8 +104,16 @@ public class Server {
             ArrayList<File> files = (ArrayList<File>) FileUtils.listFiles(iter, new String[]{"json"}, false);
             String content = ReaderWriter.readData(files.get(0).toString());
             message m = gson.fromJson(content, message.class);
-            JSONObject temp = new JSONObject(this.addMessageAttachments(iter, m));
-            Sorter.addToQueue(temp);
+       
+            if(iter.toString().contains("trash") && m.getDeleted()){
+                this.removeFromIndex(iter.toString(), m.getID());
+                deleteDirectory(iter);
+                iter.delete();
+            }else{
+                JSONObject temp = new JSONObject(this.addMessageAttachments(iter, m));
+                Sorter.addToQueue(temp);
+            }
+           
         }
         return Sorter.sortMessages(count);
     }
