@@ -12,6 +12,8 @@ import com.emailserver.email_server.userAndMessage.messageMaker;
 import com.emailserver.email_server.userAndMessage.user;
 import com.emailserver.email_server.userAndMessage.userContact;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -72,12 +74,21 @@ public class EmailServerApplication {
 		s.sendMessage(n2);
 		s.sendMessage(n3);
 		s.sendMessage(n4);
-		s.sendMessage(n5);
+		s.sendMessage(n5, "trash");
 		s.sendMessage(n6);
-		System.out.println(s.filterMessages(234, "global", "to be", "time", 1));
+		// System.out.println(s.filterMessages(234, "global", "to be", "time", 1));
 		
+		// String[] dummies = s.getFolders(234);
+		// JSONArray folders = new JSONArray();
+		// for(String dummy: dummies)
+		// {
+		// 	JSONObject temp = new JSONObject();
+		// 	temp.put("name", dummy);
+		// 	folders.put(temp);
+		// }
+		// System.out.println(folders);
 		// s.addAttachment(1111);
-		// System.out.println(s.requestFolder(234, "sent","body",1).toString());
+		System.out.println(s.requestFolder(342544, "trash","body",1).toString());
 		// s.createFolder(555, "tobe");
 		// s.moveMessage(555, 10, "inbox","tobe");
 		// s.createFolder(234, "mails");

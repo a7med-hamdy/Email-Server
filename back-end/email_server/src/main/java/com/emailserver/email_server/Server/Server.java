@@ -104,10 +104,9 @@ public class Server {
             ArrayList<File> files = (ArrayList<File>) FileUtils.listFiles(iter, new String[]{"json"}, false);
             String content = ReaderWriter.readData(files.get(0).toString());
             message m = gson.fromJson(content, message.class);
-       
             if(iter.toString().contains("trash") && m.getDeleted()){
-                this.removeFromIndex(iter.toString(), m.getID());
-                deleteDirectory(iter);
+                this.removeFromIndex(this.path+userID+"\\"+folder+"\\", m.getID());
+                this.deleteDirectory(iter);
                 iter.delete();
             }else{
                 JSONObject temp = new JSONObject(this.addMessageAttachments(iter, m));
@@ -278,8 +277,17 @@ public class Server {
             IDs = criteria.meetCriteria(this.path+userID+"\\"+folder+"\\"+"index.json", keyword);
             for(String id : IDs)
             {
+                File iter = new File (folder);
                 message m = gson.fromJson(ReaderWriter.readData(this.path+userID+"\\"+folder+"\\"+id+"\\"+id+".json"), message.class);
-                Sorter.addToQueue(new JSONObject(this.addMessageAttachments(new File(this.path+userID+"\\"+folder+"\\"+id), m)));
+                if(iter.toString().contains("trash") && m.getDeleted()){
+                    this.removeFromIndex(this.path+userID+"\\"+folder+"\\", m.getID());
+                    deleteDirectory(iter);
+                    iter.delete();
+                }
+                else
+                {
+                    Sorter.addToQueue(new JSONObject(this.addMessageAttachments(new File(this.path+userID+"\\"+folder+"\\"+id), m)));
+                }
             }
         }
         return Sorter.sortMessages(count);
