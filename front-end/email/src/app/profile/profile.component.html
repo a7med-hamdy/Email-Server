@@ -10,23 +10,74 @@
 <div class="gret">
 <div *ngIf="dataSource != undefined" class="main">
   <table  mat-table [dataSource]="dataSource" >
+    
+    <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
-
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
     </ng-container>
-    <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+    
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
 
-      <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-      <div *ngIf="column == 'body'"
-            ><td mat-cell *matCellDef="let emp">{{emp[column][column]}}</td></div>
-      <td mat-cell *matCellDef="let emp"> {{emp[column]}} </td>
-  </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <!-- ID Column -->
+    <ng-container matColumnDef="ID">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.ID}} </td>
+    </ng-container>
+
+    <!-- Username Column -->
+    <ng-container matColumnDef="userName">
+      <th mat-header-cell *matHeaderCellDef> Username </th>
+      <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Emails </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons 
+                 aria-label="Select page of contact">
+  </mat-paginator>
+
+  <!-- Delete contact button -->
+  <button (click)="deleteContact()" [disabled]="!selection.hasValue() || addContactDiv" mat-raised-button class="del-contact-btn">
+    Delete
+  </button>
+  <!-- Edit contact button -->
+  <button (click)="getEditor()" [disabled]="selection.selected.length!=1 || addContactDiv" mat-raised-button class="edit-contact-btn">
+    Edit
+  </button>
+
 </div>
 <div class="pad">
-  <div class="add" style="padding: 3%;">
+  <button *ngIf="addContactBtn" (click)="getAddContact()" mat-raised-button>
+     + Add new contact 
+  </button>
+  <!-- Add new contact div -->
+  <div *ngIf="addContactDiv" class="add" style="padding: 3%;">
     <h2>Add new Contact</h2>
     <form [formGroup]="newContactForm">
       <div>
@@ -44,18 +95,34 @@
         </mat-form-field>
       </div>
 
-
+      <button (click)="addContact()" mat-raised-button [disabled]="!confirmAddBtn()" class="confirm">
+        Confirm 
+      </button>
+      <button (click)="cancelAddContact()" mat-raised-button class="red"> Cancel </button>
     </form>
   </div>
 
-  <div class="edit">
-    <button> delete </button>
-    <label> change name</label>
-    <input type="text" [(ngModel)]="added">
-    <button> confirm </button>
-    <label> add Email</label>
-    <input type="text" [(ngModel)]="added">
-    <button> add </button>
+  <!-- Edit contact div -->
+  <div *ngIf="editing" class="edit" style="padding: 3%;">
+    <h2>Edit contact</h2>
+    <form [formGroup]="newContactForm">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label> New Name </mat-label>
+          <input formControlName="name" type="text" matInput>
+        </mat-form-field>
+      </div>
+      
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label> New Emails </mat-label>
+          <input formControlName="emails" type="email" matInput>
+        </mat-form-field>
+      </div>
+    </form>
+
+    <button (click)="editContact()" mat-raised-button class="confirm"> Confirm </button>
+    <button (click)="closeEditor()" mat-raised-button class="red"> Cancel </button>
 
 
   </div>
@@ -67,7 +134,7 @@
 <!--<div *ngIf="here2">
 <button (click)="back()"> get back</button>
 <h2>My Folder</h2>
- <ul class="contact">
+  <ul class="contact">
   <li *ngFor="let foldre of Folders"
     [class.selected]="hero === selectedHero"
     (click)="onSelect(hero)">

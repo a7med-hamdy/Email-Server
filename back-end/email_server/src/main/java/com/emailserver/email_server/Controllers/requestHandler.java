@@ -93,6 +93,13 @@ Logging & Signing up Requests
         System.out.println(sManager.getSessions());
     }
 
+    @GetMapping("/auth/{id}")
+    @ResponseBody
+    public int getSessionID(@PathVariable("id") String userID){
+        sessionInterface s = (sessionInterface) sManager.getSessionByUserID(Integer.parseInt(userID));
+        System.out.println(s.getSessionID());
+        return (s.getSessionID());
+    }
 /*---------------------------------------------------------------
 Emails (create | delete) Requests
 -----------------------------------------------------------------*/
@@ -288,31 +295,48 @@ Contacts (get | add | delete | edit | filter) Requests
     }
 
     //delete contact
-    @DeleteMapping("/deleteContacts/{id}")
+    @DeleteMapping("/deleteContacts/{id}/{ids}")
     @ResponseBody
-    public void deleteContacts(@RequestBody ArrayList<String> names){
+    public boolean deleteContacts( @PathVariable("id") int userId,
+                                    @PathVariable("ids") int[] ids){
+        System.out.println("IDs to be deleted: " + ids[0] + "  " + userId);
         try {
-            // for (String name : names) continue;
-                // server.deleteContact(name);
+            Server server = Server.getInstanceOf();
+            for (int id : ids){
+                server.deleteContact(userId, id);
+                return true;
+            }
         }catch (Exception e){
-            // e.printStackTrace();
+            e.printStackTrace();
+            return false;
         }
+        return false;
     }
 
     //edit contact
-    @PutMapping("/editContacts/{id}")
-    public boolean editContacts(@RequestParam("email") String emails, 
-                                @RequestParam("newName") String newName, 
-                                @RequestParam("oldName") String oldName){
-        // ArrayList<String> emailsList = new ArrayList<>();
-        // String[] list = emails.split(",");
-        // Collections.addAll(emailsList , list);
+    @PutMapping("/editContacts/{id}/{contactId}")
+    public boolean editContacts(@PathVariable("id") int userId,
+                                @PathVariable("contactId") int contactId,
+                                @RequestParam("oldEmail") String oldEmails,
+                                @RequestParam("newEmail") String newEmails,
+                                @RequestParam("oldName") String oldName,
+                                @RequestParam("newName") String newName){
+        System.out.println("Contact edit information: ");
+        System.out.println("userID: " + userId);
+        System.out.println("contactID: " + contactId);
+        System.out.println("Old Emails: " + oldEmails);
+        System.out.println("New Emails: " + newEmails);
+        System.out.println("Old Name: " + oldName);
+        System.out.println("New Name: " + newName);
         try {
-            // server.editContact(oldName, newName, emailsList);
+            Server server = Server.getInstanceOf();
+            server.editContactEmail(userId, contactId, oldEmails, newEmails);
+            server.editContactName(userId, contactId, newName);
+            return true;
         }catch (Exception e){
             e.printStackTrace();
+            return false;
         }
-        return true;
     }
 
     //filter contact

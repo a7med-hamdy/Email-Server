@@ -16,6 +16,8 @@
 <!--Folder Tables-->
    <mat-sidenav-content>
     <div class ="view" *ngIf="clickedRows.length != 0">
+      <button (click)="clickedRows = []">go back</button>
+
       <div>
         TO: <b>{{clickedRows[0].body.body}}</b>
       </div>

@@ -23,7 +23,9 @@ public class sessionManager {
 
     public void createSession(int userID, String userName, String password,String userEmail){
         sessionInterface session = new session();
-        session.setSessionID((int) Math.random());
+        int min=1,max=1000000000;
+        int newID=(int)Math.floor(Math.random()*(max-min+1)+min);         
+        session.setSessionID((newID));
         session.setUserId((int)userID);
         session.setUserName(userName);
         session.setUserPassword(password);
