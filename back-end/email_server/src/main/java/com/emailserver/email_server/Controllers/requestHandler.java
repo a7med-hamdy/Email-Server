@@ -76,7 +76,6 @@ Logging & Signing up Requests
                             "Username = " + userName + "\n" + 
                             "Password = " + password);
         try {
-            System.out.println(sManager.getSessions());
 
             return lManager.LOGIN(userName, password);
         }catch (Exception e){

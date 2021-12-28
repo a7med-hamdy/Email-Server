@@ -109,7 +109,7 @@ public class session implements sessionInterface{
           return server.getContacts(this.getUserId());
      }
 
-     public void addContact(String name, String email)throws IOException{
+     public void addContact(String email, String name)throws IOException{
           Server server = Server.getInstanceOf();
           server.addContact(this.getUserId(), email, name);
 

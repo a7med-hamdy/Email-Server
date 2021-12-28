@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.emailserver.LoginAndSessionManagement.sessionManager;
 import com.emailserver.email_server.userAndMessage.message;
 import com.emailserver.email_server.userAndMessage.messageBody;
 import com.emailserver.email_server.userAndMessage.messageHeader;
@@ -46,6 +47,16 @@ class EmailServerApplicationTests {
         n.setTime(then);
 
         assertEquals(true, n.getDeleted());
+    }
+
+	@Test
+    void sessionTest() {
+
+        sessionManager session = sessionManager.getInstanceOf();
+        session.createSession(50, "userName", "password", "Joj@joster.com");
+        assertEquals(null, session.getSessionByUserID(58));
+        assertTrue(session.getSessionByUserID(50) instanceof Object);
+
     }
 
 }
