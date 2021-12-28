@@ -14,7 +14,7 @@ public class subjectCriteria implements Criteria{
             JSONArray array = new JSONArray(ReaderWriter.readData(path));
         for(int i = 0; i < array.length();i++)
         {
-            if(array.getJSONObject(i).optString("subject").equalsIgnoreCase(subject))
+            if(array.getJSONObject(i).optString("subject").contains(subject))
             {
                 IDs.add(array.getJSONObject(i).optString("ID"));
             }

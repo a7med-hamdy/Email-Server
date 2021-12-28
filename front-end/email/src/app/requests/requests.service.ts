@@ -114,7 +114,7 @@ export class RequestsService {
   Get Emails (Inbox | Trash | Draft | Sent)
   ---------------------------------------------------------------*/
   getEmailFolders(id:string){
-    return this.http.get<any>(`${this.url}/getFolder/${id}`);
+    return this.http.get<any>(`${this.url}/getFolders/${id}`);
   }
   // get mails
   getEmails(t: string, id:string, page:string ,srt:string){
@@ -144,8 +144,8 @@ export class RequestsService {
     } */)
   }
   // get filtered mails
-  getFilteredEmails(){
-
+  getFilteredEmails(id: string, field:string, keyword:string, sortType:string, page:string){
+    return this.http.get<any>(`${this.url}/filter/${id}-${page}`,{params: {keyword: keyword, sortType:sortType, field:field}})
   }
 
 
@@ -169,24 +169,24 @@ export class RequestsService {
   }
 
   // add contact
-  addContact(name: string, email: string){
+  addContact(id:string, name: string, email: string){
     let params = new HttpParams
     params = params.append("name", name)
     params = params.append("email", email)
-    return this.http.post<any>(`${this.url}/addContact/${887788}`, params)
+    return this.http.post<any>(`${this.url}/addContact/${id}`, params)
   }
   // delete contact
-  deleteContact(ids: number[]){
-    return this.http.delete<any>(`${this.url}/deleteContacts/${887788}/${ids}`)
+  deleteContact(id:string, ids: number[]){
+    return this.http.delete<any>(`${this.url}/deleteContacts/${id}/${ids}`)
   }
   // edit contact
-  editContact(contactId: number, oldEmails: string, newEmails: string, oldName: string, newName: string){
+  editContact(id:string, contactId: number, oldEmails: string, newEmails: string, oldName: string, newName: string){
     let params = new HttpParams
     params = params.append("oldEmail", oldEmails)
     params = params.append("newEmail", newEmails)
     params = params.append("oldName", oldName)
     params = params.append("newName", newName)
-    return this.http.put<any>(`${this.url}/editContacts/${887788}/${contactId}`, params)
+    return this.http.put<any>(`${this.url}/editContacts/${id}/${contactId}`, params)
   }
   // filter contacts
   filterContacts(){
@@ -196,9 +196,9 @@ export class RequestsService {
   folder Requests
   ---------------------------------------------------------------*/
   getFolders(id: string){
-    return this.http.get<any>(`${this.url}/getFolders/${id}`)
+    return this.http.get<any>(`${this.url}/getFolderss/${id}`)
   }
-  
+
   addFolder(id:string ,name:string){
     let param=new HttpParams();
 
@@ -208,15 +208,13 @@ export class RequestsService {
   deleteFolder(id:string ,name:string){
 
 
-    return this.http.delete<any>(`${this.url}/deletefolder/${id}/${name}`).subscribe(response=>{
-      console.log(response);})
+    return this.http.delete<any>(`${this.url}/deletefolder/${id}/${name}`)
     }
 
   editFolder(id:string ,name:string,name2:string){
       let param=new HttpParams();
 
-      return this.http.put<any>(`${this.url}/editfolder/${id}/${name}/${name2}`, param).subscribe(response=>{
-        console.log(response);})
+      return this.http.put<any>(`${this.url}/editfolder/${id}/${name}/${name2}`, param)
     }
 
   downfile(id:string){

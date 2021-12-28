@@ -1,18 +1,15 @@
-<div>
-  <mat-form-field appearance="fill" >
-    <mat-label>Select a priority</mat-label>
-    <mat-select [(ngModel)]="selected">
-      <mat-option value="0">All</mat-option>
-      <mat-option value="1">sender</mat-option>
-      <mat-option value="2">Subject</mat-option>
-      <mat-option value="3">Reciver</mat-option>
-     </mat-select>
-  </mat-form-field>
-<input type="text" placeholder="Filter"  aria-label="Filtering" [(ngModel)]="selName">
-<button (click)="search()"> Search</button>
-</div>
-
-
+      <!--Search Button-->
+      <mat-form-field appearance="fill" >
+        <mat-label>Select a priority</mat-label>
+        <mat-select>
+          <mat-option (click)="selected = 'all'" value="0">All</mat-option>
+          <mat-option (click)="selected = 'sender'" value="1">Sender</mat-option>
+          <mat-option  (click)="selected = 'subject'" value="2">Subject</mat-option>
+          <mat-option (click)="selected = 'reciever'" value="3">Reciever</mat-option>
+         </mat-select>
+      </mat-form-field>
+    <input type="text" placeholder="Filter"  aria-label="Filtering">
+    <button (click)="search()"> Search</button>
 <div>
   <!--<div *ngIf="dataSource != undefined">
     <table *ngIf="view" mat-table [dataSource]="dataSource" >

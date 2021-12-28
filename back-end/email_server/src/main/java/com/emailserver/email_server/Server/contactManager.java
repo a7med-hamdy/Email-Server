@@ -1,5 +1,8 @@
 package com.emailserver.email_server.Server;
 
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+
 import com.emailserver.email_server.userAndMessage.user;
 import com.emailserver.email_server.userAndMessage.userContact;
 import com.google.gson.Gson;
@@ -11,12 +14,39 @@ import org.json.JSONObject;
 class contactManager {
     private String path;
     private Gson gson;
-    public contactManager(String path)
+    PriorityQueue<userContact> queue;
+    protected contactManager(String path)
     {
         this.path = path;
-        gson = new Gson();
+        this.gson = new Gson();
+        this.queue = new PriorityQueue<>(new contactComparator());
     }
-
+    private  ArrayList<userContact> sortContacts (ArrayList<userContact> users)
+    {
+        ArrayList<userContact> sorted = new ArrayList<>();
+        for(userContact u: users)
+        {
+            this.queue.add(u);
+        }
+        for(int i = 0; i <= this.queue.size();i++)
+        {
+            sorted.add(this.queue.poll());
+        }
+        return sorted;
+    }
+    public String searchContacts(int userID, String keyword)
+    {
+        JSONArray ret = new JSONArray();
+        JSONArray arr = new JSONArray(this.getContacts(userID));
+        for(int i = 0; i < arr.length();i++)
+        {
+            if(arr.getJSONObject(i).optString("name").contains(keyword))
+            {
+                ret.put(arr.getJSONObject(i));
+            }
+        }
+        return ret.toString();
+    }
     public String getContacts(int userID)
     {
         String content = ReaderWriter.readData(this.path);
@@ -27,7 +57,8 @@ class contactManager {
             return "fail user not found";
         }
         JSONArray contacts = new JSONArray();
-        for(userContact contact :users[index].getContacts())
+        ArrayList<userContact> sorted = this.sortContacts(users[index].getContacts());
+        for(userContact contact : sorted)
         {
             JSONObject temp = new JSONObject(contact);
             contacts.put(temp);
@@ -46,7 +77,7 @@ class contactManager {
         }
         userContact contact = new userContact(users[index2], name);
         users[index].addContact(contact);
-        String json = gson.toJson(users);
+        String json = this.gson.toJson(users);
         ReaderWriter.writeData(this.path, json);
         return "success";
     }
@@ -61,7 +92,7 @@ class contactManager {
             return "fail user not found";
         }
         users[index].changeContact(contactID, name);
-        String json = gson.toJson(users);
+        String json = this.gson.toJson(users);
         ReaderWriter.writeData(this.path, json);
         return "success";
     }
@@ -75,7 +106,7 @@ class contactManager {
             return "fail user not found";
         }
         users[index].deleteContact(contactID);
-        String json = gson.toJson(users);
+        String json = this.gson.toJson(users);
         ReaderWriter.writeData(this.path, json);
         return "success";
     }
@@ -90,7 +121,7 @@ class contactManager {
             return "fail user not found";
         }
         users[index].addContactEmail(contactID, newEmail);
-        String json = gson.toJson(users);
+        String json = this.gson.toJson(users);
         ReaderWriter.writeData(this.path, json);
         return "success";
     }
@@ -104,7 +135,7 @@ class contactManager {
             return "fail user not found";
         }
         users[index].removeContactEmail(contactID, email);
-        String json = gson.toJson(users);
+        String json = this.gson.toJson(users);
         ReaderWriter.writeData(this.path, json);
         return "success";
     }

@@ -262,8 +262,9 @@ Contacts (get | add | delete | edit | filter) Requests
         System.out.println("Contact name = " + name);
         System.out.println("Emails = " + email);
         try {
-            Server server = Server.getInstanceOf();
-            server.addContact(Integer.parseInt(userID), email, name);
+
+            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userID));
+            s.addContact(email, name);
             return true;
         }catch (Exception e){
             e.printStackTrace();

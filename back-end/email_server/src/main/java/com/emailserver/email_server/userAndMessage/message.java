@@ -40,7 +40,6 @@ public class message {
     }
     public void setTime(Date date) {
         this.date = date;
-        this.time = date.getTime();
     }
     public int isPriority() {
         return this.priority;

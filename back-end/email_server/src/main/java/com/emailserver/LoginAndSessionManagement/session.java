@@ -105,8 +105,9 @@ public class session implements sessionInterface{
      /**CRUD Operations on Contacts */
 
      public String getContacts()throws IOException{
-          server = Server.getInstanceOf();
-          return server.getContacts(this.getUserId());
+          Server server = Server.getInstanceOf();
+          server.addContact(this.getUserId(), this.getUserEmail(), this.getUserName());
+          return "done";
      }
 
      public void addContact(String name, String email)throws IOException{

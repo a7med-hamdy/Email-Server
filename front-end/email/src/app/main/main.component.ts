@@ -5,6 +5,7 @@ import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/r
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 
@@ -14,9 +15,20 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  /**INPUT VARIABLES */
+
   userID!:string;
   selected:string = '1';
   userSessionID!:string;
+  searchForm !: FormGroup;
+  searchSelected!:string;
+  sortCriteria:string = "date";
+  page:number = 1;
+  dataSource!: MatTableDataSource<any>;
+  selectedRows!: Set<any>;
+  selection = new SelectionModel<any>(true, []);
+  folder: string = 'inbox' ;
+
   /**VIEW BOOLEANs */
   search:Boolean=false;
   profile:Boolean=false;
@@ -24,32 +36,38 @@ export class MainComponent implements OnInit {
   view:Boolean=true;
   filter?:string;
 
+  /**VIEW ARRAYS */
+  searchcriteria:string[] = ['global','attachements','sender','receiver','subject','body']
   folders:string[] = [];
   clickedRows:any[] = [];
   displayedColumns: string[] = [' ',"ID", "subject","date"];
-  page:number = 1;
-  dataSource!: MatTableDataSource<any>;
-  selectedRows!: Set<any>;
-  selection = new SelectionModel<any>(true, []);
-  folder: string = 'inbox' ;
+
 
 
 
   constructor(public route:ActivatedRoute,
               private sanitizer: DomSanitizer,
               public router:Router,
-              public req:RequestsService) {
+              public req:RequestsService,
+              private formBuilder: FormBuilder) {
                 //router.navigate(['main']);
 
               }
 
   ngOnInit(): void {
-    this.router.onSameUrlNavigation ='reload';
-    this.extractId();
-    this.getUserFolders();
-    this.updateDataSource();
-    this.routerEventListener();
 
+    this.router.onSameUrlNavigation ='reload';
+    if(sessionStorage.getItem('id') == null){
+      this.router.navigate(['/'])
+    }
+    else{
+      this.extractId();
+      this.refresh();
+      this.routerEventListener();
+      this.searchForm = this.formBuilder.group({
+        searchField: ['', [Validators.required]],
+      });
+    }
   }
 /**********************listen on Route****************************** */
   /**
@@ -57,9 +75,7 @@ export class MainComponent implements OnInit {
    */
   public extractId(){
     this.route.queryParams.subscribe(params =>{
-      if(sessionStorage.getItem('id') == null){
-        this.router.navigate(['/login'])
-      }
+
       this.userID = params["ID"];
       console.log(this.userID);
      })
@@ -88,6 +104,10 @@ export class MainComponent implements OnInit {
 
 /**********************************DataBase Requests*************************************************** */
 
+public refresh(){
+  this.getUserFolders();
+  this.updateDataSource();
+}
 /**
  * requesting user folders to be viewed
  */
@@ -114,13 +134,8 @@ public getUserFolders(){
    * @param type  type of sorting
    */
    sorting(type:string){
-    (this.req.getEmails(this.folder, this.userID,this.page.toString(),type)).subscribe(response =>{
-      /*if(response == null)
-        this.Logout();
-        */
-      this.dataSource = new MatTableDataSource<any>(response);
-      console.log(response);
-    });
+      this.sortCriteria = type;
+      this.updateDataSource();
   }
 
 
@@ -128,7 +143,7 @@ public getUserFolders(){
    * Request Email data from back end
    */
   updateDataSource(){
-    (this.req.getEmails(this.folder, this.userID,this.page.toString(),"date")).subscribe(response =>{
+    (this.req.getEmails(this.folder, this.userID,this.page.toString(),this.sortCriteria)).subscribe(response =>{
       /*if(response == null)
         this.Logout();
         */
@@ -168,6 +183,17 @@ DeleteSelected(){
 
   console.log(this.selection.selected)
 }
+searchEmails(){
+  this.req.getFilteredEmails(this.userID,this.searchSelected,this.searchForm.value.searchField,this.sortCriteria,this.page.toString())
+  .subscribe(response =>{
+    this.dataSource = new MatTableDataSource<any>(response);
+    console.log("Search");
+  });
+  this.selection.clear();
+  console.log(this.searchForm.value.searchField);
+  console.log(this.searchSelected);
+
+}
 
 
 /****************************UI FUNCTIONS *********************************/
@@ -191,7 +217,12 @@ DeleteSelected(){
 increasePage(){
   this.selection.clear();
   this.page ++;
-  this.updateDataSource();
+  if(this.search){
+    this.searchEmails();
+  }
+  else{
+    this.updateDataSource();
+  }
 }
 
 
@@ -204,7 +235,12 @@ decreasePage(){
   this.page--;
   if(this.page <= 0)
     this.page = 1;
-  this.updateDataSource();
+    if(this.search){
+      this.searchEmails();
+    }
+    else{
+      this.updateDataSource();
+    }
 }
 
 /********View buttons***********/
@@ -220,6 +256,7 @@ decreasePage(){
     this.profile=false;
     this.search=false;
     this.make=false;
+    this.clickedRows = [];
     for(let i = 0; i < this.folders.length;i++){
       if(a.includes(this.folders[i])){
         this.folder= this.folder.replace(this.folder,this.folders[i]);
@@ -233,6 +270,7 @@ decreasePage(){
  * @param a route
  */
   profile1(a:string){
+    this.clickedRows = [];
     if(a.includes('Profile')){
 
       this.profile=true;
@@ -248,6 +286,8 @@ decreasePage(){
    * @param a route
    */
   make1(a:String){
+    this.clickedRows = [];
+
     if(a.includes('Create')){
       this.profile=false;
       this.search=false;
@@ -262,6 +302,7 @@ decreasePage(){
    * @param a route
    */
   search1(a:String){
+    this.clickedRows = [];
     if(a.includes('Search')){
       this.profile=false;
       this.search=true;

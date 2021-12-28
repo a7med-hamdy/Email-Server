@@ -17,7 +17,7 @@ public class attachmentCriteria implements Criteria{
             for(int j = 0; j < temp.length();j++)
             {
                 String content = temp.getString(j).substring(0, temp.getString(j).indexOf('.'));
-                if(content.equalsIgnoreCase(attachment))
+                if(content.contains(attachment))
                 {
                     IDs.add(array.getJSONObject(i).optString("ID"));
                 }
