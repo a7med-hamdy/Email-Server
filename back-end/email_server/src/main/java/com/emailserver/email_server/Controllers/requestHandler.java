@@ -295,22 +295,39 @@ Contacts (get | add | delete | edit | filter) Requests
     }
 
     //delete contact
-    @DeleteMapping("/deleteContacts/{id}")
+    @DeleteMapping("/deleteContacts/{id}/{ids}")
     @ResponseBody
-    public void deleteContacts(@RequestBody ArrayList<String> names){
-        try {
-            // for (String name : names) continue;
-                // server.deleteContact(name);
+    public boolean deleteContacts( @PathVariable("id") int userId,
+                                    @PathVariable("ids") int[] ids){
+        System.out.println("IDs to be deleted: " + ids[0] + "  " + userId);
+        /* try {
+            Server server = Server.getInstanceOf();
+            for (int id : ids){
+                server.deleteContact(userId, id);
+                return true;
+            }
         }catch (Exception e){
-            // e.printStackTrace();
-        }
+            e.printStackTrace();
+            return false;
+        } */
+        return false;
     }
 
     //edit contact
-    @PutMapping("/editContacts/{id}")
-    public boolean editContacts(@RequestParam("email") String emails, 
-                                @RequestParam("newName") String newName, 
-                                @RequestParam("oldName") String oldName){
+    @PutMapping("/editContacts/{id}/{contactId}")
+    public boolean editContacts(@PathVariable("id") int userId,
+                                @PathVariable("contactId") int contactId,
+                                @RequestParam("oldEmail") String oldEmails,
+                                @RequestParam("newEmail") String newEmails,
+                                @RequestParam("oldName") String oldName,
+                                @RequestParam("newName") String newName){
+        System.out.println("Contact edit information: ");
+        System.out.println("userID: " + userId);
+        System.out.println("contactID: " + contactId);
+        System.out.println("Old Emails: " + oldEmails);
+        System.out.println("New Emails: " + newEmails);
+        System.out.println("Old Name: " + oldName);
+        System.out.println("New Name: " + newName);
         // ArrayList<String> emailsList = new ArrayList<>();
         // String[] list = emails.split(",");
         // Collections.addAll(emailsList , list);

@@ -57,10 +57,27 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons 
+                 aria-label="Select page of contact">
+  </mat-paginator>
+
+  <!-- Delete contact button -->
+  <button (click)="deleteContact()" [disabled]="!selection.hasValue() || addContactDiv" mat-raised-button class="del-contact-btn">
+    Delete
+  </button>
+  <!-- Edit contact button -->
+  <button (click)="getEditor()" [disabled]="selection.selected.length!=1 || addContactDiv" mat-raised-button class="edit-contact-btn">
+    Edit
+  </button>
+
 </div>
 <div class="pad">
-  <button *ngIf="!addingContact" (click)="getAddContact()" mat-raised-button> + Add new contact </button>
-  <div *ngIf="addingContact" class="add" style="padding: 3%;">
+  <button *ngIf="addContactBtn" (click)="getAddContact()" mat-raised-button>
+     + Add new contact 
+  </button>
+  <!-- Add new contact div -->
+  <div *ngIf="addContactDiv" class="add" style="padding: 3%;">
     <h2>Add new Contact</h2>
     <form [formGroup]="newContactForm">
       <div>
@@ -78,19 +95,34 @@
         </mat-form-field>
       </div>
 
-      <button (click)="addContact()" mat-raised-button> Add </button>
-      <button (click)="cancelAddContact()"> Cancel </button>
+      <button (click)="addContact()" mat-raised-button [disabled]="!confirmAddBtn()" class="confirm">
+        Confirm 
+      </button>
+      <button (click)="cancelAddContact()" mat-raised-button class="red"> Cancel </button>
     </form>
   </div>
 
-  <div class="edit">
-    <button> delete </button>
-    <label> change name</label>
-    <input type="text" [(ngModel)]="added">
-    <button> confirm </button>
-    <label> add Email</label>
-    <input type="text" [(ngModel)]="added">
-    <button> add </button>
+  <!-- Edit contact div -->
+  <div *ngIf="editing" class="edit" style="padding: 3%;">
+    <h2>Edit contact</h2>
+    <form [formGroup]="newContactForm">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label> New Name </mat-label>
+          <input formControlName="name" type="text" matInput>
+        </mat-form-field>
+      </div>
+      
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label> New Emails </mat-label>
+          <input formControlName="emails" type="email" matInput>
+        </mat-form-field>
+      </div>
+    </form>
+
+    <button (click)="editContact()" mat-raised-button class="confirm"> Confirm </button>
+    <button (click)="closeEditor()" mat-raised-button class="red"> Cancel </button>
 
 
   </div>

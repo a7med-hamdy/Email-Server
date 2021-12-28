@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { RequestsService } from '../requests/requests.service';
 import { FormBuilder } from '@angular/forms';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +37,9 @@ export class ProfileComponent implements OnInit {
   displayedColumns: string[] = ["select", "ID", "name","email","userName"];
   selection = new SelectionModel<contact>(true, []);
   added?: string;
-  addingContact = false
+  addContactBtn = true
+  addContactDiv = false
+  editing = false
 
   back():void {
     this.here1=false;
@@ -69,7 +72,7 @@ export class ProfileComponent implements OnInit {
   addFolder():void{
     this.rs.addFolder("555","aaa")
   }
-
+  
   addContact(){
     let name = this.newContactForm.value.name;
     let emails = this.newContactForm.value.emails;
@@ -81,19 +84,66 @@ export class ProfileComponent implements OnInit {
       }
       else{console.log("Error!! Contact wasn't added!")}
     })
-    this.addingContact = false;
+    this.cancelAddContact();
+  }
+
+  deleteContact(){
+    this.rs.deleteContact(this.selection.selected.map(function(a){return a.ID}))
+    .subscribe(done =>{
+      if(done){
+        console.log("Contact(s) deleted successfully")
+        this.getcontact() //refresh the contacts list
+      }
+      else{console.log("Error!! Contact wasn't deleted!")}
+    })
+  }
+
+  editContact(){
+    this.rs.editContact(this.selection.selected.map(function(a){return a.ID})[0],
+                        this.selection.selected.map(function(a){return a.email})[0] as unknown as string,
+                        this.newContactForm.controls['emails'].value,
+                        this.selection.selected.map(function(a){return a.name}) as unknown as string,
+                        this.newContactForm.controls['name'].value)
+    .subscribe(done => {
+      if(done){
+        console.log("Contact edited successfully")
+        this.getcontact() //refresh the contacts list
+      }
+      else{console.log("Error!! Contact wasn't edited!")}
+    })
   }
 
   getAddContact(){
-    this.addingContact = true;
+    this.addContactBtn = !this.addContactBtn;
+    this.addContactDiv = !this.addContactDiv;
   }
   cancelAddContact(){
-    this.addingContact = false;
+    this.addContactBtn = !this.addContactBtn;
+    this.addContactDiv = !this.addContactDiv;
+    this.resetContactForm();
+  }
+  confirmAddBtn(){
+    return this.newContactForm.controls['name'].value.length!==0 && this.newContactForm.controls['emails'].value.length!==0;
+  }
+
+  getEditor(){
+    this.editing = true;
+    this.newContactForm.controls['name'].setValue(this.selection.selected.map(function(a){return a.name}));
+    let email = this.selection.selected.map(function(a){return a.email});
+    let emails  = (email[0] as unknown as string).replace('[', '').replace(']', '');
+    this.newContactForm.controls['emails'].setValue(emails);
+    this.addContactBtn = false;
+  }
+  closeEditor(){
+    this.editing = false;
+    this.resetContactForm();
+    this.addContactBtn = true;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
+    delay(500);
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
@@ -110,18 +160,23 @@ export class ProfileComponent implements OnInit {
 
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: contact): string {
-    console.log(this.selection.selected)
+    // console.log(this.selection.selected)
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.ID}`;
   }
+
+  resetContactForm(){
+    this.newContactForm.controls['name'].setValue('');
+    this.newContactForm.controls['emails'].setValue('');
+  }
 }
 
 
 export class contact{
-  name?: string
-  ID?: number
-  userName?: string
-  email?: string[]
+  name!: string
+  ID!: number
+  userName!: string
+  email!: string[]
 }

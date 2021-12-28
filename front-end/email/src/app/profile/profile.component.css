@@ -24,7 +24,7 @@ mat-column {
 
 
 mat-column {
-  width: 32px;
+  width: 20%;
   text-align: center;
   font-weight: bold;
 }
@@ -38,6 +38,8 @@ mat-column {
 .gret{
   display: flex;
 }
+
+
 .add{
   border: 2px solid black;
   margin-bottom: 10px;
@@ -49,9 +51,9 @@ mat-column {
   margin: 7.5px 0  7.5px 0 ;
 }
 .add button{
-   width: 490px;
+  width: 80px;
   height: 40.5px;
-  margin: 7.5px 0  7.5px 0 ;
+  margin: 10px;
 
 }
 label{
@@ -71,8 +73,21 @@ label{
 }
 
 .edit button{
-  width: 490px;
+  width: 80px;
   height: 40.5px;
-  margin: 7.5px 0  7.5px 0 ;
+  margin: 10px;
 }
 
+.del-contact-btn, .edit-contact-btn{
+  margin: 10px;
+}
+
+.confirm{
+  background-attachment: green;
+  color: black;
+}
+
+.red{
+  background-color: red;
+  color: white;
+}
