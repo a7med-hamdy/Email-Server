@@ -369,6 +369,10 @@ public class Server {
     {
         return this.contactManager.editContactEmail(userID, contactID, oldEmail, newEmail);
     }
+    public String searchContacts(int userID, String keyword)
+    {
+        return this.contactManager.searchContacts(userID, keyword);
+    }
 
     public void createFolder(int userID, String name)
     {
