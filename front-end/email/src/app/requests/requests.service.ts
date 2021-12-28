@@ -114,7 +114,7 @@ export class RequestsService {
   Get Emails (Inbox | Trash | Draft | Sent)
   ---------------------------------------------------------------*/
   getEmailFolders(id:string){
-    return this.http.get<any>(`${this.url}/getFolder/${id}`);
+    return this.http.get<any>(`${this.url}/getFolders/${id}`);
   }
   // get mails
   getEmails(t: string, id:string, page:string ,srt:string){
@@ -198,7 +198,7 @@ export class RequestsService {
   getFolders(id: string){
     return this.http.get<any>(`${this.url}/getFolders/${id}`)
   }
-  
+
   addFolder(id:string ,name:string){
     let param=new HttpParams();
 
