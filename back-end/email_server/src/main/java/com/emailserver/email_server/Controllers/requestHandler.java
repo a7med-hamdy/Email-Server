@@ -208,7 +208,6 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         System.out.println(type);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            System.out.println(s.getMessages(type, folder,Integer.parseInt(p)));
             return s.getMessages(type, folder,Integer.parseInt(p)).toString();
         }catch (Exception e){
             System.out.println("user Session Not found!");
@@ -327,8 +326,13 @@ Contacts (get | add | delete | edit | filter) Requests
 
     //filter contact
     @GetMapping("/filterContacts/{id}")
-    public ArrayList<contact> filterContacts( @RequestParam("typeOfSort") String type, 
-                                                        @RequestParam("name") String name){
+    public ArrayList<contact> filterContacts(   @RequestParam("keyword") String keyword,
+                                                @PathVariable("id") String userId){
+        try {
+            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+        } catch (Exception e) {
+
+        }
         return /* server.searchingContact(type, name) */null;
     }
 

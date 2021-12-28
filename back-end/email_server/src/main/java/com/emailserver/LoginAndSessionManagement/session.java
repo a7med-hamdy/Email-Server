@@ -109,7 +109,7 @@ public class session implements sessionInterface{
           return server.getContacts(this.getUserId());
      }
 
-     public void addContact(String name, String email)throws IOException{
+     public void addContact(String email, String name)throws IOException{
           Server server = Server.getInstanceOf();
           server.addContact(this.getUserId(), email, name);
 
@@ -128,7 +128,11 @@ public class session implements sessionInterface{
        
      }
 
+     public String filterContacts(String keyword) throws IOException{
+          Server server = Server.getInstanceOf();
+          return server.searchContacts(this.getUserId(), keyword);
 
+     }
      /*******************************************Folders********************************************************** */
 
      public String[] getEmailFolders()throws IOException{

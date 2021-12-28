@@ -39,13 +39,13 @@ export class ProfileComponent implements OnInit {
   here1:Boolean=false;
   main:Boolean=true;
   here2:Boolean=false;
-  displayedColumns: string[] = ["select", "ID", "name","email","userName"];
+  displayedColumns: string[] = [ 'select',"ID", "name","email","userName"];
   selection = new SelectionModel<contact>(true, []);
   added?: string;
   addContactBtn = true
   addContactDiv = false
   editing = false
-
+  clickedRows:any[] = [];
   back():void {
     this.here1=false;
     this.main=true;
@@ -57,6 +57,7 @@ export class ProfileComponent implements OnInit {
         console.log(this.userID);
        })
     }
+
   getcontact():void{
     this.here1=true;
     this.main=false;
@@ -81,6 +82,7 @@ export class ProfileComponent implements OnInit {
       }
       else{console.log("Error!! Contact wasn't added!")}
     })
+    this.selection.clear();
     this.cancelAddContact();
   }
 
@@ -93,6 +95,8 @@ export class ProfileComponent implements OnInit {
       }
       else{console.log("Error!! Contact wasn't deleted!")}
     })
+    this.selection.clear();
+
   }
 
   editContact(){
@@ -109,16 +113,30 @@ export class ProfileComponent implements OnInit {
       }
       else{console.log("Error!! Contact wasn't edited!")}
     })
+    this.selection.clear();
+
+  }
+
+  filterContact(){
+    this.rs.filterContacts(this.userID,"nggw").subscribe(response =>{
+      this.dataSource = new MatTableDataSource<contact>(response);
+      console.log(response);
+    })
+    this.selection.clear();
   }
 
   getAddContact(){
     this.addContactBtn = !this.addContactBtn;
     this.addContactDiv = !this.addContactDiv;
+    this.selection.clear();
+
   }
   cancelAddContact(){
     this.addContactBtn = !this.addContactBtn;
     this.addContactDiv = !this.addContactDiv;
     this.resetContactForm();
+    this.selection.clear();
+
   }
   confirmAddBtn(){
     return this.newContactForm.controls['name'].value.length!==0 && this.newContactForm.controls['emails'].value.length!==0;
