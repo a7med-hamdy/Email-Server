@@ -10,7 +10,7 @@
 <div class="gret">
 <div *ngIf="dataSource != undefined" class="main">
   <table  mat-table [dataSource]="dataSource" >
-    
+
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
@@ -28,7 +28,7 @@
         </mat-checkbox>
       </td>
     </ng-container>
-    
+
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -52,13 +52,13 @@
       <th mat-header-cell *matHeaderCellDef> Emails </th>
       <td mat-cell *matCellDef="let element"> {{element.email}} </td>
     </ng-container>
-  
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons 
+                 showFirstLastButtons
                  aria-label="Select page of contact">
   </mat-paginator>
 
@@ -74,7 +74,7 @@
 </div>
 <div class="pad">
   <button *ngIf="addContactBtn" (click)="getAddContact()" mat-raised-button>
-     + Add new contact 
+     + Add new contact
   </button>
   <!-- Add new contact div -->
   <div *ngIf="addContactDiv" class="add" style="padding: 3%;">
@@ -96,7 +96,7 @@
       </div>
 
       <button (click)="addContact()" mat-raised-button [disabled]="!confirmAddBtn()" class="confirm">
-        Confirm 
+        Confirm
       </button>
       <button (click)="cancelAddContact()" mat-raised-button class="red"> Cancel </button>
     </form>
@@ -112,7 +112,7 @@
           <input formControlName="name" type="text" matInput>
         </mat-form-field>
       </div>
-      
+
       <div>
         <mat-form-field appearance="fill">
           <mat-label> New Emails </mat-label>
@@ -142,18 +142,15 @@
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? masterToggle2() : null"
-                        [checked]="selection2.hasValue() && isAllSelected2()"
-                        [indeterminate]="selection2.hasValue() && !isAllSelected2()"
-                        [aria-label]="checkboxLabel2()">
-          </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
+          <div *ngIf="!(row == 'draft' || row == 'inbox' || row == 'trash' || row == 'sent')" >
           <mat-checkbox (click)="$event.stopPropagation()"
                         (change)="$event ? selection2.toggle(row) : null"
                         [checked]="selection2.isSelected(row)"
                         [aria-label]="checkboxLabel2(row)">
           </mat-checkbox>
+          </div>
         </td>
       </ng-container>
 
@@ -161,7 +158,8 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+
+        <td mat-cell *matCellDef="let element"> {{element}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
@@ -206,16 +204,16 @@
         </div>
 
         <button (click)="addFolder()" mat-raised-button>
-          confirm 
+          confirm
         </button>
-        <button (click)="closeNewFolderForm()" mat-raised-button> 
-          cancel 
+        <button (click)="closeNewFolderForm()" mat-raised-button>
+          cancel
         </button>
       </form>
   </div>
 
   </div>
 
-  
+
 
 </div>

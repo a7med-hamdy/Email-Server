@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
 
   /********************************************************************
    * Contacts
-   * 
+   *
    ********************************************************************/
 
   dataSource!: MatTableDataSource<contact>;
@@ -69,7 +69,7 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  
+
   addContact(){
     let name = this.newContactForm.value.name;
     let emails = this.newContactForm.value.emails;
@@ -171,12 +171,12 @@ export class ProfileComponent implements OnInit {
 
   /********************************************************************
    * Folders
-   * 
+   *
    ********************************************************************/
-  
-  dataSource2!: MatTableDataSource<folder>;
+
+  dataSource2!: MatTableDataSource<string>;
   displayedColumns2: string[] = ["select", "name"];
-  selection2 = new SelectionModel<folder>(true, []);
+  selection2 = new SelectionModel<any>(true, []);
   editingFolder: boolean = false;
 
   newFolderForm = this.fb.group({
@@ -188,8 +188,8 @@ export class ProfileComponent implements OnInit {
     this.here1=false;
     this.main=false;
     this.here2=true;
-    this.rs.getFolders(this.userID).subscribe(done => {
-      this.dataSource2 = new MatTableDataSource<folder>(done);
+    this.rs.getEmailFolders(this.userID).subscribe(done => {
+      this.dataSource2 = new MatTableDataSource<string>(done);
       console.log(done);
     }
     );
@@ -202,28 +202,31 @@ export class ProfileComponent implements OnInit {
         console.log("Folder added successfully")
         this.getFolder() //refresh the folder list
         this.newFolderForm.controls['name'].setValue('')
+        this.selection2.clear();
       }
       else{console.log("Error!! Folder wasn't added!")}
     })
   }
-  deleteFolder(){ 
-    let name = this.selection2.selected.map(function(a){return a.name})[0];
+  deleteFolder(){
+    let name = this.selection2.selected.map(function(a){return a})[0];
     this.rs.deleteFolder(this.userID, name)
     .subscribe( done => {
       if(done){
         console.log("Folder deleted successfully")
         this.getFolder() //refresh the folder list
+        this.selection2.clear();
       }
       else{console.log("Error!! Folder wasn't deleted!")}
     })
   }
   editFolder(){
-    let oldName = this.selection2.selected.map(function(a){return a.name})[0];
+    let oldName = this.selection2.selected.map(function(a){return a})[0];
     let newName = this.newFolderForm.controls['name'].value;
     this.rs.editFolder(this.userID, oldName, newName)
     .subscribe( done => {
       if(done){
         console.log("Folder edited successfully")
+        this.selection2.clear();
         this.getFolder() //refresh the folder list
       }
       else{console.log("Error!! Folder wasn't edited!")}
@@ -253,7 +256,7 @@ export class ProfileComponent implements OnInit {
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle2() {
+  /*masterToggle2() {
     if (this.isAllSelected2()) {
       this.selection2.clear();
       return;
@@ -263,14 +266,14 @@ export class ProfileComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel2(row?: folder): string {
+  checkboxLabel2(row?: string): string {
     // console.log(this.selection.selected)
     if (!row) {
       return `${this.isAllSelected2() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection2.isSelected(row) ? 'deselect' : 'select'} row ${row.name}`;
+    return `${this.selection2.isSelected(row) ? 'deselect' : 'select'} row ${row}`;
   }
-  
+
 }
 
 
