@@ -1,12 +1,13 @@
-import { Component, OnInit,Inject ,ViewChild } from '@angular/core';
+import { Component, OnInit,Inject ,ViewChild, SecurityContext } from '@angular/core';
 import { HttpClient, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { concatMap, delay, map, Observable, range } from 'rxjs';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { urlx } from './type'
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestsService } from '../requests/requests.service';
+
 
 
 
@@ -115,31 +116,58 @@ export class MakerComponent implements OnInit {
   }
   /* ****************************************************** */
 
+
+  readFile(file: File): Observable<string> {
+
+    return new Observable(obs => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.fileList.push(file);
+        this.attachNamse.push(file.name);
+        if(file.type.includes("pdf") || file.type.includes("text") || file.type.includes("image")||
+        file.type.includes("mp4") || file.type.includes("json") ||file.type.includes("mp3") ||file.type.includes("Xml")){
+        obs.next(reader.result as string);
+        obs.complete();
+        }else{
+          obs.next("");
+          obs.complete()
+        }
+      }
+      reader.readAsDataURL(file);
+    });
+  }
+
+
+
+
   selectFiles(event:any): void {
     this.urls = [];
     this.fileList = [];
     this.attachNamse=[];
+
     this.selectedFiles = event.target.files;
+    let z =  event.target.files;
     if(this.selectedFiles){
-     for (let i = 0; i < this.selectedFiles.length; i++) {
-        this.fileList.push(this.selectedFiles[i])
-        this.attachNamse.push(this.selectedFiles[i].name);
-        if(this.selectedFiles[i].type.includes("pdf") || this.selectedFiles[i].type.includes("text") || this.selectedFiles[i].type.includes("image")
-        || this.selectedFiles[i].type.includes("mp4") || this.selectedFiles[i].type.includes("json") || this.selectedFiles[i].type.includes("XML")
-        || this.selectedFiles[i].type.includes("mp3")){
-        var reader = new FileReader();
-        reader.readAsDataURL(this.selectedFiles[i]);
-        reader.onload = (events:any) => {
-          this.urls.push(this.sanitizer.bypassSecurityTrustResourceUrl( events.target.result))
-        }
-      }
+      range(0, this.selectedFiles.length).pipe(
 
-      else{
-        this.urls.push(this.sanitizer.bypassSecurityTrustResourceUrl( "https://uploads-us-west-2.insided.com/looker-en/attachment/d0a25f59-c9b7-40bd-b98e-de785bbd04e7.png"))
-        }
-       }
+        concatMap(index => {
 
+          return this.readFile(z[index]).pipe(
+            map(result => ({ result }))
+          );
+        })
+      ).subscribe(fileWithIndex => {
+        let x=0;
+        if(fileWithIndex.result.length==0){
+          this.urls.push(this.sanitizer.bypassSecurityTrustResourceUrl( `dummy${x}`));
+          x++;
+        }else{
+          this.urls.push(this.sanitizer.bypassSecurityTrustResourceUrl( fileWithIndex.result))
+        }
+
+      });
     }
+
 
   }
 
@@ -169,16 +197,21 @@ export class MakerComponent implements OnInit {
     }
   }
 
+
+
+
+
   del(inter:SafeUrl):void {
-    console.log("here")
+
     let x=this.urls.indexOf(inter);
     this.urls.splice(x,1);
     this.fileList.splice(x,1);
     this.attachNamse.splice(x,1);
-    console.log(this.urls)
-    console.log(this.fileList)
-    console.log(this.attachNamse)
+
+
   }
+
+
 
 
 
