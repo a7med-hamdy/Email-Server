@@ -80,7 +80,6 @@ Logging & Signing up Requests
 
             return lManager.LOGIN(userName, password);
         }catch (Exception e){
-            e.printStackTrace();
             System.out.println("Error in logIn request!!");
             return 0;
         }
@@ -89,16 +88,27 @@ Logging & Signing up Requests
     @PostMapping("/{id}/Logout")
     public void logOut(@PathVariable("id") String userID)
     {
+        try{
         sManager.deleteSession(Integer.parseInt(userID));
         System.out.println(sManager.getSessions());
+        }
+        catch(Exception e){
+            System.out.println("Session not found");
+        }
     }
 
     @GetMapping("/auth/{id}")
     @ResponseBody
     public int getSessionID(@PathVariable("id") String userID){
+        try{
         sessionInterface s = (sessionInterface) sManager.getSessionByUserID(Integer.parseInt(userID));
         System.out.println(s.getSessionID());
         return (s.getSessionID());
+        }
+        catch(Exception e){
+            System.out.println("Session not found");
+            return 0;
+        }
     }
 /*---------------------------------------------------------------
 Emails (create | delete) Requests
@@ -201,7 +211,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
             System.out.println(s.getMessages(type, folder,Integer.parseInt(p)));
             return s.getMessages(type, folder,Integer.parseInt(p)).toString();
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println("user Session Not found!");
             return null;
         }
     }
@@ -219,7 +229,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(ID));
             return s.FilterMessages(field, keyword, sortType, Integer.parseInt(page)).toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("user Session Not found!");
             return null;
 
         }
@@ -269,7 +279,7 @@ Contacts (get | add | delete | edit | filter) Requests
             System.out.println("Emails = " + email);
             return true;
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println("error in Adding Contacts");
             return false;
         }
     }
