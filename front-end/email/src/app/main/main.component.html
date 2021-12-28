@@ -1,9 +1,10 @@
 <mat-sidenav-container>
 <!--Folders SideNav-->
   <mat-sidenav mode="side"  disableClose  opened position="start" class="side">
+    <button class="button" (click) = "refresh()">⟳</button>
     <button  [disabled]="profile" class="button" [routerLink]= "['/main','Profile']"queryParamsHandling="preserve" routerLinkActive="active">Profile</button>
     <button  [disabled]="make" class="button" [routerLink]= "['/main','Create']"queryParamsHandling="preserve" routerLinkActive="active">Make message</button>
-    <button  [disabled]="search" class="button"[routerLink]="['/main','Search']"queryParamsHandling="preserve"  routerLinkActive="active">Search🔎</button>
+    <button  [disabled]="search" class="button"[routerLink]="['/main','Search']"queryParamsHandling="preserve"  routerLinkActive="active">🔎</button>
     <div>
       <button *ngFor="let fold of folders" class="button" [routerLink]= "['/main',fold]"queryParamsHandling="preserve" routerLinkActive="active">
         {{fold}}
