@@ -195,7 +195,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
         return s.getEmailFolders();
     }catch (Exception e){
-        e.printStackTrace();
+        System.out.println("no sessions");
         return null;
     }
 }
