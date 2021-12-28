@@ -6,10 +6,6 @@ table{
   width: 100%;
   height: 62px;
 }
-mat-paginator{
-  background-color:#191a1a;
-
-}
 
 mat-column {
   width: 32px;
@@ -24,11 +20,10 @@ mat-column {
 
 
 mat-column {
-  width: 20%;
+  width: 32px;
   text-align: center;
   font-weight: bold;
 }
-
 .main{
   width: 1300px;
   border: 2px solid black;
@@ -91,3 +86,4 @@ label{
   background-color: red;
   color: white;
 }
+

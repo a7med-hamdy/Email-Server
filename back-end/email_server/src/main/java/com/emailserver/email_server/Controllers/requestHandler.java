@@ -207,7 +207,6 @@ Get Emails (unsorted | sorted | priority | filter) Requests
         System.out.println(type);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            System.out.println(s.getMessages(type, folder,Integer.parseInt(p)));
             return s.getMessages(type, folder,Integer.parseInt(p)).toString();
         }catch (Exception e){
             System.out.println("user Session Not found!");
@@ -228,6 +227,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(ID));
             return s.FilterMessages(field, keyword, sortType, Integer.parseInt(page)).toString();
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("user Session Not found!");
             return null;
 
@@ -326,9 +326,14 @@ Contacts (get | add | delete | edit | filter) Requests
 
     //filter contact
     @GetMapping("/filterContacts/{id}")
-    public ArrayList<contact> filterContacts( @RequestParam("typeOfSort") String type, 
-                                                        @RequestParam("name") String name){
-        return /* server.searchingContact(type, name) */null;
+    public String filterContacts(   @RequestParam("keyword") String keyword,
+                                                @PathVariable("id") String userId){
+        try {
+            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+            return s.filterContacts(keyword);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /*private final Path root = Paths.get("uploads");*/

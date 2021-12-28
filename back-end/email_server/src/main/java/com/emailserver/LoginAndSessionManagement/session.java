@@ -96,7 +96,13 @@ public class session implements sessionInterface{
 
      public JSONArray FilterMessages(String field, String keyword, String sortType, int count)throws IOException{
           server = Server.getInstanceOf();
-          return this.MapEmails(server.filterMessages(this.getUserId(), field, keyword, sortType, count));
+          if(field.equalsIgnoreCase("sender") || field.equalsIgnoreCase("receiver")){
+               Proxy p= new Proxy(this.getUserName(),this.getUserPassword());
+               int keyid=p.getIdFromEmail(keyword);
+               return this.MapEmails(server.filterMessages(this.getUserId(), field, Integer.toString(keyid), sortType, count));
+               }else{
+               return this.MapEmails(server.filterMessages(this.getUserId(), field, keyword, sortType, count));
+               }
      }
 
 
@@ -128,7 +134,11 @@ public class session implements sessionInterface{
        
      }
 
+     public String filterContacts(String keyword) throws IOException{
+          Server server = Server.getInstanceOf();
+          return server.searchContacts(this.getUserId(), keyword);
 
+     }
      /*******************************************Folders********************************************************** */
 
      public String[] getEmailFolders()throws IOException{

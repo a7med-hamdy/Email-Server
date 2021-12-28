@@ -47,6 +47,7 @@ public interface sessionInterface {
 
     public void editContact(String NewEmails, String oldEmails,String newName, int contactId)throws IOException;
 
+    public String filterContacts(String keyword)throws IOException;
 /*******************************************Folders********************************************************** */
     /**CRUD Operations on Folders */
     public String[] getEmailFolders() throws IOException;

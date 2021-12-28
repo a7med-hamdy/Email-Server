@@ -8,17 +8,21 @@
 <button (click)="back()"> get back</button>
 <h2>My Contacts</h2>
 <div class="gret">
+  <div class = 'search'>
+    <!--Search Button-->
+  <form [formGroup]="searchForm" (ngSubmit)="filterContact()">
+    <mat-form-field  appearance="fill" >
+      <input type="text" matInput placeholder="Filter" formControlName="searchField" aria-label="Filtering">
+    </mat-form-field>
+    <button> Search</button>
+  </form>
+  </div>
 <div *ngIf="dataSource != undefined" class="main">
   <table  mat-table [dataSource]="dataSource" >
 
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()"
-                      [aria-label]="checkboxLabel()">
-        </mat-checkbox>
       </th>
       <td mat-cell *matCellDef="let row">
         <mat-checkbox (click)="$event.stopPropagation()"
