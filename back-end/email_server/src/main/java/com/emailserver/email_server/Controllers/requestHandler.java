@@ -80,7 +80,6 @@ Logging & Signing up Requests
 
             return lManager.LOGIN(userName, password);
         }catch (Exception e){
-            e.printStackTrace();
             System.out.println("Error in logIn request!!");
             return 0;
         }
@@ -89,16 +88,27 @@ Logging & Signing up Requests
     @PostMapping("/{id}/Logout")
     public void logOut(@PathVariable("id") String userID)
     {
+        try{
         sManager.deleteSession(Integer.parseInt(userID));
         System.out.println(sManager.getSessions());
+        }
+        catch(Exception e){
+            System.out.println("Session not found");
+        }
     }
 
     @GetMapping("/auth/{id}")
     @ResponseBody
     public int getSessionID(@PathVariable("id") String userID){
+        try{
         sessionInterface s = (sessionInterface) sManager.getSessionByUserID(Integer.parseInt(userID));
         System.out.println(s.getSessionID());
         return (s.getSessionID());
+        }
+        catch(Exception e){
+            System.out.println("Session not found");
+            return 0;
+        }
     }
 /*---------------------------------------------------------------
 Emails (create | delete) Requests
@@ -201,7 +211,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
             System.out.println(s.getMessages(type, folder,Integer.parseInt(p)));
             return s.getMessages(type, folder,Integer.parseInt(p)).toString();
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println("user Session Not found!");
             return null;
         }
     }
@@ -219,7 +229,7 @@ Get Emails (unsorted | sorted | priority | filter) Requests
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(ID));
             return s.FilterMessages(field, keyword, sortType, Integer.parseInt(page)).toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("user Session Not found!");
             return null;
 
         }
@@ -246,8 +256,9 @@ Contacts (get | add | delete | edit | filter) Requests
     @ResponseBody
     public String getContacts(@PathVariable("id") String userID){
         try {
+            System.out.println(userID);
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userID));
-            return s.getContacts();
+            return s.getContacts().toString();
         }catch (Exception e){
             return null;
         }
@@ -259,15 +270,16 @@ Contacts (get | add | delete | edit | filter) Requests
     public boolean addContact(  @PathVariable("id") String userID,
                                 @RequestParam("email") String email, 
                                 @RequestParam("name") String name) throws IOException  {
-        System.out.println("Contact name = " + name);
-        System.out.println("Emails = " + email);
+    
         try {
 
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userID));
             s.addContact(email, name);
+            System.out.println("Contact name = " + name);
+            System.out.println("Emails = " + email);
             return true;
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println("error in Adding Contacts");
             return false;
         }
     }
@@ -275,41 +287,37 @@ Contacts (get | add | delete | edit | filter) Requests
     //delete contact
     @DeleteMapping("/deleteContacts/{id}/{ids}")
     @ResponseBody
-    public boolean deleteContacts( @PathVariable("id") int userId,
+    public boolean deleteContacts( @PathVariable("id") String userId,
                                     @PathVariable("ids") int[] ids){
         System.out.println("IDs to be deleted: " + ids[0] + "  " + userId);
         try {
-            Server server = Server.getInstanceOf();
-            for (int id : ids){
-                server.deleteContact(userId, id);
-                return true;
-            }
+            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+            s.deleteContact(ids);
+            return true;
         }catch (Exception e){
             e.printStackTrace();
             return false;
         }
-        return false;
     }
 
     //edit contact
     @PutMapping("/editContacts/{id}/{contactId}")
-    public boolean editContacts(@PathVariable("id") int userId,
-                                @PathVariable("contactId") int contactId,
+    public boolean editContacts(@PathVariable("id") String userId,
+                                @PathVariable("contactId") String contactId,
                                 @RequestParam("oldEmail") String oldEmails,
-                                @RequestParam("newEmail") String newEmails,
+                                @RequestParam("newEmail") String NewEmails,
                                 @RequestParam("oldName") String oldName,
                                 @RequestParam("newName") String newName){
         System.out.println("Contact edit information: ");
         System.out.println("userID: " + userId);
         System.out.println("contactID: " + contactId);
         System.out.println("Old Emails: " + oldEmails);
-        System.out.println("New Emails: " + newEmails);
+        System.out.println("New Emails: " + NewEmails);
         System.out.println("Old Name: " + oldName);
         System.out.println("New Name: " + newName);
         try {
-            Server server = Server.getInstanceOf();
-            server.editContactEmail(userId, contactId, oldEmails, newEmails);
-            server.editContactName(userId, contactId, newName);
+            sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
+            s.editContact(NewEmails, oldEmails, newName, Integer.parseInt(contactId));
             return true;
         }catch (Exception e){
             e.printStackTrace();
