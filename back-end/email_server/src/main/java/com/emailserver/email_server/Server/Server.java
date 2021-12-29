@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Queue;
 
 
@@ -188,6 +189,13 @@ public class Server {
         destination += messageID;
         File destinationFile = new File(destination);
         try {
+            if(dst.equalsIgnoreCase("trash"))
+            {
+                String content = ReaderWriter.readData(source+"\\"+messageID+".json");
+                message m = gson.fromJson(content, message.class);
+                m.setTime(new Date());
+                ReaderWriter.writeData(source+"\\"+messageID+".json", gson.toJson(m));
+            }
             FileUtils.moveDirectory(sourceFile, destinationFile);
         } catch (IOException e) {
             System.out.println("Folder is already there.");

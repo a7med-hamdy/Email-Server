@@ -1,10 +1,5 @@
 package com.emailserver.email_server;
-
 import java.io.IOException;
-
-
-
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

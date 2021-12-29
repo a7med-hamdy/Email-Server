@@ -37,7 +37,7 @@ export class MainComponent implements OnInit {
   filter?:string;
 
   /**VIEW ARRAYS */
-  searchcriteria:string[] = ['global','attachements','sender','receiver','subject','body']
+  searchcriteria:string[] = ['global','attachment','sender','receiver','subject','body']
   folders:string[] = [];
   clickedRows:any[] = [];
   displayedColumns: string[] = [' ',"ID", "subject","date"];
