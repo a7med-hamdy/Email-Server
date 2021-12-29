@@ -126,6 +126,9 @@ Emails (create | delete) Requests
             Queue <Integer> To = new LinkedList<>();
             proxy = new Proxy("", "");
             To = proxy.getReceiversIds(to.split(","));
+            if(To.isEmpty()){
+                return-1;
+            }
             message Msg = this.mMaker.getNewMessage(id, body, body.length(), Integer.parseInt(userId), To, subject, time, Integer.parseInt(priority), files);
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
             s.addMessage(Msg,type);
