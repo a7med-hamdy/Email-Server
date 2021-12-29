@@ -27,7 +27,7 @@ public interface sessionInterface {
     
     /****************************Messages************************************************************ */
     /**CRUD Operations on messages */
-    public void addMessage(message message) throws IOException;
+    public void addMessage(message message,String folder) throws IOException;
 
     public void moveMessage(int msgID,String source, String folder)throws IOException;
 
