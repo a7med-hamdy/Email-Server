@@ -16,10 +16,10 @@ public class LoggingManager {
 
     /**
      * validate the existence of a user
-     * @param username
-     * @param password
-     * @return
-     * @throws IOException
+     * @param username user's name
+     * @param password user's password
+     * @return the user object | null if not found
+     * 
      */
     private user validateUser(String username, String password) throws IOException{
         Proxy securityProxy = new Proxy(username, password);
@@ -34,9 +34,10 @@ public class LoggingManager {
 
     /**
      * register users
-     * @param username
-     * @param password
-     * @throws IOException
+     * @param username user's name
+     * @param email user's email
+     * @param password user's password
+     * @return user's id after signing up | 0 if the user exists
      */
     public int REGISTER(String username, String email,String password) throws IOException{
         Proxy securityProxy = new Proxy(username, password,email);
@@ -59,9 +60,9 @@ public class LoggingManager {
 
     /**
      * log a user in
-     * @param username
-     * @param password
-     * @return
+     * @param username user's name
+     * @param password user's password
+     * @return user's id
      */
     public int LOGIN(String username, String password)throws IOException{
         user user = this.validateUser(username, password);
@@ -77,8 +78,8 @@ public class LoggingManager {
  
     /**
      * log a user out
-     * @param userId
-     * @return
+     * @param userId user's id
+     * @return true if logged out | false if session not found 
      */
     public boolean LOGOUT(int userId){
         if(this.sessionManage.getSessionByUserID(userId) != null){

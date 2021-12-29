@@ -105,6 +105,7 @@ public class session implements sessionInterface{
       *  @param folder message ID
       *  @param criteria criteria of sorting
       *  @param count page
+      *  @return array of messages
       */
      public JSONArray getMessages(String folder, String criteria, int count)throws IOException{
           server = Server.getInstanceOf();
@@ -121,6 +122,7 @@ public class session implements sessionInterface{
       *  @param keyword word to be searching for  
       *  @param sortType criteria of sorting
       *  @param count page
+      *  @return array of messages
       */
      public JSONArray FilterMessages(String field, String keyword, String sortType, int count)throws IOException{
           server = Server.getInstanceOf();
@@ -137,12 +139,22 @@ public class session implements sessionInterface{
 /******************************************Contacts************************************************************ */
 
      /**CRUD Operations on Contacts */
-
+  
+     /**
+      * request contacts of a user
+      * 
+      *  @return string of contacts      
+      */
      public String getContacts()throws IOException{
           Server server = Server.getInstanceOf();
           return server.getContacts(this.getUserId());
      }
 
+     /**
+      * adds a contacts of a user
+      * @param email email of the contact
+      * @param name name of the contact
+      */
      public void addContact(String email, String name)throws IOException{
           Server server = Server.getInstanceOf();
           String[] emails = email.split(",", -2);
@@ -158,7 +170,10 @@ public class session implements sessionInterface{
           }
      }
 
-
+     /**
+      * delete selected contacts
+      * @param ids ids of the contacts to be deleted
+      */
      public void deleteContact(int[] ids)throws IOException{
           Server server = Server.getInstanceOf();
           for (int id : ids){
@@ -166,6 +181,16 @@ public class session implements sessionInterface{
               server.deleteContact(this.getUserId(), id);
           }
      }
+
+        
+     /**
+      * edit a contact 
+      * 
+      *  @param newEmails new emails 
+      *  @param oldEmails old emails  
+      *  @param newName new contact name    
+      *  @param contactId id of contact to be edited
+      */
      public void editContact(String NewEmails, String oldEmails,String newName, int contactId)throws IOException{
           Server server = Server.getInstanceOf();
           String[] olemails = oldEmails.split(",", -2);
@@ -181,20 +206,29 @@ public class session implements sessionInterface{
           server.editContactName(this.getUserId(), contactId, newName);
        
      }
-
+     /**
+      * filter contacts according to a keyword (searches in names)
+      * @param keyword keyword to search for 
+      */
      public String filterContacts(String keyword) throws IOException{
           Server server = Server.getInstanceOf();
           return server.searchContacts(this.getUserId(), keyword);
 
      }
      /*******************************************Folders********************************************************** */
-
+    /**
+      * request folders of the user to be displayed
+      * @return string array of folder names
+      */
      public String[] getEmailFolders()throws IOException{
           server= Server.getInstanceOf();
           return server.getFolders(this.getUserId());
      }
 
-
+     /**
+      * request to add a folder
+      * @param name name of the new folder
+      */
      public void addFolder(String name)throws IOException{
           server = Server.getInstanceOf();
           if(name.equalsIgnoreCase("Deleted") || name.equalsIgnoreCase("Draft")
@@ -205,6 +239,11 @@ public class session implements sessionInterface{
           }
           
      }
+     /**
+      * 
+      * request to delete a folder
+      * @param name name of the folder to be deleted
+      */
      public void deleteFolder(String name)throws IOException{
           server = Server.getInstanceOf();
           if(name.equalsIgnoreCase("Deleted") || name.equalsIgnoreCase("Draft")
@@ -215,6 +254,11 @@ public class session implements sessionInterface{
                server.deleteFolder(this.getUserId(),name);
           }
      }
+     /**
+      * request to rename a folder
+      * @param oldname old folder name
+      * @param newName new folder name
+      */
      public void renameFolder(String oldname,String newName)throws IOException{
           server = Server.getInstanceOf();
           if(oldname.equalsIgnoreCase("Deleted") || oldname.equalsIgnoreCase("Draft")
