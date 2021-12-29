@@ -29,6 +29,12 @@ public class Proxy {
 		this.email = email;
 	}
 
+	/**
+	 * Getting the user's email from knowing the id
+	 * @param id
+	 * @return the email of that id
+	 * @throws IOException
+	 */
 	public String getEmailFromId(int id) throws IOException{
 		ArrayList<user> ExistUsers = new ArrayList<user>(){};
 		ExistUsers = server.getUsers();
@@ -39,6 +45,13 @@ public class Proxy {
 		}
 		return "";
 	}
+
+	/**
+	 * Getting the user's id from knowing the email
+	 * @param email
+	 * @return the id of that email
+	 * @throws IOException
+	 */
 	public int getIdFromEmail(String email) throws IOException{
 		ArrayList<user> ExistUsers = new ArrayList<user>(){};
 		ExistUsers = server.getUsers();
@@ -50,6 +63,12 @@ public class Proxy {
 		return 0;
 	}
 
+	/**
+	 * Getting the users's ids who will receive the message in a Queue
+	 * @param to
+	 * @return a Queue of receivers' ids
+	 * @throws IOException
+	 */
 	public Queue<Integer> getReceiversIds(String[] to) throws IOException{
 		Queue<Integer> Ids = new LinkedList<>(); 
 		ArrayList<user> ExistUsers = new ArrayList<user>(){};
@@ -75,21 +94,11 @@ public class Proxy {
 	public boolean signUp() throws FileNotFoundException, IOException, ParseException{
 		ArrayList<user> ExistUsers = new ArrayList<user>(){};
 		ExistUsers = server.getUsers();
-		// boolean[] sameIn = {false, false, false}; //{username, Email, Password}
 		for(user  user : ExistUsers){
 			if(userName.equals(user.getUserName()) || email.equals( user.getEmail() ) || password.equals( user.getPassword() )){
 				return false;
 			}
-			/* 
-			if(userName.equals(user.getUserName()))
-				sameIn[0] = true;
-			else if(email.equals( user.getEmail() ))
-				sameIn[1] = true;
-			else if(password.equals( user.getPassword() ))
-				sameIn[2] = true;
-			 */
 		}
-		// return sameIn;
 		return true;
 	}
 	
