@@ -1,0 +1,21 @@
+{
+  "ID": 16272,
+  "body": {
+    "body": "this message is to try the message app .",
+    "length": 40
+  },
+  "header": {
+    "senderId": 786417207,
+    "recieverIds": [],
+    "subject": "first message"
+  },
+  "attachments": {
+    "attachements": [
+      "qaifncf1hc651.png"
+    ],
+    "number": 1
+  },
+  "time": 1640789063959,
+  "date": "Dec 29, 2021, 4:44:23 PM",
+  "priority": 1
+}
