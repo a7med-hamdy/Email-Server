@@ -1,0 +1,24 @@
+{
+  "ID": 2222,
+  "body": {
+    "body": "to be extracted",
+    "length": 5
+  },
+  "header": {
+    "senderId": 234,
+    "recieverIds": [
+      99999,
+      555
+    ],
+    "subject": "subject"
+  },
+  "attachments": {
+    "attachements": [
+      "test.jpg"
+    ],
+    "number": 1
+  },
+  "time": 1640782370772,
+  "date": "Dec 29, 2021, 2:52:50 PM",
+  "priority": 2
+}

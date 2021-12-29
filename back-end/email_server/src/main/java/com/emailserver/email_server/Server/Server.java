@@ -88,6 +88,7 @@ public class Server {
         return new ArrayList<user>(Arrays.asList(users));
     }
 
+    /////////////////////// manage messages////////////////////////////////////
 
     /**
      * a function that returns the contents of a user's folder
@@ -135,8 +136,8 @@ public class Server {
         ReaderWriter.writeData(path +"\\"+m.getID()+".json", json);
     }
     /**
-     * 
-     * @param m
+     * a function that sends a message to the designated users
+     * @param m message m: the message to be sent
      */
     public void sendMessage(message m) 
     {
@@ -159,7 +160,13 @@ public class Server {
             ReaderWriter.writeData(path+"\\"+m.getID()+".json", json);
         }
     }
-
+    /**
+     * a function that moves the messages from a folder to another folder
+     * @param userID int : the id of the user
+     * @param messageID int : the id of the message
+     * @param src String : the folder that currently contains the message
+     * @param dst String : the folder that will contain the message after the moving operation
+     */
     public void moveMessage(int userID, int messageID, String src, String dst)
     {
         String source = this.path+userID+"\\"+src+"\\";
@@ -177,51 +184,12 @@ public class Server {
             System.out.println("Folder is already there.");
         }
     }
-
-    
-
-    private void removeFromIndex(String path, int id)
-    {
-        int index = Integer.parseInt(this.findMessage(path, id, false));
-         
-        String content = ReaderWriter.readData(path+"index.json");
-        JSONArray messages;
-        if(content.isEmpty())
-        {
-            messages = new JSONArray();
-        }
-        else
-        {
-            messages = new JSONArray(content);
-            messages.remove(index);
-        }
-        ReaderWriter.writeData(path+"index.json", messages.toString());
-    }
-
-    private void addToIndex(String path, String m)
-    {
-        String content = ReaderWriter.readData(path+"index.json");
-        JSONArray messages;
-        if(content.isEmpty())
-        {
-            messages = new JSONArray();
-        }
-        else
-        {
-            messages = new JSONArray(content);
-        }
-        JSONObject temp = new JSONObject(m);
-        JSONObject obj = new JSONObject().putOpt("ID", temp.optString("ID")).putOpt("subject", temp.getJSONObject("header").optString("subject"));
-        obj.putOpt("sender", temp.getJSONObject("header").optString("senderId"));
-        obj.putOpt("receivers", temp.getJSONObject("header").optString("recieverIds"));
-        obj.putOpt("attachments", temp.getJSONObject("attachments").optString("attachements").replaceAll("\\\\", ""));
-        obj.putOpt("body", temp.getJSONObject("body").optString("body"));
-        messages.put(obj);
-        ReaderWriter.writeData(path+"index.json", messages.toString());
-    }
-
-    
-
+    /**
+     * 
+     * @param messageID int : the id of the message to add attachments to
+     * @param file the attachments 
+     * @throws IOException
+     */
     public void addAttachment(int messageID, MultipartFile file) throws IOException
     {
         JSONArray content = new JSONArray(ReaderWriter.readData(this.path+"currentUsers.json"));
@@ -241,7 +209,7 @@ public class Server {
         }
     }
     /**
-     * 
+     * a function that filters messages according to criteria
      * @param userID
      * id of the user
      * @param field
@@ -249,10 +217,10 @@ public class Server {
      * @param keyword
      * the keyword
      * @param sortType
-     * the type of sort wanted time/priority/body
+     * the type of sort wanted time/priority/body/subject
      * @param count
      * the needed page
-     * @return
+     * @return JSONArray of the messages
      */
     public JSONArray filterMessages(int userID, String field, String keyword, String sortType, int count)
     {
@@ -281,6 +249,156 @@ public class Server {
         return Sorter.sortMessages(count);
     }
 
+
+    ///////////////////////////////// manage contacts ///////////////////////////////////////////////
+
+    /**
+     * a method that returns the contacts of uset
+     * @param userID int : the id of the user
+     * @return String json of the contacts
+     */
+    public String getContacts(int userID)
+    {
+       return this.contactManager.getContacts(userID);
+    }
+    /**
+     * a method that deletes a contact
+     * @param userID int : the id of the user
+     * @param contactID int : the id of the contact to be deleted
+     * @return String success or fail
+     */
+    public String deleteContact(int userID, int contactID)
+    {
+        return this.contactManager.deleteContact(userID, contactID);
+    }
+    /**
+     * a method that edits contact name 
+     * @param userID the user id
+     * @param contactID the contact id
+     * @param name the name of the contact
+     * @return String success or fail
+     */
+    public String editContactName(int userID, int contactID, String name)
+    {
+        return this.contactManager.editContactName(userID, contactID, name);
+    }
+    /**
+     * a method that adds a contact
+     * @param userID the id of the uset
+     * @param email the email of the contact
+     * @param name the name of the contact
+     * @return
+     */
+    public String addContact(int userID, String email, String name)
+    {
+        return this.contactManager.addContact(userID, email, name);
+    }
+    /**
+     * a method that add an email to a contact
+     * @param userID the id of the user
+     * @param contactID the id of the contact
+     * @param newEmail the new email
+     * @return String success or fail
+     */
+    public String addContactEmail(int userID, int contactID, String newEmail)
+    {
+        return this.contactManager.addContactEmail(userID, contactID, newEmail);
+    }
+    /**
+     * a method that removes an email of a contact
+     * @param userID the ID of the user
+     * @param contactID the ID of the contact
+     * @param email email to be deleted
+     * @return String success or fail
+     */
+    public String removeContactEmail(int userID, int contactID, String email)
+    {
+        return this.contactManager.removeContactEmail(userID, contactID, email);
+    }
+    /**
+     * a method that edites the email of an contact
+     * @param userID the user ID
+     * @param contactID the ID of the contact
+     * @param oldEmail the old email of the contact
+     * @param newEmail the new email of the contact
+     * @return String success or fail
+     */
+    public String editContactEmail(int userID, int contactID, String oldEmail, String newEmail)
+    {
+        return this.contactManager.editContactEmail(userID, contactID, oldEmail, newEmail);
+    }
+    /**
+     * a function that searches the names of the contacts
+     * @param userID the userID
+     * @param keyword the string to search for
+     * @return the String json of the contacts
+     */
+    public String searchContacts(int userID, String keyword)
+    {
+        return this.contactManager.searchContacts(userID, keyword);
+    }
+
+    ///////////////////////////////////////// Manage folders///////////////////////////////////////
+
+    /**
+     * a function that gets the folders of a certain user
+     * @param userID the id of the user
+     * @return String array of the folders
+     */
+    public String[] getFolders(int userID)
+    {
+        File f = new File(this.path+userID);
+        String[] folders = f.list(new FilenameFilter() {
+
+            @Override
+            public boolean accept(File dir, String name) {
+                return new File(dir,name).isDirectory();
+            }
+            
+        });
+        return folders;
+    }
+    /**
+     * a method that creates a folder
+     * @param userID the id of the user
+     * @param name the name of the folder
+     */
+    public void createFolder(int userID, String name)
+    {
+        this.folderManager.createFolder(userID, name);
+    } 
+    /** 
+     * a function that renames a folder
+     * @param userID the id of the user
+     * @param newName the new name of the folder
+     * @param oldName the old name of the folder
+     */
+    public void renameFolder(int userID, String newName, String oldName)
+    {
+        this.folderManager.renameFolder(userID, newName, oldName);
+    }
+    /**
+     * a function that deletes a folder
+     * @param userID the id of the user
+     * @param name the name of the folder to be deleted
+     */
+    public void deleteFolder(int userID, String name)
+    {   
+        this.folderManager.deleteFolder(userID, name);
+    }
+
+
+
+    //////////////////////////////helper methods//////////////////////////////////////////////
+
+
+    /**
+     * a helper function that finds a message that either returns the message or index in the index.json file
+     * @param path String the path of the index.json file
+     * @param id int: teh id of the message
+     * @param flag boolean : determines the return of the function the message or the index
+     * @return the String message or the index
+     */
     private String findMessage(String path, int id, boolean flag)
     {
         String content = ReaderWriter.readData(path+"index.json");
@@ -300,7 +418,10 @@ public class Server {
         }
         return "-1";
     }
-
+    /**
+     * a helper function that deletes a directory
+     * @param file the path to be deleted
+     */
     private void deleteDirectory(File file)
     {
         for (File subfile : file.listFiles()) {
@@ -310,7 +431,61 @@ public class Server {
             subfile.delete();
         }
     }
-
+    /**
+     * a helper method that removes a message from the index.json
+     * @param path String : path of the index.json file
+     * @param id int : the ID of the message to be deleted
+     */
+    private void removeFromIndex(String path, int id)
+    {
+        int index = Integer.parseInt(this.findMessage(path, id, false));
+         
+        String content = ReaderWriter.readData(path+"index.json");
+        JSONArray messages;
+        if(content.isEmpty())
+        {
+            messages = new JSONArray();
+        }
+        else
+        {
+            messages = new JSONArray(content);
+            messages.remove(index);
+        }
+        ReaderWriter.writeData(path+"index.json", messages.toString());
+    }
+    /**
+     * a helper function that adds a message to the index.json file
+     * @param path String : the path of the index.json file
+     * @param m String : the nessage to be added
+     */
+    private void addToIndex(String path, String m)
+    {
+        String content = ReaderWriter.readData(path+"index.json");
+        JSONArray messages;
+        if(content.isEmpty())
+        {
+            messages = new JSONArray();
+        }
+        else
+        {
+            messages = new JSONArray(content);
+        }
+        JSONObject temp = new JSONObject(m);
+        JSONObject obj = new JSONObject().putOpt("ID", temp.optString("ID")).putOpt("subject", temp.getJSONObject("header").optString("subject"));
+        obj.putOpt("sender", temp.getJSONObject("header").optString("senderId"));
+        obj.putOpt("receivers", temp.getJSONObject("header").optString("recieverIds"));
+        obj.putOpt("attachments", temp.getJSONObject("attachments").optString("attachements").replaceAll("\\\\", ""));
+        obj.putOpt("body", temp.getJSONObject("body").optString("body"));
+        messages.put(obj);
+        ReaderWriter.writeData(path+"index.json", messages.toString());
+    }
+    /**
+     * a helper method that adds the directories of the attachments 
+     * @param file the path of the message
+     * @param m the message to add the directories to
+     * @return
+     * the String json of the message after adding the directories
+     */
     private String addMessageAttachments(File file, message m)
     {
         ArrayList<String> paths = new ArrayList<>();
@@ -322,67 +497,5 @@ public class Server {
         }
         m.getAttachments().setAttachments(paths);
         return gson.toJson(m);
-    }
-
-    public String[] getFolders(int userID)
-    {
-        File f = new File(this.path+userID);
-        String[] folders = f.list(new FilenameFilter() {
-
-            @Override
-            public boolean accept(File dir, String name) {
-                return new File(dir,name).isDirectory();
-            }
-            
-        });
-        return folders;
-    }
-
-    public String getContacts(int userID)
-    {
-       return this.contactManager.getContacts(userID);
-    }
-    public String deleteContact(int userID, int contactID)
-    {
-        return this.contactManager.deleteContact(userID, contactID);
-    }
-
-    public String editContactName(int userID, int contactID, String name)
-    {
-        return this.contactManager.editContactName(userID, contactID, name);
-    }
-    public String addContact(int userID, String email, String name)
-    {
-        return this.contactManager.addContact(userID, email, name);
-    }
-    public String addContactEmail(int userID, int contactID, String newEmail)
-    {
-        return this.contactManager.addContactEmail(userID, contactID, newEmail);
-    }
-    public String removeContactEmail(int userID, int contactID, String email)
-    {
-        return this.contactManager.removeContactEmail(userID, contactID, email);
-    }
-    public String editContactEmail(int userID, int contactID, String oldEmail, String newEmail)
-    {
-        return this.contactManager.editContactEmail(userID, contactID, oldEmail, newEmail);
-    }
-    public String searchContacts(int userID, String keyword)
-    {
-        return this.contactManager.searchContacts(userID, keyword);
-    }
-
-    public void createFolder(int userID, String name)
-    {
-        this.folderManager.createFolder(userID, name);
-    } 
-
-    public void renameFolder(int userID, String newName, String oldName)
-    {
-        this.folderManager.renameFolder(userID, newName, oldName);
-    }
-    public void deleteFolder(int userID, String name)
-    {   
-        this.folderManager.deleteFolder(userID, name);
     }
 }
