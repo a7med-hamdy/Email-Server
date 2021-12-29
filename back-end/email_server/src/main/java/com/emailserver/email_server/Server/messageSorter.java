@@ -18,9 +18,13 @@ class messageSorter {
         {
             queue = new PriorityQueue<>(new messageComparator());
         }
-        else
+        else if(type.equalsIgnoreCase("body"))
         {
             queue = new PriorityQueue<>(new bodyComparator());
+        }
+        else
+        {
+            queue = new PriorityQueue<>(new subjectComparator());
         }
     }
 

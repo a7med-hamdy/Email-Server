@@ -7,7 +7,7 @@ import org.json.JSONException;
 
 public class bodyCriteria implements Criteria{
        /**
-     * take the field to filter 
+     * search for keyword in messages body
      * @param path where to search
      * @param body search key word body
      * @return messeages ids

@@ -6,10 +6,10 @@ import org.json.JSONObject;
 
 public class bodyComparator implements Comparator<JSONObject>{
     /**
-     * make Comparator of messaege body
+     *compare between message body length
      * @param o1 the message 1
      * @param o2 the message 2
-     * @return 1 if the first is smaller than the seacond -1 else 
+     * @return 1 if the first is smaller than the seacond in length, -1 else , 0 if equal
      */
     @Override
     public int compare(JSONObject o1, JSONObject o2) {

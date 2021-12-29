@@ -8,7 +8,7 @@ import org.json.JSONException;
 
 public class attachmentCriteria implements Criteria{
       /**
-     * take the field to filter 
+     * search in attachments of messages for key word
      * @param path where to search
      * @param attachment search key word in attachment
      * @return messeages id
