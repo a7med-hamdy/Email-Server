@@ -166,7 +166,7 @@
     </table>
 
     <!-- Delete Folder button -->
-    <button (click)="deleteFolder()" [disabled]="!selection2.hasValue() || editingFolder" mat-raised-button>
+    <button (click)="deleteFolder()" [disabled]="selection2.selected.length != 1 || editingFolder" mat-raised-button>
       Delete
     </button>
     <!-- Edit Folder button -->
