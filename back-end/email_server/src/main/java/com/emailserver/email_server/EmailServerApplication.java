@@ -28,10 +28,10 @@ public class EmailServerApplication {
 		user user2 = new user(222,"222","22","@2", contacts);
 		contacts.add(new userContact(user, "mohamed"));
 		s.SignUp(234,"aly", "pass", "a7a@gmail",contacts);
-		s.SignUp(342544,"dqly", "pAAss", "@gmail",contacts);
-		s.SignUp(99999,"pablo", "cocaine", "@colombia",contacts);
-		s2.SignUp(887788,"messi", "score", "@barcelona",contacts);
-		s2.SignUp(555,"tony Soprano", "big head", "@mafia",contacts);
+		s.SignUp(342544,"dqly", "pAAss", "a@gmail",contacts);
+		s.SignUp(99999,"pablo", "cocaine", "a@colombia",contacts);
+		s2.SignUp(887788,"messi", "score", "a@barcelona",contacts);
+		s2.SignUp(555,"tony Soprano", "big head", "a@mafia",contacts);
 		Queue<Integer> to = new LinkedList<>();
 		to.add(99999);
 		to.add(555);
@@ -74,9 +74,10 @@ public class EmailServerApplication {
 		s.sendMessage(n4);
 		s.sendMessage(n5, "trash");
 		s.sendMessage(n6);
-		s.addContact(555, "email", "name");
+		// s.addContact(555, "email", "name");
 		// System.out.println(s.filterMessages(234, "global", "to be", "time", 1));
-		
+		// s.addContact(234, "@colombia", "new");
+		// System.out.println(s.getContacts(234));
 		// String[] dummies = s.getFolders(234);
 		// JSONArray folders = new JSONArray();
 		// for(String dummy: dummies)
