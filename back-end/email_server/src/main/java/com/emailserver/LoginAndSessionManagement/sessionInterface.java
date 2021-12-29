@@ -31,8 +31,6 @@ public interface sessionInterface {
 
     public void moveMessage(int msgID,String source, String folder)throws IOException;
 
-    public void editMessage(int msgID ,String folder,String message)throws IOException;
-
     public JSONArray getMessages(String folder, String criteria, int count)throws IOException;
 
     public JSONArray FilterMessages(String field, String keyword, String sortType, int count)throws IOException;

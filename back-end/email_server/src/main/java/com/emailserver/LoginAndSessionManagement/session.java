@@ -72,7 +72,12 @@ public class session implements sessionInterface{
 
      /** CRUD Operations on Messages */
 
-
+     /**
+      * adds message to a folder or sends it
+      * 
+      * @param message message to be sent
+      * @param folder folder to be sent to 
+      */
      public void addMessage(message message, String folder) throws IOException{
           server = Server.getInstanceOf();
           if(folder.equals("draft") || folder.equals("trash"))
@@ -81,15 +86,26 @@ public class session implements sessionInterface{
                server.sendMessage(message);
      }
 
+     /**
+      * move message from source to a folder
+      * 
+      *  @param msgID message ID
+      *  @param source source folder
+      *  @param folder destination folder
+      */
      public void moveMessage(int msgID,String source, String folder)throws IOException{
           server = Server.getInstanceOf();
           server.moveMessage(this.getUserId(), msgID, source, folder);
      }
 
-     public void editMessage(int msgID, String folder, String message){
-
-     }
-
+     
+     /**
+      * request a page of messages in a specific folder sorted according to a criteria
+      * 
+      *  @param folder message ID
+      *  @param criteria criteria of sorting
+      *  @param count page
+      */
      public JSONArray getMessages(String folder, String criteria, int count)throws IOException{
           server = Server.getInstanceOf();
 
@@ -97,6 +113,15 @@ public class session implements sessionInterface{
           return this.MapEmails(server.requestFolder(this.getUserId(), folder, criteria, count));
      }
 
+     
+     /**
+      * request a page of messages in a specific folder filtered according to a certain keyword
+      * 
+      *  @param field  the field is one of attachment/sender/receiver/subject/body/global for search
+      *  @param keyword word to be searching for  
+      *  @param sortType criteria of sorting
+      *  @param count page
+      */
      public JSONArray FilterMessages(String field, String keyword, String sortType, int count)throws IOException{
           server = Server.getInstanceOf();
           if(field.equalsIgnoreCase("sender") || field.equalsIgnoreCase("receiver")){

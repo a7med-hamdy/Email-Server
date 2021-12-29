@@ -135,7 +135,12 @@ public getUserFolders(){
    */
    sorting(type:string){
       this.sortCriteria = type;
-      this.updateDataSource();
+      if(this.search){
+        this.searchEmails();
+      }
+      else{
+        this.updateDataSource();
+      }
   }
 
 
