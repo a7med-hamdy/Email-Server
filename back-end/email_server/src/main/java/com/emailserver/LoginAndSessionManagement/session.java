@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.emailserver.email_server.Controllers.Proxy;
 import com.emailserver.email_server.Server.Server;
-
 import com.emailserver.email_server.userAndMessage.message;
 
 import org.json.JSONArray;
@@ -123,6 +122,8 @@ public class session implements sessionInterface{
           Server server = Server.getInstanceOf();
           String[] emails = email.split(",", -2);
 
+          for (String a : emails)
+               System.out.println(a);
           Proxy proxy = new Proxy(this.getUserName(),this.getUserPassword());     
           server.addContact(this.getUserId(), emails[0], name);
           if(emails.length > 1){
@@ -142,12 +143,16 @@ public class session implements sessionInterface{
      }
      public void editContact(String NewEmails, String oldEmails,String newName, int contactId)throws IOException{
           Server server = Server.getInstanceOf();
+          String[] olemails = oldEmails.split(",", -2);
           String[] Nemails = NewEmails.split(",", -2);
-          int[] ids = new int[contactId];
-           this.deleteContact(ids);
+          for (String a : Nemails)
+               System.out.println(a);
+          for(int i = 0; i < olemails.length;i++){
+               server.removeContactEmail(this.getUserId(), contactId, olemails[i]);
+          }
           for(int i = 0; i < Nemails.length;i++){
                server.addContactEmail(this.getUserId(), contactId, Nemails[i]);
-          }               
+          }
           server.editContactName(this.getUserId(), contactId, newName);
        
      }

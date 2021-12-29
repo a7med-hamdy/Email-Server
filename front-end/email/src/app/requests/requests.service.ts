@@ -177,7 +177,7 @@ export class RequestsService {
   }
   // delete contact
   deleteContact(id:string, ids: number[]){
-    return this.http.delete<any>(`${this.url}/deleteContacts/${id}/${ids}`)
+    return this.http.delete<any>(`${this.url}/deleteContacts/${id}`, {params:{ids:ids}})
   }
   // edit contact
   editContact(id:string, contactId: number, oldEmails: string, newEmails: string, oldName: string, newName: string){

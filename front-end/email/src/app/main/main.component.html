@@ -66,6 +66,7 @@
     <button (click)="sorting('Date')">Date</button>
     <button (click)="sorting('priority')">Pirority</button>
     <button (click)="sorting('body')">Body</button>
+    <button (click)="sorting('subject')">subject</button>
 <!--Folder Tables-->
   <div *ngIf="dataSource != undefined">
     <table *ngIf="view || search" mat-table [dataSource]="dataSource" >
