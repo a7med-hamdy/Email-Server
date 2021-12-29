@@ -17,7 +17,7 @@ class messageSorter {
         {
             queue = new PriorityQueue<>(new priorityComparator());
         }
-        else if(type.equalsIgnoreCase("time"))
+        else if(type.equalsIgnoreCase("Date"))
         {
             queue = new PriorityQueue<>(new messageComparator());
         }
