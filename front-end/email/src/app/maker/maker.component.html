@@ -55,9 +55,9 @@
 
 
     <div class="bot" style="margin-left: 33px;">
-        <button type="submit" mat-raised-button class="submit-btn" [disabled]="!enableSentBtn()" (click)="makeMessageOfType('sent')" > Sent </button>
+        <button type="submit" mat-raised-button class="submit-btn" [disabled]="!enableSentBtn()" (click)="makeMessageOfType('sent')" > Send </button>
         <button mat-raised-button class="submit-btn" [disabled]="!enableDraftOrDeleteBtn()" (click)="makeMessageOfType('draft')"> Draft</button>
-        <button mat-raised-button class="submit-btn" [disabled]="!enableDraftOrDeleteBtn()" (click)="makeMessageOfType('trash')"> Distract</button>
+        <button mat-raised-button class="submit-btn" [disabled]="!enableDraftOrDeleteBtn()" (click)="makeMessageOfType('trash')"> Delete</button>
         <span *ngIf="done" style="font-size: large;">
             Done
         </span>
