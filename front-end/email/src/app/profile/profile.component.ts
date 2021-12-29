@@ -106,6 +106,7 @@ export class ProfileComponent implements OnInit {
   editContact(){
     let contactId = this.selection.selected.map(function(a){return a.ID})[0];
     let oldEmail = this.selection.selected.map(function(a){return a.email})[0] as unknown as string;
+    oldEmail  = oldEmail.replace('[', '').replace(']', '');
     let newEmail = this.newContactForm.controls['emails'].value;
     let oldNmae = this.selection.selected.map(function(a){return a.name}) as unknown as string;
     let newName = this.newContactForm.controls['name'].value;
