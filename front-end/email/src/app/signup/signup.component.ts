@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RequestsService } from '../requests/requests.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +18,8 @@ export class SignupComponent implements OnInit {
   //constructor
   constructor(private http: HttpClient,
     private formBuilder: FormBuilder,
-    private router: Router) {}
+    private router: Router,
+    private req:RequestsService) {}
 
   // for signup component
   ngOnInit(): void{
@@ -33,13 +35,19 @@ export class SignupComponent implements OnInit {
     return this.http.post<any>(`${this.url}/signUp`, this.signupForm.value)
     .subscribe(ID => {
       console.log("Sign up!!", "userID = ", ID)
-      if(ID != 0){
-        this.signupForm.reset();
-        this.router.navigate([`main`, 'Inbox'], {queryParams: {ID : ID}});//navigate to user's home page
-      }
-      else {
-        this.error = "Invalid input(s)"
-      }
+          if(ID != 0){
+            this.signupForm.reset();
+            this.req.getSessionID(ID).subscribe(response =>{
+              sessionStorage.setItem('id', response)
+              console.log(response);
+              console.log(sessionStorage.getItem('id'));
+              this.router.navigate([`main`, 'Inbox'], {queryParams: {ID : ID}});
+            })
+          //navigate to user's home page
+          }
+          else {
+            this.error = "Invalid input(s)"
+          }
     },err => {
       alert("something went WRONG!!" + err)
     })
