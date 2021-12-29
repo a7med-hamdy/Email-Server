@@ -2,6 +2,11 @@ package com.emailserver.email_server.Server;
 
 
 class CriteriaManager {
+    /**
+     * take the field to filte 
+     * @param field
+     * @return the fitered message or contacts
+     */
     protected static Criteria getCriteria(String field)
     {
         if(field.equalsIgnoreCase("subject"))

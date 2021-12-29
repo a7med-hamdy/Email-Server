@@ -14,7 +14,7 @@ import com.emailserver.LoginAndSessionManagement.LoggingManager;
 import com.emailserver.LoginAndSessionManagement.sessionInterface;
 import com.emailserver.LoginAndSessionManagement.sessionManager;
 import com.emailserver.email_server.Server.Server;
-import com.emailserver.email_server.userAndMessage.contact;
+
 import com.emailserver.email_server.userAndMessage.message;
 
 import com.emailserver.email_server.userAndMessage.messageMaker;
@@ -321,9 +321,13 @@ Contacts (get | add | delete | edit | filter) Requests
         }
     }
 
-    /*private final Path root = Paths.get("uploads");*/
 
-    ////atachment 
+  /**
+   * take the id of user to make and file to save it 
+   * @param file
+   * @param Id
+   * @return true if save or false
+   */
     @PostMapping("/upload/{id}")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,@PathVariable("id") int Id) {
     String message = "";

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.emailserver.email_server.Controllers.Proxy;
 import com.emailserver.email_server.Server.Server;
-import com.emailserver.email_server.userAndMessage.contact;
+
 import com.emailserver.email_server.userAndMessage.message;
 
 import org.json.JSONArray;
