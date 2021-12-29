@@ -13,7 +13,7 @@ public class ReaderWriter {
      * @param path the path of the file will be read
      * @return the content of the string
      */
-    static String readData(String path)
+    protected static String readData(String path)
     {
         File index = new File(path);
         
@@ -36,7 +36,7 @@ public class ReaderWriter {
      * @param path where file will be  saved 
      * @param content the content will be written in the files
      */
-    static void writeData(String path, String content)
+    protected static void writeData(String path, String content)
     {
         if(content.equalsIgnoreCase("[]"))
         {
