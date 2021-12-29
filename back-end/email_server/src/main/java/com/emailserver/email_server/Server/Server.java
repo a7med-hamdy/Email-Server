@@ -60,6 +60,11 @@ public class Server {
      */
     public void SignUp(int id, String username, String password, String email, ArrayList<userContact> contacts) throws IOException{    
         user new_user = new user(id,username,password,email,contacts);
+        String content = ReaderWriter.readData(this.current_users.toString());
+        if(!content.equalsIgnoreCase(""))
+        {
+            this.arr = new JSONArray(content);
+        }
         this.arr.put(new JSONObject(this.gson.toJson(new_user)));
         ReaderWriter.writeData(this.current_users.toString(), this.arr.toString());
         File f = new File(this.path+id);
@@ -81,6 +86,10 @@ public class Server {
     public ArrayList<user> getUsers() throws IOException
     {
         String content = ReaderWriter.readData(this.current_users.toString());
+        if(content.equalsIgnoreCase(""))
+        {
+            return new ArrayList<user>();
+        }
         user[] users = this.gson.fromJson(content, user[].class);
         JSONArray temp = new JSONArray(content);
         this.arr.clear();
