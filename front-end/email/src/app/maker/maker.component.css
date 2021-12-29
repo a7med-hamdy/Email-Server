@@ -1,6 +1,6 @@
 .maker{
   padding: 10px;
-  background-color:steelblue;
+  background-color: #272727;
 }
 .area{
   width: 100%;
@@ -31,8 +31,14 @@ button:hover{
 
 .delete-btn{
   margin-left: 5px;
+  position: relative;
+  top: -10px;
   width: 40px;
-  height: 40px;
+  height: 50px;
+  background-color: red;
+}
+.delete-btn:hover{
+  background-color: brown;
 }
 
 .receivers-form-field, .body-form-field, .subject-form-field{
@@ -51,10 +57,14 @@ label{
 }
 
 .body-form-field{
-  width: 30%;
+  width: 50%;
 }
 
 iframe{
   width:  500px;
   height: 500px;
+}
+
+.select-file{
+  margin: 10px 0px 0px 33px;
 }

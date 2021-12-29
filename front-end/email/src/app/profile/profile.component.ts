@@ -5,6 +5,17 @@ import { MatTableDataSource } from '@angular/material/table';
 import { RequestsService } from '../requests/requests.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+export class contact{
+  name!: string
+  ID!: number
+  userName!: string
+  email!: string[]
+}
+
+export class folder{
+  name!: string
+}
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -118,7 +129,7 @@ export class ProfileComponent implements OnInit {
       else{console.log("Error!! Contact wasn't edited!")}
     })
     this.selection.clear();
-
+    this.closeEditor();
   }
 
   filterContact(){
@@ -296,16 +307,4 @@ export class ProfileComponent implements OnInit {
     return `${this.selection2.isSelected(row) ? 'deselect' : 'select'} row ${row}`;
   }
 
-}
-
-
-export class contact{
-  name!: string
-  ID!: number
-  userName!: string
-  email!: string[]
-}
-
-export class folder{
-  name!: string
 }
