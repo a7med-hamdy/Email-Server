@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.emailserver.email_server.Controllers.Proxy;
 import com.emailserver.email_server.Server.Server;
+import com.emailserver.email_server.userAndMessage.contact;
 import com.emailserver.email_server.userAndMessage.message;
 
 import org.json.JSONArray;
@@ -73,9 +74,12 @@ public class session implements sessionInterface{
      /** CRUD Operations on Messages */
 
 
-     public void addMessage(message message) throws IOException{
+     public void addMessage(message message, String folder) throws IOException{
           server = Server.getInstanceOf();
-          server.sendMessage(message);
+          if(folder.equals("draft") || folder.equals("trash"))
+               server.sendMessage(message,folder);
+          else
+               server.sendMessage(message);
      }
 
      public void moveMessage(int msgID,String source, String folder)throws IOException{
@@ -117,9 +121,18 @@ public class session implements sessionInterface{
 
      public void addContact(String email, String name)throws IOException{
           Server server = Server.getInstanceOf();
-          server.addContact(this.getUserId(), email, name);
+          String[] emails = email.split(",", -2);
 
+          Proxy proxy = new Proxy(this.getUserName(),this.getUserPassword());     
+          server.addContact(this.getUserId(), emails[0], name);
+          if(emails.length > 1){
+               for(int i = 1; i < emails.length;i++){
+                    server.addContactEmail(this.getUserId(), proxy.getIdFromEmail(emails[0]), emails[i]);
+               }
+          }
      }
+
+
      public void deleteContact(int[] ids)throws IOException{
           Server server = Server.getInstanceOf();
           for (int id : ids){
@@ -129,7 +142,12 @@ public class session implements sessionInterface{
      }
      public void editContact(String NewEmails, String oldEmails,String newName, int contactId)throws IOException{
           Server server = Server.getInstanceOf();
-          server.editContactEmail(this.getUserId(), contactId, oldEmails, NewEmails);
+          String[] Nemails = NewEmails.split(",", -2);
+          int[] ids = new int[contactId];
+           this.deleteContact(ids);
+          for(int i = 0; i < Nemails.length;i++){
+               server.addContactEmail(this.getUserId(), contactId, Nemails[i]);
+          }               
           server.editContactName(this.getUserId(), contactId, newName);
        
      }

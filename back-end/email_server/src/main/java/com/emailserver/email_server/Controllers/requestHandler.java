@@ -132,7 +132,7 @@ Emails (create | delete) Requests
             To = proxy.getReceiversIds(to.split(","));
             message Msg = this.mMaker.getNewMessage(id, body, body.length(), Integer.parseInt(userId), To, subject, time, Integer.parseInt(priority), files);
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
-            s.addMessage(Msg);
+            s.addMessage(Msg,type);
             return id;
         }catch (Exception ex){
             ex.printStackTrace();
