@@ -75,13 +75,14 @@ export class MakerComponent implements OnInit {
         console.log(this.msg,done);
         console.log("Message composed & saved successfully!!");
         this.done = true;
+        this.uploadFiles(this.msg);
       }
       else{
         this.msg=done;
         console.log("Error!! Something went WRONG!!");
         this.done = false;
       }
-      this.uploadFiles(this.msg);
+
     },err => {alert("something went WRONG!!")})
 
 
