@@ -33,8 +33,9 @@ public class userContact implements contact{
     public void addEmail(String newEmail){
         this.email.add(newEmail);
     } 
-    public void removeEmail(String email){
-        this.email.remove(email);
+    public void removeEmail(String Email){
+        Email = Email.replaceAll("\\s","");
+        this.email.remove(Email);
     }
     public void editEmail(String oldEmail, String newEmail){
         this.email.remove(oldEmail);
