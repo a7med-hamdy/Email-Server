@@ -276,13 +276,10 @@ decreasePage(){
  */
   profile1(a:string){
     this.clickedRows = [];
-    if(a.includes('Profile')){
-
       this.profile=true;
       this.search=false;
       this.make=false;
       this.view = false;
-    }
   }
 
 
@@ -293,12 +290,10 @@ decreasePage(){
   make1(a:String){
     this.clickedRows = [];
 
-    if(a.includes('Create')){
       this.profile=false;
       this.search=false;
       this.make=true;
       this.view=false;
-    }
   }
 
 
@@ -308,12 +303,10 @@ decreasePage(){
    */
   search1(a:String){
     this.clickedRows = [];
-    if(a.includes('Search')){
       this.profile=false;
       this.search=true;
       this.make=false;
       this.view = false;
-    }
   }
 
 onclick(url:string): SafeUrl{

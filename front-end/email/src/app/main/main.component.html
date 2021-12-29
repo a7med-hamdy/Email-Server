@@ -74,6 +74,7 @@
 
       </ng-container>
       <ng-container  [matColumnDef]="column" *ngFor="let column of displayedColumns">
+        <div *ngIf ="!search">
         <div *ngIf="column == ' '">
           <td mat-cell *matCellDef="let row" >
             <mat-checkbox
@@ -84,7 +85,7 @@
             </mat-checkbox>
           </td>
         </div>
-
+      </div>
         <th mat-header-cell *matHeaderCellDef> {{column}} </th>
         <div *ngIf="column == 'body'"
              ><td mat-cell (click)="addClickedRows(emp)" *matCellDef="let emp">{{emp[column][column]}}</td>
