@@ -19,19 +19,17 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Scanner;
+
 
 public class Server {
     private String path = "src\\Data";
     private JSONArray arr = new JSONArray();
     private static Server instance;  
     private Gson gson;
-    private File current_users;
-    private folderManager folderManager;
-    private contactManager contactManager;
+    private File current_users; // a file that contains the signed up users
+    private folderManager folderManager; // a helper class to manage folders 
+    private contactManager contactManager; // a helper class to manage contacts
     private Server() throws IOException{
         File f = new File(this.path);
         f.mkdir();
@@ -51,6 +49,15 @@ public class Server {
         return instance;
     }
 
+    /**
+     * a function to add a user to the backend
+     * @param id int : id of the user
+     * @param username String : the username of the user
+     * @param password String : password of the user
+     * @param email String : email of the user
+     * @param contacts ArrayList of the contacts of the user
+     * @throws IOException
+     */
     public void SignUp(int id, String username, String password, String email, ArrayList<userContact> contacts) throws IOException{    
         user new_user = new user(id,username,password,email,contacts);
         this.arr.put(new JSONObject(this.gson.toJson(new_user)));
@@ -66,7 +73,11 @@ public class Server {
             f.createNewFile();
         }
     }
-
+    /**
+     * a function that reads the current users from the file and returns them
+     * @return ArrayList of the current user
+     * @throws IOException
+     */
     public ArrayList<user> getUsers() throws IOException
     {
         String content = ReaderWriter.readData(this.current_users.toString());
@@ -77,24 +88,15 @@ public class Server {
         return new ArrayList<user>(Arrays.asList(users));
     }
 
-    /////////////for deleting
-    public void deleteDirectory(File file)
-    {
-        // store all the paths of files and folders present
-        // inside directory
-        for (File subfile : file.listFiles()) {
-  
-            // if it is a subfolder,e.g Rohan and Ritik,
-            // recursiley call function to empty subfolder
-            if (subfile.isDirectory()) {
-                deleteDirectory(subfile);
-            }
-  
-            // delete files and empty subfolders
-            subfile.delete();
-        }
-    }
-    //type "time" for sort by time and "priority" for priority
+
+    /**
+     * a function that returns the contents of a user's folder
+     * @param userID int : the id of the user
+     * @param folder String : the requested folder
+     * @param type String : sort type body length/time/priority/subject
+     * @param count int : the page to be requested
+     * @return JSONArray of the messages in the requested folder
+     */
     public JSONArray requestFolder(int userID, String folder, String type, int count)
     {
         messageSorter Sorter = new messageSorter(type);
@@ -117,7 +119,11 @@ public class Server {
         return Sorter.sortMessages(count);
     }
 
-
+    /**
+     * a function that puts a message in a specific folder
+     * @param m message: the message to be put
+     * @param folder String : the folder that will contain the message
+     */
     public void sendMessage(message m, String folder)
     {
         String json = this.gson.toJson(m);
@@ -128,7 +134,10 @@ public class Server {
         f.mkdir();
         ReaderWriter.writeData(path +"\\"+m.getID()+".json", json);
     }
-
+    /**
+     * 
+     * @param m
+     */
     public void sendMessage(message m) 
     {
         String json = this.gson.toJson(m);
@@ -150,27 +159,6 @@ public class Server {
             ReaderWriter.writeData(path+"\\"+m.getID()+".json", json);
         }
     }
-
-    // public String getMessage(int userID, int messageID)
-    // {
-    //     File[] folders = new File(this.path+userID).listFiles((FileFilter)FileFilterUtils.directoryFileFilter());
-    //     if(folders == null)
-    //     {
-    //         return "error occurred retrieving the message";
-    //     }
-    //     for(File folder : folders)
-    //     {
-    //         System.out.println(folder);
-    //         String content = this.findMessage(folder+"\\", messageID, true);
-    //         if(!content.equalsIgnoreCase("-1"))
-    //         {
-    //             JSONObject json = new JSONObject(content);
-    //             System.out.println(json);
-    //             return content;
-    //         }
-    //     }
-    //     return "not Found";
-    // }
 
     public void moveMessage(int userID, int messageID, String src, String dst)
     {
@@ -311,6 +299,16 @@ public class Server {
             }
         }
         return "-1";
+    }
+
+    private void deleteDirectory(File file)
+    {
+        for (File subfile : file.listFiles()) {
+            if (subfile.isDirectory()) {
+                deleteDirectory(subfile);
+            }
+            subfile.delete();
+        }
     }
 
     private String addMessageAttachments(File file, message m)
