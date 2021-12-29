@@ -62,7 +62,6 @@ Logging & Signing up Requests
         try {
             return lManager.REGISTER(user.getUserName(), user.getEmail(), user.getPassword());
         }catch (Exception e){
-            e.printStackTrace();
             System.out.println("Error in signUp request!!");
             return 0;
         }
@@ -76,7 +75,6 @@ Logging & Signing up Requests
                             "Username = " + userName + "\n" + 
                             "Password = " + password);
         try {
-            System.out.println(sManager.getSessions());
 
             return lManager.LOGIN(userName, password);
         }catch (Exception e){
@@ -90,7 +88,6 @@ Logging & Signing up Requests
     {
         try{
         sManager.deleteSession(Integer.parseInt(userID));
-        System.out.println(sManager.getSessions());
         }
         catch(Exception e){
             System.out.println("Session not found");
@@ -102,7 +99,6 @@ Logging & Signing up Requests
     public int getSessionID(@PathVariable("id") String userID){
         try{
         sessionInterface s = (sessionInterface) sManager.getSessionByUserID(Integer.parseInt(userID));
-        System.out.println(s.getSessionID());
         return (s.getSessionID());
         }
         catch(Exception e){
@@ -190,7 +186,6 @@ Get Emails (unsorted | sorted | priority | filter) Requests
     @GetMapping("/getFolders/{id}")
     public String[] getEmailFolders( 
                         @PathVariable("id") String userId){
-    System.out.println(userId);
     try {
         sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
         return s.getEmailFolders();
@@ -256,7 +251,6 @@ Contacts (get | add | delete | edit | filter) Requests
     @ResponseBody
     public String getContacts(@PathVariable("id") String userID){
         try {
-            System.out.println(userID);
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userID));
             return s.getContacts().toString();
         }catch (Exception e){
@@ -285,10 +279,10 @@ Contacts (get | add | delete | edit | filter) Requests
     }
 
     //delete contact
-    @DeleteMapping("/deleteContacts/{id}/{ids}")
+    @DeleteMapping("/deleteContacts/{id}")
     @ResponseBody
     public boolean deleteContacts( @PathVariable("id") String userId,
-                                    @PathVariable("ids") int[] ids){
+                                    @RequestParam("ids") int[] ids){
         System.out.println("IDs to be deleted: " + ids[0] + "  " + userId);
         try {
             sessionInterface s = (sessionInterface)sManager.getSessionByUserID(Integer.parseInt(userId));
