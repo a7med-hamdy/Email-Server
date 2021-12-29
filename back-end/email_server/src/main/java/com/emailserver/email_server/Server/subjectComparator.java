@@ -13,7 +13,9 @@ public class subjectComparator implements Comparator<JSONObject> {
      */
     @Override
     public int compare(JSONObject o1, JSONObject o2) {
-        return (o1.optString("subject").compareTo(o2.optString("subject")));
+        JSONObject header1 = o1.getJSONObject("header");
+        JSONObject header2 = o2.getJSONObject("header");
+        return (header1.optString("subject").compareTo(header2.optString("subject")));
     }
     
 }
