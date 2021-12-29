@@ -6,7 +6,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class subjectCriteria implements Criteria{
-
+    
+    /**
+     * take the field to filter 
+     * @param path where to search
+     * @param subject search key word in subject
+     * @return messeages id
+     */
     @Override
     public ArrayList<String> meetCriteria(String path, String subject) {
         ArrayList<String> IDs = new ArrayList<>();

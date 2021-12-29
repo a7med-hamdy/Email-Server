@@ -6,7 +6,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class senderCriteria implements Criteria{
-
+      /**
+     * serche for keyword in  messages sender
+     * @param path where to search
+     * @param sender search key word in sender
+     * @return messeages id
+     */
     @Override
     public ArrayList<String> meetCriteria(String path, String sender) {
         ArrayList<String> IDs = new ArrayList<>();

@@ -5,7 +5,14 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+
 public class attachmentCriteria implements Criteria{
+      /**
+     * search in attachments of messages for key word
+     * @param path where to search
+     * @param attachment search key word in attachment
+     * @return messeages id
+     */
     @Override
     public ArrayList<String> meetCriteria(String path, String attachment) {
         ArrayList<String> IDs = new ArrayList<>();

@@ -19,6 +19,12 @@ class globalCriteria implements Criteria{
         this.receiverCriteria = receiverCriteria;
         this.subjectCriteria = subjectCriteria;
     }
+    /**
+     * serche all over the messages body,sender,receiver,attachment and subject for the keyword
+     * @param path where to search
+     * @param criteria search key word in all
+     * @return messeages id
+     */
     @Override
     public ArrayList<String> meetCriteria(String path, String criteria) {
         Set<String> set = new LinkedHashSet<>();

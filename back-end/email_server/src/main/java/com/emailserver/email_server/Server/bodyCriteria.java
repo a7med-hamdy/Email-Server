@@ -6,7 +6,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class bodyCriteria implements Criteria{
-
+       /**
+     * search for keyword in messages body
+     * @param path where to search
+     * @param body search key word body
+     * @return messeages ids
+     */
     @Override
     public ArrayList<String> meetCriteria(String path, String body) {
         ArrayList<String> IDs = new ArrayList<>();

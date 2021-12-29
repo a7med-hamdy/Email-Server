@@ -66,13 +66,16 @@ class contactManager {
         return contacts.toString();   
     }
     public String addContact(int userID, String email, String name)
-    {
+    {   
+    
         String content = ReaderWriter.readData(this.path);
         user[] users = this.gson.fromJson(content, user[].class);
         int index = this.findUser(users, userID);
         int index2 = this.findUser(users, email);
+  
         if(index == -1 || index2 == -1)
-        {
+        {     
+  
             return "fail user not found";
         }
         userContact contact = new userContact(users[index2], name);

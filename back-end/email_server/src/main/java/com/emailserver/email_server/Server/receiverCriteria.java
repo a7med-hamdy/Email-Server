@@ -5,6 +5,12 @@ import org.json.JSONException;
 
 public class receiverCriteria implements Criteria {
 
+    /**
+     *serche for keyword in  messages receiver
+     * @param path where to search
+     * @param receiver search key word in receiver
+     * @return messeages id
+     */
     @Override
     public ArrayList<String> meetCriteria(String path, String receiver) {
         ArrayList<String> IDs = new ArrayList<>();

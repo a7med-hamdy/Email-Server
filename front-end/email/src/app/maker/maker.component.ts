@@ -2,7 +2,7 @@ import { Component, OnInit,Inject ,ViewChild, SecurityContext } from '@angular/c
 import { HttpClient, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
 import { concatMap, delay, map, Observable, range } from 'rxjs';
 import { FileUploadService } from 'src/app/services/file-upload.service';
-import { urlx } from './type'
+
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -170,7 +170,6 @@ export class MakerComponent implements OnInit {
 
 
   }
-
 
 
   uploadFiles(ids:number): void {
