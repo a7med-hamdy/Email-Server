@@ -124,6 +124,7 @@ public getUserFolders(){
    */
   Logout(){
     this.router.onSameUrlNavigation = 'reload'
+    sessionStorage.removeItem('id')
     this.req.logOut(this.userID);
     this.router.navigate(["/login"])
   }
